@@ -1,0 +1,54 @@
+201	5.how do you achieve broadcast join automatically without out doing it manually? and how do you setup your driver program to detect where broadcast join can be good to use and how do you automate the process?
+202	6.how do you acheive in memory caache?
+203	7.scenario : imagine you are working on cluster and already have cache your rdd and got the output stored in cache now i want to clear the memory space and use that space for caching another rdd? how to achieve this?
+204	8.what are the packages you have worked in scala name the package you have imported in your current project?
+205	If file size in spark is very high and no. of executors and memory of them is less how do we handle such scenario
+206	nulls in join keys
+207	How would we read data in parallel through spark.read
+208	how can we read and process a big file of size 300 gb in spark
+209	we have a scenario wherein we are expected that the schema of file we read in df may change that in that case how would we handle the situation
+210	if we apply filter on DF how many stages would be created
+211	How to see spark jobs status and Dag
+212	How to merge multiple files of bucket files in one file in  hive
+213	What is the more optimal way to store small files (size in kb) .. What will be the schema design to process it quickly?
+214	https://letsexplorehadoop.blogspot.com/2017/03/hive-merging-small-files-into-bigger.html
+215	https://stackoverflow.com/questions/57950721/how-to-merge-small-files-created-by-hive-while-inserting-data-into-buckets
+216	"How to check no. Of partitions in dataframe 
+In my experience df.rdd.getNumPartitions is very fast, I never encountered taking this more than a second or so.
+Alternatively, you could also try
+val numPartitions: Long = df.select(org.apache.spark.sql.functions.spark_partition_id()).distinct().count()"
+217	"Very imp : handling schema changes in spark, schema chaining in spark
+https://medium.com/data-arena/merging-different-schemas-in-apache-spark-2a9caca2c5ce"
+218	...differnece between map and mappartion
+219	Why serializer is better .... What is serializer and deserializer
+220	Why Scala is called functional programming
+221	What is difference in class and trait
+222	Difference in interface in java and traits in scala
+223	What is default partion size in spark
+224	Why do we increase no. Of partitions in spark
+225	What does resilient in rdd means
+226	Garbage in spark , Tuning garbage collection 
+227	How to implement accumulator and broadcast variable
+228	How to union two tables with different no. Of columns
+229	https://www.unraveldata.com/common-reasons-spark-applications-slow-fail-part-1/
+230	what is the predicate pushdown ? what is the limitation ?
+231	 how to optimize spark code using Garbage Collection ?
+232	 how to check the status of the running command using nohup ?
+233	 how to decide the spark resources ?
+234	 what if using broadcast join and small table is in GB ?
+235	 will coalesce hamper on driver ?
+236	 will broadcase hamper on driver ?
+237	What is Catalyst Optimizer in spark ?
+238	 how do we write dataFrame from spark to hive ?
+239	 How you use coalesce in your project ?
+240	what is fold transformation
+241	 have you worked with data flat files ?
+242	id data volumn is changing constantly, how you will debug where job is taking much time ?
+243	What is diff between hashMap v/s HashTree ?
+244	how to store object as map key in hasmap, what method to implement by the class for it ?
+245	what is equals and hashCode method ?
+246	what are the methods Object class has ?
+247	> how to serilize any object ?
+248	> diff b/w overloading and overriding ?
+249	> diff map partition v/s foreach partition ?
+250	why its been said spark with parquet and orc with hive perform wells ?
