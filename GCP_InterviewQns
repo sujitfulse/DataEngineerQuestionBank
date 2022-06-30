@@ -1,0 +1,33 @@
+1	 How big query managed and external table works ? 
+2	 How data processing happenes in big query ?
+3	 What is the data flow ?  
+4	 Whay data flow provides which Apache Beam does not ?
+5	 How Apache Beam works ? 
+6	 How Apache Beam supports both batch and stream ?
+7	 How Windowing and aggeregate happens in apache beam  ?
+8	 What kind of machine used in DataProc ? 
+9	 What are the storage classes ? 
+10	 What is object life cycle management ? 
+11	 How connectivity setup id done from on prem to GCP ? 
+12	 What is Pub sub ?
+13	 What is clustering in big query ? 
+14	 Does big query supports indexing ? 
+15	 How clustering helps in big query ? 
+16	 What is IAM and how it work  ?
+17	 What is apache bigtable ? 
+18	 Worked on Cloud SQL ? 
+19	 What is versioning of objects in the Cloud Storage ? 
+20	 replication factor in cloud storage ? 
+21	 can we have datetime partition in bq or timestamp ? 
+22	 how to load csv to bigquery ?
+23	 if csv having 3 columns having datatype of integer, string, integer value in form of string.
+24	  when we import in bq with schema detect. What will be datatype for 3rd column ?
+25	 how to create udf in bigquery ? What languages are supported in this ?
+26	how array datatype works in bq ?
+27	how to retrieve data of array type column in bq ?
+28	how to explode array in bq ?
+29	 what is unnest in bq ?
+30	 how to stop a dataproc cluster ?
+31	what all the services have you used ?
+32	Difference betwen normal cluster and ephemeral cluster ?
+33	How to access spark logs/ spark UI post dataproc cluster is deleted.
