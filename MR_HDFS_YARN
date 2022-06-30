@@ -1,0 +1,20 @@
+1	"Ques: how to deciede the number of mappers and reducer in hadoop cluster?
+Ans: No. Of mappers can be decieded based on the no. Of cores in one data node, lets say if we have 12 cores in a single data node then we can set 12 mappers for our job. But it os not efficient everytime so the other factors to be consider is RAM size of your single data node. Lets say if we have 10gb of ram and we have to process 50gb data, then we will set 5 mappers although we have 12 cores in our data node.
+No. of reducers depends upon the requirement of our  job which we arw submitting, so lets say if our job is giving output in single file then there is no need to set multiple reducers, we will set  1 reducers  but if there is seggregation in our job and there is multiple files are there in output  then we have to set that no. of reducers"
+2	Why you are going for big data
+3	Map reduce explain with example
+4	Explain Hadoop 2.0 architecture with example
+5	explain yarn architecture
+6	describe all the phases in Map Reduce
+7	difference between Hadoop 1.0 and Hadoop 2.0
+8	when a file is stored in hdfs, can we modify that file ?
+9	can multiple clients write the same file at the same time ?
+10	if a file is being written and another client wants to read the same file, is it possible?
+11	what is speculative execution
+12	https://data-flair.training/forums/topic/how-to-calculate-number-of-mappers-in-hadoop/
+13	https://stackoverflow.com/questions/17727468/hadoop-input-split-size-vs-block-size
+14	what is zookeeper 
+15	Number of parallel tasks in MR
+16	Block vs Input Split
+17	Catalyst Optimiser
+18	https://datasciencelearners.wordpress.com/hadoop-eco-systems-2/hadoop-cluster-storage-calculation/
