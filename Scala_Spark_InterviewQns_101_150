@@ -1,0 +1,791 @@
+101	"reducebykey v/s groupby key ?
+
+
+1) Management of DAG’s– People often do mistakes in DAG controlling. Always try to use reducebykey instead of groupbykey. The ReduceByKey and GroupByKey can perform almost similar functions, but GroupByKey contains large data. Hence, try to use ReduceByKey to the most. Always try to lower the side of maps as much as possible. Try not to waste more time in Partitioning.Try not to shuffle more. Try to keep away from Skews as well as partitions too.
+
+2) Maintain the required size of the shuffle blocks."
+102	"Why we need compression and what are the different compression format supported?
+
+
+In Big Data, when we used the compression, it saves the storage space and reduce the network overhead.
+One can specify the compression coded while writing the data to HDFS ( Hadoop format)
+One can also read the compressed data, for that also we can use compression codec.
+Following are the different compression format support in BigData:
+* gzip
+* lzo
+* bzip2
+* Zlib
+* Snappy"
+103	" Explain the filter transformation.
+
+
+filter() transformation in Apache Spark takes function as input.
+It returns an RDD that only has element that pass the condition mentioned in input function.
+
+
+Example:
+
+val rdd1 = sc.parallelize(List(10,20,40,60))
+val rdd2 = rdd2.filter(x => x !=10)
+println(rdd2.collect())
+
+
+It returns those elements only that satisfy a predicate. The predicate is a function that accepts parameter and returns Boolean value either true or false. It keeps only those elements which pass/satisfies the condition and filter out those which don’t."
+104	" Explain sortByKey() operation.
+
+
+
+> sortByKey() is a transformation.
+> It returns an RDD sorted by Key.
+> Sorting can be done in (1) Ascending OR (2) Descending OR (3) custom sorting
+
+
+val rdd1 = sc.parallelize(Seq((""India"",91),(""USA"",1),(""Brazil"",55),(""Greece"",30),(""China"",86),(""Sweden"",46),(""Turkey"",90),(""Nepal"",977)))
+
+val rdd2 = rdd1.sortByKey()
+
+
+Output: Ascending order 
+Array[(String,Int)] = (Array(Brazil,55),(China,86),(Greece,30),(India,91),(Nepal,977),(Sweden,46),(Turkey,90),(USA,1)
+
+
+
+val rdd1 = sc.parallelize(Seq((""India"",91),(""USA"",1),(""Brazil"",55),(""Greece"",30),(""China"",86),(""Sweden"",46),(""Turkey"",90),(""Nepal"",977)))
+val rdd2 = rdd1.sortByKey(false)
+
+
+Output:
+Array[(String,Int)] = (Array(USA,1),(Turkey,90),(Sweden,46),(Nepal,977),(India,91),(Greece,30),(China,86),(Brazil,55)
+
+
+
+result of sortByKey() is based on range-partitioned RDD you can check with rdd2.partitioner, this returns the Option type of Partitioner object which is a Range Partitioner object.
+
+
+Using Partitioner concept, we can avoid shuffle of data across the network. This is required when you performing operations like sortByKey(), join(), cogroup()….etc. Different operation(s) has different partitioner(hash-based, range-based, or custom partitioner)
+
+DAG will start evaluating when we call sortByKey even though we don’t action API. In general, DAG will evaluated only when we call an action. But in case of sortByKey, it start evaluating the DAG in order to compute total of partitions. Don’t think that we will get the result when we call sortByKey api. Out of all transformations available in spark, I think this is the only api that triggers DAG evaluation. For remaining transformation, DAG won’t be evaluated until we call an action."
+105	". Explain distnct(),union(),intersection() and substract() transformation in Spark
+
+
+distnct() transformation
+
+If one want only unique elements in a RDD in that case one can use d1.distnct() where d1 is RDD
+
+val d1 = sc.parallelize(List(""c"",""c"",""p"",""m"",""t""))
+val result = d1.distnct()
+result.foreach{println}
+
+
+
+union() transformation:
+
+
+rdd1.union(rdd2) which outputs a RDD which contains the data from both sources.
+If the duplicates are present in the input RDD, output of union() transformation will contain duplicate also which can be fixed using distinct().
+
+
+val u1 = sc.parallelize(List(""c"",""c"",""p"",""m"",""t""))
+val u2 = sc.parallelize(List(""c"",""m"",""k""))
+val result = u1.union(u2)
+
+
+
+intersection() transformation:
+
+
+intersection(anotherrdd) returns the elements which are present in both the RDDs.
+intersection(anotherrdd) remove all the duplicate including duplicated in single RDD
+
+
+
+subtract() transformation:
+
+
+It returns an RDD that has only value present in the first RDD and not in second RDD
+
+val result = s1.subtract(s2)
+
+
+distinct() transformation is expensive operation as it requires shuffling all the data over the network to ensure that we receive only one copy of each element"
+106	".Explain foreach() operation in apache spark
+
+
+foreach() operation is an action.
+> It do not return any value.
+> It executes input function on each element of an RDD.
+
+
+val mydata = Array(1,2,3,4,5,6,7,8,9,10)
+val rdd1 = sc.parallelize(mydata)
+rdd1.foreach{x=>println(x)}
+
+OR
+
+rdd1.foreach{println}"
+107	"groupByKey vs reduceByKey in Apache Spark
+
+
+On applying groupByKey() on a dataset of (K, V) pairs, the data shuffle according to the key value K in another RDD. In this transformation, lots of unnecessary data transfer over the network.
+
+
+val data = spark.sparkContext.parallelize(Array(('k',5),('s',3),('s',4),('p',7),('p',5),('t',8),('k',6)),3)
+val group = data.groupByKey().collect()
+group.foreach(println)
+
+
+On applying reduceByKey on a dataset (K, V), before shuffeling of data the pairs on the same machine with the same key are combined.
+
+
+val words = Array(""one"",""two"",""two"",""four"",""five"",""six"",""six"",""eight"",""nine"",""ten"")
+val data = spark.sparkContext.parallelize(words).map(w => (w,1)).reduceByKey(+)
+data.foreach(println)"
+108	"> mapPartitions() can be used as an alternative to map() and foreach() .
+> mapPartitions() can be called for each partitions while map() and foreach() is called for each elements in an RDD
+> Hence one can do the initialization on per-partition basis rather than each element basisQue 68. Explain mapPartitions() and mapPartitionsWithIndex()
+
+> mapPartitionsWithIndex is similar to mapPartitions() but it provides second parameter index which keeps the track of partition.
+
+
+
+MapPartitions:
+
+It runs one at a time on each partition or block of the Rdd, so function must be of type iterator<T>. It improves performance by reducing creation of object in map function.
+
+
+MappartionwithIndex:
+
+It is similar to MapPartition but with one difference that it takes two parameters, the first parameter is the index and second is an iterator through all items within this partition (Int, Iterator<t>).
+
+
+
+val data = sc.parallelize(List(1,2,3,4,5,6,7,8), 2)
+
+data.map(sumfuncmap).collect  //here sum map is some random function which increment value by 1
+
+o/p  for Map : Array(2, 3, 4, 5, 6, 7, 8, 9)   
+
+
+data.mapPartitions(sumfuncpartition).collect
+
+o/p for map partition : Array(11, 27)"
+109	"What is Map in Apache Spark?
+
+
+Map is a transformation applied to each element in a RDD and it provides a new RDD as a result. In Map transformation, user-defined business logic will be applied to all the elements in the RDD.
+It is similar to FlatMap, but unlike FlatMap Which can produce 0, 1 or many outputs, Map can only produce one to one output.
+Map operation will transforms an RDD of length N into another RDD of length N.
+Map transformation will not shuffle data from one partition to many. It will keep the operation narrow."
+110	"What is FlatMap in Apache Spark?
+
+
+
+FlatMap is a transformation operation in Apache Sparkto create an RDD from existing RDD. It takes one element from an RDD and can produce 0, 1 or many outputs based on business logic. It is similar to Map operation, but Map produces one to one output. If we perform Map operation on an RDD of length N, output RDD will also be of length N. But for FlatMap operation output RDD can be of different length based on business logic"
+111	".Explain fold() operation in Spark.
+
+
+fold() is an action. It is wide operation (i.e. shuffle data across multiple partitions and output a single value)
+
+It takes function as an input which has two parameters of the same type and outputs a single value of the input type.
+It is similar to reduce but has one more argument ‘ZERO VALUE’ (say initial value) which will be used in the initial call on each partition.
+
+
+val rdd1 = sc.parallelize(List(1,2,3,4,5),3)
+rdd1.fold(5)(+)
+
+Output :
+Int = 35
+
+val rdd1 = sc.parallelize(List(1,2,3,4,5))
+rdd1.fold(5)(+)
+
+Output :
+Int = 25
+
+val rdd1 = sc.parallelize(List(1,2,3,4,5),3)
+rdd1.fold(3)(+)
+
+Int = 27
+
+
+val rdd1 = sc.parallelize(List(1,2,3,4,5), 3)
+rdd1.fold(5)(_ + _)
+
+
+(5 + 1) + (5 + 2 + 3) + (5 + 4 + 5) + 5 // (extra one for combining results)
+
+
+""largest number greater than 15"" or ""15"" in our RDD,
+
+val n15GT15 = rdd1.fold(15)({ case (acc, i) => Math.max(acc, i) }) //by fold
+
+list.reduce{ (acc, x) => val m = math.max(acc, x); if (m > 15) m else 15 } //by reduce"
+112	"Explain API createOrReplaceTempView()
+
+
+
+Its basic Dataset function.
+Its under org.apache.spark.sql
+Creates a temporary view using the given name.
+The lifetime of this temporary view is tied to the SparkSession that was used to create this Dataset.
+
+
+val df = spark.read.csv(""/home/hdadmin/titanic_data.txt"")
+
+df.printSchema
+
+df.show
+
+df.createOrReplaceTempView(""titanicdata"")"
+113	" Explain values() operation in Apache Spark.
+
+
+values() is a transformation.
+It returns an RDD of values only.
+
+
+val rdd1 = sc.parallelize(Seq((2,4),(3,6),(4,8),(2,6),(4,12),(5,10),(5,40),(10,40)))
+val rdd2 = rdd1.keys
+
+rdd2.collect
+
+val rdd3 = rdd1.values
+rdd3.collect
+
+
+Output:
+
+Array[Int] = Array(2, 3, 4, 2, 4, 5, 5, 10)
+Array[Int] = Array(4, 6, 8, 6, 12, 10, 40, 40"
+114	" Explain keys() operation in Apache spark.
+
+
+keys() is a transformation.
+It returns an RDD of keys.
+
+
+val rdd1 = sc.parallelize(Seq((2,4),(3,6),(4,8),(2,6),(4,12),(5,10),(5,40),(10,40)))
+val rdd2 = rdd1.keys
+rdd2.collect
+
+
+val rdd1 = sc.parallelize(Seq((2,4),(3,6),(4,8),(2,6),(4,12),(5,10),(5,40),(10,40)))
+val rdd2 = rdd1.keys
+rdd2.collect"
+115	" Explain textFile Vs wholeTextFile in Spark
+
+Both are the method of org.apache.spark.SparkContext.
+
+textFile() :
+
+Read a text file from HDFS, a local file system (available on all nodes), or any Hadoop-supported file system URI, and return it as an RDD of Strings
+For example sc.textFile(“/home/hdadmin/wc-data.txt”) so it will create RDD in which each individual line an element.
+
+wholeTextFiles() :
+
+
+Read a directory of text files from HDFS, a local file system (available on all nodes), or any Hadoop-supported file system URI.
+Rather than create basic RDD, the wholeTextFile() returns pairRDD.
+For example, you have few files in a directory so by using wholeTextFile() method,
+it creates pair RDD with filename with path as key,
+and value being the whole file as string
+
+
+val myfilerdd = sc.wholeTextFiles(""/home/hdadmin/MyFiles"")
+val keyrdd = myfilerdd.keys
+keyrdd.collect
+val filerdd = myfilerdd.values
+filerdd.collect"
+116	"Explain cogroup() operation in Spark
+
+
+It’s a transformation.
+> It’s in package org.apache.spark.rdd.PairRDDFunctions
+
+
+For each key k in this or other1 or other2 or other3, return a resulting RDD that contains a tuple with the list of values for that key in this, other1, other2 and other3.
+
+
+val myrdd1 = sc.parallelize(List((1,""spark""),(2,""HDFS""),(3,""Hive""),(4,""Flink""),(6,""HBase"")))
+val myrdd2 = sc.parallelize(List((4,""RealTime""),(5,""Kafka""),(6,""NOSQL""),(1,""stream""),(1,""MLlib"")))
+val result = myrdd1.cogroup(myrdd2)
+result.collect
+
+
+
+Output :
+Array[(Int, (Iterable[String], Iterable[String]))] =
+Array((4,(CompactBuffer(Flink),CompactBuffer(RealTime))),
+(1,(CompactBuffer(spark),CompactBuffer(stream, MLlib))),
+(6,(CompactBuffer(HBase),CompactBuffer(NOSQL))),
+(3,(CompactBuffer(Hive),CompactBuffer())),
+(5,(CompactBuffer(),CompactBuffer(Kafka))),
+(2,(CompactBuffer(HDFS),CompactBuffer())))"
+117	"Explain pipe() operation in Apache Spark
+
+
+It is a transformation.
+
+Return an RDD created by piping elements to a forked external process.
+
+In general, Spark is using Scala, Java, and Python to write the program. However, if that is not enough, and one want to pipe (inject) the data which written in other languages like ‘R’, Spark provides general mechanism in the form of pipe() method
+Spark provides the pipe() method on RDDs.
+With Spark’s pipe() method, one can write a transformation of an RDD that can read each element in the RDD from standard input as String.
+It can write the results as String to the standard output.
+
+
+Pipe operator in Spark, allows developer to process RDD data using external applications. Sometimes in data analysis, we need to use an external library which may not be written using Java/Scala. Ex: Fortran math libraries. In that case, spark’s pipe operator allows us to send the RDD data to the external application.
+
+
+from pyspark.sql import SparkSession
+from pyspark import SparkContext
+
+sc = SparkContext()
+data = sc.parallelize([""1"",""2"",""3"",""4"",""5"",""6"",""7"",""8"",""9"",""10""])
+# Print the original rdd
+print(""Output : "" + str(data.collect()))
+# Pipe
+scriptPath = ""java Square""
+pipeRDD = data.pipe(scriptPath)
+# Print the final output
+print(""Output : "" + str(pipeRDD.collect()))"
+118	"Explain Spark coalesce() operation
+
+
+It is a transformation.
+> It’s in a package org.apache.spark.rdd.ShuffledRDD
+
+ With shuffle = true, you can actually coalesce to a larger number of partitions. This is useful if you have a small number of partitions, say 100, potentially with a few partitions being abnormally large. Calling coalesce(1000, shuffle = true) will result in 1000 partitions with the data distributed using a hash partitioner.
+
+
+It changes a number of the partition where data is stored. It combines original partitions to a new number of partitions, so it reduces the number of partitions. It is an optimized version of repartition that allows data movement, but only if you are decreasing the number of RDD partitions. It runs operations more efficiently after filtering large datasets.
+
+
+val myrdd1 = sc.parallelize(1 to 1000, 15)
+myrdd1.partitions.length
+val myrdd2 = myrdd1.coalesce(5,false)
+myrdd2.partitions.length
+Int = 5"
+119	"79.Explain the repartition() operation in Spark
+
+
+> repartition() is a transformation.
+> This function changes the number of partitions mentioned in parameter numPartitions(numPartitions : Int)
+> It’s in package org.apache.spark.rdd.ShuffledRDD
+
+
+Can increase or decrease the level of parallelism in this RDD. Internally, this uses a shuffle to redistribute data.
+If you are decreasing the number of partitions in this RDD, consider using coalesce, which can avoid performing a shuffle.
+
+
+val rdd1 = sc.parallelize(1 to 100, 3)
+rdd1.getNumPartitions
+val rdd2 = rdd1.repartition(6)
+rdd2.getNumPartitions"
+120	"Explain fullOuterJoin() operation in Apache Spark
+
+
+It is transformation.
+> It’s in package org.apache.spark.rdd.PairRDDFunctions
+
+
+Perform a full outer join of this and other.
+Hash-partitions the resulting RDD using the existing partitioner/ parallelism level.
+
+
+val frdd1 = sc.parallelize(Seq((""Spark"",35),(""Hive"",23),(""Spark"",45),(""HBase"",89)))
+val frdd2 = sc.parallelize(Seq((""Spark"",74),(""Flume"",12),(""Hive"",14),(""Kafka"",25)))
+val fullouterjoinrdd = frdd1.fullOuterJoin(frdd2)
+fullouterjoinrdd.collect
+
+
+Output :
+Array[(String, (Option[Int], Option[Int]))] = Array((Spark,(Some(35),Some(74))), (Spark,(Some(45),Some(74))), (Kafka,(None,Some(25))), (Flume,(None,Some(12))), (Hive,(Some(23),Some(14))), (HBase,(Some(89),None)))"
+121	"Expain Spark leftOuterJoin() and rightOuterJoin() operation
+
+
+> Both leftOuterJoin() and rightOuterJoin() are transformation.
+> Both in package org.apache.spark.rdd.PairRDDFunctions
+
+
+val rdd1 = sc.parallelize(Seq((""m"",55),(""m"",56),(""e"",57),(""e"",58),(""s"",59),(""s"",54)))
+val rdd2 = sc.parallelize(Seq((""m"",60),(""m"",65),(""s"",61),(""s"",62),(""h"",63),(""h"",64)))
+val leftjoinrdd = rdd1.leftOuterJoin(rdd2)
+leftjoinrdd.collect
+Output :
+Array[(String, (Int, Option[Int]))] = Array((s,(59,Some(61))), (s,(59,Some(62))), (s,(54,Some(61))), (s,(54,Some(62))), (e,(57,None)), (e,(58,None)), (m,(55,Some(60))), (m,(55,Some(65))), (m,(56,Some(60))), (m,(56,Some(65))))"
+122	"Explain Spark join() operation
+
+
+val rdd1 = sc.parallelize(Seq((""m"",55),(""m"",56),(""e"",57),(""e"",58),(""s"",59),(""s"",54)))
+val rdd2 = sc.parallelize(Seq((""m"",60),(""m"",65),(""s"",61),(""s"",62),(""h"",63),(""h"",64)))
+val joinrdd = rdd1.join(rdd2)
+joinrdd.collect
+Output:
+
+Array[(String, (Int, Int))] = Array((m,(55,60)), (m,(55,65)), (m,(56,60)), (m,(56,65)), (s,(59,61)), (s,(59,62)), (s,(54,61)), (s,(54,62)))
+
+Example2:
+
+val myrdd1 = sc.parallelize(Seq((1,2),(3,4),(3,6)))
+val myrdd2 = sc.parallelize(Seq((3,9)))
+val myjoinedrdd = myrdd1.join(myrdd2)
+myjoinedrdd.collect
+Output:
+Array[(Int, (Int, Int))] = Array((3,(4,9)), (3,(6,9)))"
+123	"Explain the top() and takeOrdered() operation
+
+Both top() and takeOrdered() are actions.
+Both returns then elements of RDD based on default ordering or based on custom ordering provided by user.
+
+
+Example :
+
+val myrdd1 = sc.parallelize(List(5,7,9,13,51,89))
+myrdd1.top(3)
+myrdd1.takeOrdered(3)
+myrdd1.top(3)
+Output :
+
+Array[Int] = Array(89, 51, 13)
+Array[Int] = Array(5, 7, 9)
+Array[Int] = Array(89, 51, 13)"
+124	"Explain first() operation in Spark
+
+
+It is an action.
+> It returns the first element of the RDD.val rdd1 = sc.textFile(""/home/hdadmin/wc-data.txt"")
+rdd1.count
+rdd1.first
+Output :
+Long: 20"
+125	" Explain sum(), max(), min() operation in Apache Spark
+
+
+sum() :
+
+> It adds up the value in an RDD.
+> It is an package org.apache.spark.rdd.DoubleRDDFunctions.
+> Its return type is Double
+
+Example:
+
+val rdd1 = sc.parallelize(1 to 20)
+rdd1.sum
+
+Output:
+Double = 210.0
+
+
+max() :
+
+> It returns a max value from RDD element defined by implicit ordering (element order)
+> It is an package org.apache.spark.rdd
+
+Example:
+
+val rdd1 = sc.parallelize(List(1,5,9,0,23,56,99,87))
+rdd1.max
+
+Output:
+Int = 99
+
+min() :
+
+> It returns a min value from RDD element defined by implicit ordering (element order)
+> It is an package org.apache.spark.rdd
+
+Example:
+
+val rdd1 = sc.parallelize(List(1,5,9,0,23,56,99,87))
+rdd1.min
+
+Output:
+Int = 0"
+126	"Explain countByValue() operation in Apache Spark RDD
+
+
+It is an action
+It returns the count of each unique value in an RDD as a local Map (as a Map to driver program) (value, countofvalues) pair
+Care must be taken to use this API since it returns the value to driver program so it’s suitable only for small values.
+
+
+val rdd2 = sc.parallelize{Seq(10,4,3,3)}
+rdd2.countByValue
+Output:
+scala.collection.Map[Int,Long] = Map(4 -> 1, 3 -> 2, 10 -> 1)"
+127	"Explain the lookup() operation in Spark
+
+
+It is an action
+> It returns the list of values in the RDD for key ‘key’
+
+
+val rdd1 = sc.parallelize(Seq((""Spark"",78),(""Hive"",95),(""spark"",15),(""HBase"",25),(""spark"",39),(""BigData"",78),(""spark"",49)))
+rdd1.lookup(""spark"")
+rdd1.lookup(""Hive"")
+rdd1.lookup(""BigData"")
+
+
+Output:
+Seq[Int] = WrappedArray(15, 39, 49)
+Seq[Int] = WrappedArray(95)
+Seq[Int] = WrappedArray(78)"
+128	"Explain Spark countByKey() operation
+
+
+It is an action operation
+> Returns (key, noofkeycount) pairs.
+
+It counts the value of RDD consisting of two components tuple for each distinct key. It actually counts the number of elements for each key and return the result to the master as lists of (key, count) pairs.
+
+
+val rdd1 = sc.parallelize(Seq((""Spark"",78),(""Hive"",95),(""spark"",15),(""HBase"",25),(""spark"",39),(""BigData"",78),(""spark"",49)))
+rdd1.countByKey
+
+Output:
+scala.collection.Map[String,Long] = Map(Hive -> 1, BigData -> 1, HBase -> 1, spark -> 3, Spark -> 1)"
+129	" Explain Spark saveAsTextFile() operation
+
+
+It writes the content of RDD to text file or saves the RDD as a text file in file path directory using string representation.
+
+samples = sc.parallelize([
+    (""abonsanto@fakemail.com"", ""Alberto"", ""Bonsanto""),
+    (""mbonsanto@fakemail.com"", ""Miguel"", ""Bonsanto""),
+    (""stranger@fakemail.com"", ""Stranger"", ""Weirdo""),
+    (""dbonsanto@fakemail.com"", ""Dakota"", ""Bonsanto"")
+])
+
+print samples.collect()
+
+samples.saveAsTextFile(""folder/here.txt"")
+read_rdd = sc.textFile(""folder/here.txt"")
+
+read_rdd.collect()"
+130	" Explain reduceByKey() Spark operation
+
+
+reduceByKey() is transformation which operate on pairRDD (which contains Key/Value).
+
+> It merges the values with the same key using associative reduce function.
+> It is wide operation because data shuffles may happen across multiple partitions.
+> It merges data locally before sending data across partitions for optimize data shuffling.
+> It takes function as an input which has two parameter of the same type (values associated with same key) and one element output of the input type(value)
+> We can say that it has three overloaded functions :
+
+reduceBykey(function)
+reduceByKey(function, numberofpartition)
+reduceBykey(partitioner, function)
+
+
+
+val rdd1 = sc.parallelize(Seq(5,10),(5,15),(4,8),(4,12),(5,20),(10,50)))
+val rdd2 = rdd1.reduceByKey((x,y)=>x+y)
+
+OR
+
+rdd2.collect()
+
+
+Output:
+Array[(Int, Int)] = Array((4,20),(10,50),(5,45))"
+131	"Explain the operation reduce() in Spark
+
+
+reduce() is an action. It is wide operation (i.e. shuffle data across multiple partitions and output a single value)
+> It takes function as an input which has two parameter of the same type and output a single value of the input type.
+> i.e. combine the elements of RDD together.
+
+Example 1 :
+val rdd1 = sc.parallelize(1 to 100)
+val rdd2 = rdd1.reduce((x,y) => x+y)
+
+OR
+
+val rdd2 = rdd1.reduce(_ + _)
+
+
+Output :
+rdd2: Int = 5050
+
+Example 2:
+val rdd1 = sc.parallelize(1 to 5)
+val rdd2 = rdd1.reduce(*)
+
+
+Output :
+rdd2: Int = 120"
+132	".Explain the action count() in Spark RDD
+
+
+val textFile = sc.textFile(""hdfs://..."")
+
+// Creates a DataFrame having a single column named ""line""
+val df = textFile.toDF(""line"")
+val errors = df.filter(col(""line"").like(""%ERROR%""))
+// Counts all the errors
+errors.count()
+// Counts errors mentioning MySQL
+errors.filter(col(""line"").like(""%MySQL%"")).count()"
+133	"Explain Spark map() transformation
+
+
+map() transformation takes a function as input and apply that function to each element in the RDD.
+> Output of the function will be a new element (value) for each input element.
+Ex.
+val rdd1 = sc.parallelize(List(10,20,30,40))
+val rdd2 = rdd1.map(x=>x*x)
+println(rdd2.collect().mkString(“,”))
+
+
+map()’s return type need not be the same as its input type.
+> i.e. input type may be String but Output type may be of type int"
+134	"Explain the flatMap() transformation in Apache Spark
+
+
+When one want to produce multiple elements (values) for each input element, flatMap() is used.
+As with map(), flatMap() also takes function as an input.
+Output of the function is a List of the element through which we can iterate. (i.e. function can return 0 or more element for each input element)
+Simple use of flatMap() is splittin up an input line (string) into words.
+Example
+
+val fm1 = sc.parallelize(List(""Good Morning"", ""Data Flair"", ""Spark Batch""))
+val fm2 = fm1.flatMap(y => y.split("" ""))
+fm2.foreach{println}"
+135	"What is Spark SQL?
+
+
+
+Spark SQL is a Spark interface to work with Structured and Semi-Structured data (data that as defined fields i.e. tables). It provides abstraction layer called DataFrame and DataSet through with we can work with data easily. One can say that DataFrame is like a table in a relational database. Spark SQL can read and write data in a variety of Structured and Semi-Structured formats like Parquets, JSON, Hive. Using SparkSQL inside Spark application is the best way to use it. This empowers us to load data and query it with SQL. we can also combine it with “regular” program code in Python, Java or Scala."
+136	"Explain Spark SQL caching and uncaching
+
+
+CACHE [LAZY] TABLE [db_name.]table_name
+Cache the contents of the table in memory using the RDD cache. This enables subsequent queries to avoid scanning the original files as much as possible.
+
+
+UNCACHE TABLE [db_name.]table_name
+Drop all cached entries associated with the table from the RDD cache."
+137	" Explain Spark streaming
+
+
+Spark Streaming
+A data stream defines as a data arriving continuously in the form of an unbounded sequence. For further processing, Streaming separates continuously flowing input data into discrete units. It is a low latency processing and analyzing of streaming data.
+
+In the year 2013, Apache Spark Streaming was added to Apache Spark. Through Streaming, we can do fault-tolerant,scalable stream processing of live data streams. From many sources like Kafka, Apache Flume, Amazon Kinesis or TCP sockets, Data ingestion can be possible. Also, by using complex algorithms, processing is possible. That are expressed with high-level functions such as map, reduce, join and window. By the end, processed data can be pushed out to filesystems, databases and live dashboards.
+
+Internally, By Spark streaming, Live input data streams are received and divided into batches. Afterwards, these batches are then processed by the Spark engine to generate the final stream of results in batches.
+
+Discretized Stream or, in short, a Spark DStream is its basic abstraction. That also represents a stream of data divided into small batches. DStreams are built on Spark RDDs, Spark’s core data abstraction. Streaming can aslo integrate with any other Apache Spark components like Spark MLlib and Spark SQL."
+138	"What is DStream in Apache Spark Streaming?
+
+
+A Discretized Stream (DStream), the basic abstraction in Spark Streaming, is a continuous sequence of RDDsrepresenting a continuous stream of data. DStreams can either be created from live data (such as, data from HDFS, Kafka or Flume) or it can be generated by transformationexisting DStreams using operations such as map, window and reduceByKeyAndWindow.
+
+Internally, there are few basic properties by which DStreams is characterized:
+
+1. DStream depends on the list of other DStreams.
+2. A time interval at which the DStream generates an RDD
+3. A function that is used to generate an RDD after each time interval"
+139	"Explain different transformations in DStream in Apache Spark Streaming
+
+
+1-map(func) — Return a new DStream by passing each element of the source DStream through a function func.
+
+2-flatMap(func) — Similar to map, but each input item can be mapped to 0 or more output items.
+
+3-filter(func) — Return a new DStream by selecting only the records of the source DStream on which func returns true.
+
+4-repartition(numPartitions) — Changes the level of parallelism in this DStream by creating more or fewer partitions.
+
+5-union(otherStream) — Return a new DStream that contains the union of the elements in the source DStream and
+otherDStream.
+
+6-count() — Return a new DStream of single-element RDDs by counting the number of elements in each RDD of the source DStream.
+
+7-reduce(func)— Return a new DStream of single-element RDDs by aggregating the elements in each RDD of the source DStream using a function func (which takes two arguments and returns one).
+
+8-countByValue() — When called on a DStream of elements of type K, Return a new DStream of (K, Long) pairs where the value of each key is its frequency in each RDD of the source DStream.
+
+9-reduceByKey(func, [numTasks])— When called on a DStream of (K, V) pairs, return a new DStream of (K, V) pairs where the values for each key are aggregated using the given reduce function.
+
+10-join(otherStream, [numTasks]) — When called on two DStreams of (K, V) and (K, W) pairs, return a new DStream of (K, (V, W)) pairs with all pairs of elements for each key.
+
+11-cogroup(otherStream, [numTasks]) — When called on DStream of (K, V) and (K, W) pairs, return a new DStream of (K, Seq[V], Seq[W]) tuples.
+
+12-transform(func) — Return a new DStream by applying a RDD-to-RDD function to every RDD of the source DStream.
+
+13-updateStateByKey(func) — Return a new “state” DStream where the state for each key is updated by applying the given function on the previous state of the key and the new values for the key."
+140	"What is a DataSet? What are its advantages over DataFrame and RDD?
+
+Ans. In Apache Spark, Datasets are an extension of DataFrame API. It offers object-oriented programming interface. Through Spark SQL, it takes advantage of Spark’s Catalyst optimizer by exposing e data fields to a query planner.
+
+In SparkSQL, Dataset is a data structure which is strongly typed and is a map to a relational schema. Also, represents structured queries with encoders. DataSet has been released in Spark 1.6.
+
+In serialization and deserialization (SerDe) framework, encoder turns out as a primary concept in Spark SQL. Encoders handle all translation process between JVM objects and Spark’s internal binary format. In Spark, we have built-in encoders those are very advanced. Even they generate bytecode to interact with off-heap data.
+
+On-demand access to individual attributes without having to de-serialize an entire object is provided by an encoder. Spark SQL uses a SerDe framework, to make input-output time and space efficient. Due to encoder knows the schema of record, it became possible to achieve serialization as well as deserialization.
+
+Spark Dataset is structured and lazy query expression(lazy Evolution) that triggers the action. Internally dataset represents a logical plan. The logical plan tells the computational query that we need to produce the data. the logical plan is a base catalyst query plan for the logical operator to form a logical query plan. When we analyze this and resolve we can form a physical query plan.
+
+As Dataset introduced after RDD and DataFrame, it clubs the features of both. It offers the following similar features:
+
+1. The convenience of RDD.
+2. Performance optimization of DataFrame.
+3. Static type-safety of Scala.
+
+Hence, we have observed that Datasets provides a more functional programming interface to work with structured data."
+141	"On what all basis can you differentiate RDD, DataFrame, and DataSet?
+
+Ans. DataFrame: A Data Frame is used for storing data into tables. It is equivalent to a table in a relational database but with richer optimization. Spark DataFrame is a data abstraction and domain-specific language (DSL) applicable on a structure and semi-structured data. It is distributed the collection of data in the form of named column and row. It has a matrix-like structure whose column may be different types (numeric, logical, factor, or character ). We can say data frame has the two-dimensional array like structure where each column contains the value of one variable and row contains one set of values for each column and combines feature of list and matrices.
+
+
+RDD is the representation of a set of records, immutable collection of objects with distributed computing. RDD is a large collection of data or RDD is an array of reference of partitioned objects. Each and every dataset in RDD is logically partitioned across many servers so that they can compute on different nodes of the cluster. RDDs are fault tolerant i.e. self-recovered/recomputed in the case of failure. The dataset can load externally by the users which can be in the form of JSON file, CSV file, text file or database via JDBC with no specific data structure.
+
+DataSet in Apache Spark, Datasets are an extension of DataFrame API. It offers object-oriented programming interface. Through Spark SQL, it takes advantage of Spark’s Catalyst optimizer by exposing e data fields to a query planner."
+142	"What are the common faults of the developer while using Apache Spark?
+
+The common mistake by developers are:
+
+Customer hit web-service several time by using multiple clusters.
+Customer runs everything on local node instead of distributing it."
+143	"Explain Catalyst framework.
+
+The Catalyst is a framework which represents and manipulate a DataFrame graph. Data flow graph is a tree of relational operator and expressions. The three main features of catalyst are:
+
+It has a TreeNode library for transforming tree. They are expressed as Scala case classes.
+A logical plan representation for relational operator.
+Expression library.
+The TreeNode builds a query optimizer. It contains a number of the query optimizer. Catalyst Optimizer supports both rule-based and cost-based optimization. In rule-based optimization the optimizer use set of rule to determine how to execute the query. While the cost based optimization finds the most suitable way to carry out SQL statement. In cost-based optimization, many plans are generates using rules. And after this, it computes their cost. Catalyst optimizer makes use of standard features of Scala programming like pattern matching."
+144	"Does Apache Spark provide checkpointing?
+
+Yes, Apache Spark provides checkpointing. Apache supports two types of checkpointing:
+
+Reliable Checkpointing: It refers to that checkpointing in which the actual RDD is saved in the reliable distributed file system, e.g. HDFS. To set the checkpoint directory call: SparkContext.setCheckpointDir(directory: String). When running on the cluster the directory must be an HDFS path since the driver tries to recover the checkpointed RDD from a local file. While the checkpoint files are actually on the executor’s machines.
+Local Checkpointing: In this checkpointing, in Spark Streaming or GraphX we truncate the RDD lineage graph in Spark. In this, the RDD is persisted to local storage in the executor."
+145	"What is Hive on Spark?
+Hive contains significant support for Apache Spark, wherein Hive execution is configured to Spark:
+
+hive> set spark.home=/location/to/sparkHome;
+hive> set hive.execution.engine=spark;"
+146	"Is it possible to use Apache Spark for accessing and analyzing data stored in Cassandra databases?
+Answer: Yes, it is possible to use Apache Spark for accessing as well as analyzing data stored in Cassandra databases using the Spark Cassandra Connector. It needs to be added to the Spark project during which a Spark executor talks to a local Cassandra node and will query only local data.
+
+Connecting Cassandra with Apache Spark allows making queries faster by means of reducing the usage of the network for sending data between Spark executors and Cassandra nodes."
+147	"How will you connect Apache Spark with Apache Mesos?
+Answer: Step by step procedure for connecting Apache Spark with Apache Mesos is:
+
+Configure the Spark driver program to connect with Apache Mesos
+Put the Spark binary package in a location accessible by Mesos
+Install Apache Spark in the same location as that of the Apache Mesos
+Configure the spark.mesos.executor.home property for pointing to the location where the Apache Spark is installed"
+148	"What is the difference between reducing () and take() function?
+Answer: Reduce() function is an action that is applied repeatedly until the one value is left in the last, while the take() function is an action that takes into consideration all the values from an RDD to the local node."
+149	" Can we trigger automated clean-ups in Spark?
+Answer: Yes, we can trigger automated clean-ups in Spark to handle the accumulated metadata. It can be done by setting the parameters, namely, “spark.cleaner.ttl.” 
+
+Question: What is another method than “Spark.cleaner.ttl” to trigger automated clean-ups in Spark?
+Answer: Another method than “Spark.clener.ttl” to trigger automated clean-ups in Spark is by dividing the long-running jobs into different batches and writing the intermediary results on the disk."
+150	"What is the role of Akka in Spark?
+Answer: Akka in Spark helps in the scheduling process. It helps the workers and masters to send and receive messages for workers for tasks and master requests for registering."
