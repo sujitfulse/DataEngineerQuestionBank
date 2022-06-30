@@ -1,0 +1,12 @@
+1	Can kafka start without zookeeper ?
+2	what is kafka > why we need kafka ?
+3	 how do you fix kafka issues ?
+4	 if disk in broker is 100% full what will you do ?
+5	 advantages of kafka over flume ?
+6	 do you have security to your kafka cluster ?
+7	why to use kafka when we direclty read data from spark streaming ?
+8	 what is dstream ?
+9	 how do you developed DR to your kafka cluster ?
+10	explain Kafka 
+11	your producer writing huge data how will you handle this situation 
+12	which tool will create partitions in Kafka topic 
