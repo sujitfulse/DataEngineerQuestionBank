@@ -1,0 +1,16 @@
+1	https://blog.clairvoyantsoft.com/big-data-file-formats-3fb659903271
+
+2	"List the advantage of Parquet file in Apache Spark.
+   Columnar storage limits IO operations.
+   Columnar storage can fetch specific columns that you need to access.
+   Columnar storage consumes less space.
+   Columnar storage gives better-summarized data and follows type-specific encoding.
+   Parquet has higher execution speed compared to other standard file formats like Avro,JSON etc and it also consumes less disk space in compare to AVRO and JSON."
+   
+3	Difference between avro and parquet format
+
+4	how schema will be stored in avro file 
+
+5	Why bucketing is faster than partitiong??
+
+6	read/write in which operation parquet is fast
