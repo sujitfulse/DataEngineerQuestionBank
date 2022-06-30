@@ -1,0 +1,35 @@
+1	Source of data from client, csv or sql table
+2	Password file in Sqoop
+3	Compress and import in Sqoop
+4	What's incremental append
+5	Where does last value on incremental append save, can we view the last value
+6	Sqoop import and incremental Append and Last modified in where and when used this in your project
+7	Explain Data Transferring from SQL to Hadoop
+8	How you will merge small files in Hadoop
+9	Sqoop code incremental append
+10	What to do when a sqoop job fails after sometime
+11	How to restart a failed sqoop job
+12	How do u pass different parameter values in sqoop job
+13	Sqoop incremental append
+14	Using  Sqoop import particular table content of data
+15	https://hadoopjournal.com/2017/08/09/sqoop-job-performance-tuning-techniques/
+16	You have 80 tables in database but you want to import 75 tables , how will you do it ??
+17	Once you execute a sqoop import , what would happen internally ??
+18	Location where sqoop stores it's last value ??
+19	Per sqoop job how much data do you receive ??
+20	In which location sqoop job last value will be stored
+21	what is the reason for moving data from DBMS to hadoop
+22	write sqoop code that you are using in your project 
+23	how do you secure sqoop password 
+24	command to encrypt password 
+25	command to check last value of sqoop job 
+26	what happens when you increase mappers 
+27	what is the difference between -- and - in sqoop 
+28	difference between target-dir n warehouse-dir in sqoop
+29	how will you give security to your sqoop password 
+30	what are challenges that you got in sqoop and how you fixed it ? 
+31	optimization techniques you used in sqoop
+32	how to do you schedule sqoop jobs 
+33	how to load data from sqoop, based on last time created column ?
+34	which mode in sqoop you have using apped or last-modified ?
+35	 How to send the lower bound and upper bound to the sqoop job ?
