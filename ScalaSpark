@@ -1,1 +1,57 @@
+1	Difference between order by and sort by…
 
+2	What are the important requirements For Spark Submit
+
+3	What is mean by Broadcast Variable
+
+4	How to utilize hive buckets in spark?
+
+5	Write a Spark Scala Code to Create Tempview from a Text file
+
+6	"Two Input files: .csv and .parquet with policy and insured details.
+You have to join based on policy number and insert the data based on join and some business logic to hive table
+Using data frame..DSL or sparksql this was supposed to be done"
+7	How the folder structure is constructed in ur project in Eclipse IDE
+8	How do u access the global variable in ur spark code
+9	What r the starting lines u write in spark code
+10	Explode function in Spark
+11	What is case class in spark
+12	How to process nested json or nested array in hive and spark
+13	How to select few columns from an rdd and not converting it to a df
+14	If the data type is not correct, then How to enforce the data type on a column after the df is created
+15	How to read parquet file in spark
+16	Left fold..right fold diff. in Scala
+17	Map..flat map diff.
+18	What is currying function in Scala
+19	Closure functions and what are their benefits.
+20	which version of spark and hive
+21	what is the distribution u r using
+22	difference between spark 1.6 and spark 2.0
+23	How to read a nested JSON data in spark
+24	How to convert rdd to data frame
+25	what is struct type
+26	is it possible to define array field in struct
+27	what is the datatype of array field in struct
+28	is it possible to convert a df into rdd
+29	what is output of df.rdd
+30	which ide to develop spark code
+31	how u deploy the code to production
+32	How to use the same spark jar for different variables inputs
+33	how to load the data thru spark where few records are updates and few are new ?
+34	Hive and spark optimizations
+35	how to replace null values with some other value or discard the rows with null values in spark
+36	how to force datatype checks on column level in scala
+37	How to process a log file in spark and store
+38	Spark architecture
+39	what are Serde properties
+40	Hive context in spark
+41	what id RDD
+42	what are the properties of RDD
+43	Higher order function? and its advantages?
+44	Why you used Scala for Spark ?
+45	How do you do packaging (managing packages)
+46	How do you add dependencies for your project/application?
+47	Why do you need dependencies?
+48	pom.xml <- will things work if we rename pom.xml
+49	what are minimum mandatory imports that are required for scala application
+50	Explain the Difference between group by, order by, cluster by & distribute by with example ..??
