@@ -1,0 +1,252 @@
+QNs 1	there are 10 cricke team names ie 10 rows hacing column team name, How many total matches will be played ? write SQL to print team A and Team B for each match 
+QNs 2	"Tbl1 and tbl2 both having pk column which is PK of the table, where tbl1 having 5 records, table2 having 10 records. 
+  tell me min and max records can be returned by inner/left/right and full outer joins 
+  "
+QNs 3	"
+We have one month of transactional data for the customers. 
+they have done transaction on different date. 
+
+we want the aerage days difference for each customer,it has made transaction. 
+ex. if a customer has made transaction on 2nd, 5th and 20th then 
+avg diff = 
+diff -> 
+5-2 = 3,
+20-5 = 15
+
+avg = (3 + 15) / 2
+"
+QNs 4	"Table1 haiving 100 columns, table2 having 50 columns 
+  we want to join based on cust_id, if a column is present in both the table then we want to consider it from table1 
+      else all the unique columns we want to consider from both. How to do it ?
+Ans - > before join itself delte non required columns from table2"
+QNs 5	"Input :
+product_details 
+
+id, name, value 
+1, 'product_name', Industrial
+1, 'Expiry_date', '2020-04-30'
+1, 'price', 1000
+1, 'rating', 4
+2, 'product_name', 'IBM'
+2, 'Expiry_date', '2020-09-30'
+2, 'price', 800
+2, 'rating', 1
+3, 'product_name', 'TESLA'
+3, 'Expiry_date', '2020-12-30'
+3, 'price', 5000
+3, 'rating', 2
+4, 'product_name', 'TCS'
+4, 'Expiry_date', '2020-01-30'
+4, 'price', 1500
+4, 'rating', 1
+
+> Find out - all the product name where exp date >= 30 April and rating <= 2 
+
+--gievn ans- using subquery 
+select id, value as product_name from product_details where name = 'product_name' and id in 
+(select id from product_Details where name = 'expiry_date' and value >= '2020-04-30')
+and id in 
+(select id from product_Details where name = 'rating' and value <= 2)
+
+2, 'IBM'
+3, 'TESLA'"
+QNs 6	"dept, 
+dept_name, emp_name, salary 
+IT, ABC, 5000
+IT, ABC, 1000
+IT, ABC, 7000
+IT, ABC, 5000
+IT, ABC, 12000
+HR, ABC, 5000
+HR, ABC, 12000
+TAX, ABC, 5000
+TAX, ABC, 5000
+
+
+>- Find the employee name who are getting 3rd highest salary in each dept, 
+   if dept does not have 3 highest salary then find out the 2nd highest 
+   if does not have 2nd highest salary also then find the highest salary
+
+select * From 
+(
+select T2.emp_name, T2.salary, rank() over(partition by dept order by salary ) as rn2 from 
+(
+select T.* From 
+(selct dept_name, emp_name, salary, rank() over(partition by dept order by salary desc) as rn from tbl
+) T
+where T.rn <= 3 
+)T2
+)T3 where T3.rn2 = 1
+
+
+> second highest 
+select T.emp_name, T.salary, T.dept_name From 
+(selct dept_name, emp_name, salary, rank() over(partition by dept order by salary desc) as rn from tbl
+) T
+where T.rn = 2 "
+QNs 7	"we have a df having 3 columns- studentid, subject, marks
+	3 rows for each student each year, having sub hindi, english, science having passing marks 40,50 and 60 respectively.
+	We want to knwo how many students have passed each year in all the subjects."
+QNs 8	we have two files having 100 k ids and 50 k ids, hwo to know the 50k id which are not in file 2 ?
+QNs 9	"> input
+C1 C2
+A 111
+A abc
+B 222
+B xyz
+A 111
+
+output :
+A 111,abc
+B 222,xyz"
+QNs 10	"> input = ""I like to eat so much""
+  Output = ""much so eat to like I"""
+QNs 11	"Below is the content in a text file, find how many times ""JSON"" has appeared in it :
+
+""""""Collected weather information from AccuWeather Data source using RESTful API calls and ingested the
+extracted JSON files into HDFS
+Used JSON-Simple API for parsing the Weather JSON to Java Objects
+Used Java API for Ray Casting Algorithm implementation of Point In Polygon Logic
+Used MapReduce to find the Customers who might fall in the region where the hail storm can occur
+Finally used mailxunix utility to send weather alerts to the users captured in MapReduce processing
+Tested the and fixed some issues and bugs"""""""
+QNs 12	"write a function to print like this -
+if num = 4
+
+1*2*3*4*17*18*19*20
+--5*6*7*14*15*16
+----8*9*12*13
+------10*11"
+QNs 13	"> Input -
+
+id, pid, text, value
+1, a, 'Company', 'ABC'
+1, a, 'job_role', 'Data Engineer'
+1, a, 'Location', 'India'
+1, a, 'Purpose', 'Development'
+1, a, 'jobrole', 'Data Scientist'
+1, b, 'job_role2', 'Data Scientist'
+1, b, 'Location', 'India'
+1, b, 'Purpose', 'Development'
+1, b, 'job_role1', 'Data Scientist'
+1, b, 'jobrole', 'Data Engineer'
+2, c, 'Company', 'XYZ'
+2, c, 'job_role*', 'Manager'
+2, c, 'Location', 'US'
+
+
+Note : for one id there are multiple pid,
+		: for one pid, there are multiple text
+		: all the text which meets pattern like 'job_role', 'job_role[0-9]', 'jobRole' or similiar
+		  will be considered as the row having job roles
+
+Output :
+
+id, job_role, pid, count(pid)
+1, 'Data Engineer', a, 1
+1, 'Data Scientist', a,  1
+1, 'Data Scientist', b, 2
+2, 'Manager', c, 1"
+QNs 14	"user_id | created_at | product
+ --------+------------+--------
+  123    | 2019-01-01 | apple
+  456    | 2019-01-02 | banana
+  123    | 2019-01-05 | pear
+  456    | 2019-01-10 | apple
+  789    | 2019-01-11 | banana
+
+
+  user_id | created_at | product
+---------+------------+--------
+ 123     | 2019-01-01 | apple
+ 456     | 2019-01-02 | banana
+ 789     | 2019-01-11 | banana
+
+output : how to get the all the colun data for where a used has purched the product at first time
+	without using any window funtion
+
+output : how to get the all the colun data for where a used has purched the product at second time
+	without using any window funtion
+
+
+solution :
+select t1.user_id, t1.created_at, t1.product from tbl t1 join
+(select user_id, min(created_Date) as min_Date from tbl group by user_id ) t2
+on t.user_id = t2.user_id and t1. created_At = t2.min_date
+
+select user_id, min(created_at) as 2nd_min from tbl group by user_id where concat(user_id,created_at) not in ( select concat(user_id, min_Date) from (select user_id, min(created_at) as min date from tbl) )
+"
+QNs 15	">3rd highest salary holder name per department from employee table.
+id	name	sal      dept
+1	A	10k      10
+2	W	5k        20
+3	S	10k      10
+4	B	20k      10
+5	P	30k      10
+6	U	5k      10
+
+: write two code sql query and Spark.API code to solve this
+: dept=20 has only one employee, how can we make sure if we have no employee for 3rd highest,
+	we'll have a row with null values
+
+> input = {'a':1,'b':'xyz', 'c':'a', 'd':'c', 'e':'pqr', 'f':'b'}
+O/p:
+a = 1
+b = xyz
+c = a
+d = c
+e = pqr
+f = b
+
+
+> input = {'a':1,'b':'xyz', 'c':'a', 'd':'c', 'e':'pqr', 'f':'b'}
+O/p:
+a = 1
+b = xyz
+c = 1
+d = 1
+e = pqr
+f = xyz
+"
+QNs 16	"* Q1 -
+df1 - empid, name, salary
+df2 - band, min_salary, max_salary
+
+Find out what band each employee lies into by using salary, min salary and max_salary
+"
+QNs 17	"* Q2 -
+Input :
+Tabl1_1
+Column1
+5
+5
+5
+5
+5
+
+Tabl1_2
+Column2
+5
+5
+5
+5
+5
+
+what will be output of below query ?
+select count(*) from Tabl1_1 LEFT JOIN Tabl1_2 ON Column1=Column2;"
+QNs 18	"Q3 :
+Input -
+A, 3
+B, 5
+C, 2
+D, 1
+E, 2
+F, 6
+
+write SQL query to find below query -
+A, 3, 3
+B, 5, 8
+C, 2, 10
+D, 1, 11
+E, 2, 13
+F, 6, 19"
