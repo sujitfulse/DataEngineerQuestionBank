@@ -1,0 +1,80 @@
+1	DDL functions of hive
+2	Partition & Bucketing
+3	Why manage table in our project 1
+4	Types of hive tables and where u used this table in ur project.
+5	What are the hive Process you are doing in Your Project Explain
+6	What are the Requirements for Hive table Creation and How You are Creating in Your Project
+7	How to automate that Hive Process and requirements for the automation
+8	Explain the requirements in Details
+9	What type Of tables you are using in your project
+10	If You are Using Partition and Bucketing in your Project
+11	What is your Default partition using in your project
+12	Is it Possible to Delete and Update in Hive Table. Have You used in Your Project
+13	"If the Given data Looks like
+12,34,56
+23,56,86
+45,67,56,87
+56,77,66
+Only One Row having One Extra Column how do you Process it"
+14	How you will insert values to the hive table from one table using case condition
+15	Syntax of map side join and why we go for map side join
+16	What is the max size of map side join small table
+17	On sale directory if you create internal and external table, if u delete external table can u see Internal table details
+18	What is hive metastore , where it is saved in prod cluster?
+19	Hive external tables use
+20	How to utilize hive buckets in spark?
+21	How to join 2 files in hive without loading it in hive tables
+22	write a hive query to join 3 tables, Where the second largest table should go to memory With optimization
+23	External table create
+24	Load data to external table
+25	does hive support OLTP operations?
+26	how does hive work internally?
+27	hive supports only OLAP then how can it support insert commands
+28	does hive also work on Write Once Read Many?
+29	bucketing, static and dynamic partitioning in hive
+30	how to use explode in hive
+31	about trim function in hive
+32	hive performance tuning
+33	Diff b/w hdfs and hive
+34	what different kind of tables we can create in hive
+35	Hive and spark optimizations
+36	can we define foreign and primary key in hive tables
+37	how can we do the data quality check in spark and hive
+38	What is vectorization and how does it improves performance?
+39	Can we use analytic functions on RDD? (i don't exactly know what he meant)
+40	"skew join : 
+https://medium.com/expedia-group-tech/skew-join-optimization-in-hive-b66a1f4cc6ba
+"
+41	"hive optimization : 
+https://acadgild.com/blog/hive-optimization-techniques-with-examples
+
+"
+42	hive indexing : https://acadgild.com/blog/indexing-in-hive
+43	Explain the Difference between group by, order by, cluster by & distribute by with example ..??
+44	What if you have deleted the data of manage table created  on top of HDFS location ??  Will the data be available or not??
+45	Why bucketing is preferred even though the nested partition can optimize the problem…
+46	https://analyticshut.com/hive-collect-set-vs-collect-list/
+47	Optimization techniques in hive and optimization techniques you have implemented in project ??
+48	On which column you did partition in hive in your project ??
+49	Lets say you have created partition for Hyderabad but you loaded Chennai data , what are the validation we have to done in this case to make sure that there won't be any errors
+50	gave a hive table and asked to write output for inner,outer joins 
+51	query to find out number of duplicate records in hive table 
+52	how to update records in hive 
+53	difference between cluster by and distributed by in hive
+54	Hive table partition deleted
+55	Suppose we put string values in int table, what's the result?
+56	Broadcast join
+57	Map Side Join
+58	SMB joins
+59	Large datasets join 
+60	If we delete partition in hive, after querying the same, is it visible?
+61	ORC vs Parquet
+62	From which hive version ACID implemented in hive
+63	how can we retrieve deleted metadata of external table.
+64	9. Hive :  Scenario: Imagine we have 2 tables A and B.
+65	B is the master table and A is the table which receives the updates of certain information
+66	so i want to update table B using the latest updated columns based up on the id how do we achieve that and what is the exact query we use?
+67	10.What is use of Row-index and in which scenarios have you used it in hive?
+68	11. what is Ntile?
+69	laterl view explode in hive
+70	broadcast in hive and broadcast in spark
