@@ -1,20 +1,150 @@
-1	Difference between order by and sort by…
-
+1	What is difference between order by and sort by ? 
+  They are NOT the SAME.
+  The SORT BY clause is used to return the result rows sorted within each partition in the user specified order. 
+  When there is more than one partition SORT BY may return result that is partially ordered.
+  Reference :https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-sortby.html
+  The ORDER BY clause is used to return the result rows in a sorted manner in the user specified order. 
+  Unlike the SORT BY clause, this clause guarantees a total order in the output.
+  Reference : https://spark.apache.org/docs/latest/sql-ref-syntax-qry-select-orderby.html
+----------------------------------------------------------------------------------------------------------------------------
 2	What are the important requirements For Spark Submit
+    spark-submit \
+  --master <master-url> \
+  --deploy-mode <deploy-mode> \
+  --conf <key<=<value> \
+  --driver-memory <value>g \
+  --executor-memory <value>g \
+  --executor-cores <number of cores>  \
+  --jars  <comma separated dependencies>
+  --class <main-class> \
+  <application-jar> \
+  <application-arguments>
+----------------------------------------------------------------------------------------------------------------------------
+3	What is mean by Broadcast Variable in spark ? 
+Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks. 
+They can be used, for example, to give every node a copy of a large input dataset in an efficient manner. 
+Spark also attempts to distribute broadcast variables using efficient broadcast algorithms to reduce communication cost.
 
-3	What is mean by Broadcast Variable
+import org.apache.spark.sql.SparkSession
+object BroadcastExample extends App{
 
-4	How to utilize hive buckets in spark?
+  val spark = SparkSession.builder()
+    .appName("SparkByExamples.com")
+    .master("local")
+    .getOrCreate()
+
+  val states = Map(("NY","New York"),("CA","California"),("FL","Florida"))
+  val countries = Map(("USA","United States of America"),("IN","India"))
+
+  val broadcastStates = spark.sparkContext.broadcast(states)
+  val broadcastCountries = spark.sparkContext.broadcast(countries)
+
+  val data = Seq(("James","Smith","USA","CA"),
+    ("Michael","Rose","USA","NY"),
+    ("Robert","Williams","USA","CA"),
+    ("Maria","Jones","USA","FL")
+  )
+
+  val columns = Seq("firstname","lastname","country","state")
+  import spark.sqlContext.implicits._
+  val df = data.toDF(columns:_*)
+
+  val df2 = df.map(row=>{
+    val country = row.getString(2)
+    val state = row.getString(3)
+
+    val fullCountry = broadcastCountries.value.get(country).get
+    val fullState = broadcastStates.value.get(state).get
+    (row.getString(0),row.getString(1),fullCountry,fullState)
+  }).toDF(columns:_*)
+
+  df2.show(false)
+}
+
+----------------------------------------------------------------------------------------------------------------------------
+ 
+4	How to utilize hive buckets in spark ?
+
+Bucketing is a partitioning technique that can improve performance in certain data transformations by avoiding data shuffling and sorting. 
+The general idea of bucketing is to partition, and optionally sort, the data based on a subset of columns while it is written out (a one-time cost), 
+Bucketing can enable faster joins (i.e. single stage sort merge join), 
+the ability to short circuit in FILTER operation if the file is pre-sorted over the column in a filter predicate, and it supports quick data sampling.
+
+Hive bucketed tables are supported from Spark 2.3 onwards. 
+Spark normally disallow users from writing outputs to Hive Bucketed tables.
+Setting hive.enforce.bucketing=false and hive.enforce.sorting=false will allow you to save to Hive Bucketed tables.
+
+ Spark still won't produce bucketed data as per Hive's bucketing guarantees, 
+ but will allow writes IFF user wishes to do so without caring about bucketing guarantees. 
+ Ability to create bucketed tables will enable adding test cases to Spark while pieces are being added to Spark have it support hive bucketing 
+
+//enable Hive support when creating/configuring the spark session
+val spark = SparkSession.builder().enableHiveSupport().getOrCreate()
+
+//register DF as view that can be used with SparkSQL
+val testDF = Seq((1, "a"),(2, "b"),(3, "c")).toDF("number", "letter")
+testDF.createOrReplaceTempView("testDF")
+
+//create Hive table, can also be done manually, e.g. via Hive CLI
+val createTableSQL = "CREATE TABLE testTable (number int, letter string) CLUSTERED BY number INTO 1 BUCKETS STORED AS PARQUET"
+spark.sql(createTableSQL)
+
+//load data from DF into Hive, output parquet files will be bucketed and readable by Hive
+spark.sql("INSERT INTO testTable SELECT * FROM testDF")
+
+https://community.cloudera.com/t5/Support-Questions/Hive-bucketed-table-from-Spark-2-3/td-p/221572
+https://medium.com/@deepa.account/comparison-between-spark-and-hive-bucketing-827ec41fe58d
+----------------------------------------------------------------------------------------------------------------------------
 
 5	Write a Spark Scala Code to Create Tempview from a Text file
+val textFile = sc.textFile("hdfs://localhost:9000/user/input.txt")
+textFile.createOrReplaceTempView("testDF")
+----------------------------------------------------------------------------------------------------------------------------
 
-6	"Two Input files: .csv and .parquet with policy and insured details.
-You have to join based on policy number and insert the data based on join and some business logic to hive table
-Using data frame..DSL or sparksql this was supposed to be done"
+6	We have Two Input files: .csv and .parquet with policy and insured details. You have to join based on some command column and run some business logic to hive table Using data frame.
+ write sparksql this was supposed to be done"
+
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.SparkSession
+
+object checkDFSchema extends App {
+  val cc = new SparkConf;
+  val sc = new SparkContext(cc)
+  val sparkSession = SparkSession.builder().enableHiveSupport().getOrCreate()
+  //First option for creating hive table through dataframe 
+  val DF = sparkSession.sql("select * from salary")
+  DF.createOrReplaceTempView("tempTable")
+  sparkSession.sql("Create table yourtable as select * form tempTable")
+  //Second option for creating hive table from schema
+  val oldDFF = sparkSession.sql("select * from salary")
+  //Generate the schema out of dataframe  
+  val schema = oldDFF.schema
+  //Generate RDD of you data 
+  val rowRDD = sc.parallelize(Seq(Row(100, "a", 123)))
+  //Creating new DF from data and schema 
+  val newDFwithSchema = sparkSession.createDataFrame(rowRDD, schema)
+  newDFwithSchema.createOrReplaceTempView("tempTable")
+  sparkSession.sql("create table FinalTable AS select * from tempTable")
+}
+https://stackoverflow.com/questions/42261701/how-to-create-hive-table-from-spark-data-frame-using-its-schema
+----------------------------------------------------------------------------------------------------------------------------
 
 7	How the folder structure is constructed in ur project in Eclipse IDE
+src/main/java ==> java code 
+src/test/java ==> test cases
+Maven Depdencies ==> all jars
+pom.xml
+----------------------------------------------------------------------------------------------------------------------------
 
-8	How do u access the global variable in ur spark code
+8	How do u access the global variable in ur spark code ? 
+ you can use broadcast mechanism to access global variable. but it is immutable.
+ Spark is built on the principle of immutability, in fact any distributed framework works by leveraging the concepts of immutability. 
+ so you can not modify global variable.
+ https://stackoverflow.com/questions/36401537/how-to-define-a-global-read-write-variables-in-spark
+----------------------------------------------------------------------------------------------------------------------------
 
 9	What r the starting lines u write in spark code
 
