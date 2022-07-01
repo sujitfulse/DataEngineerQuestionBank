@@ -145,10 +145,25 @@ pom.xml
  so you can not modify global variable.
  https://stackoverflow.com/questions/36401537/how-to-define-a-global-read-write-variables-in-spark
 ----------------------------------------------------------------------------------------------------------------------------
-
-9	What r the starting lines u write in spark code
-
+9	What are the starting lines you write in spark code.
+// declair spark configuration object 
+// declair spark context 
+// build spark session 
+e.g. 
+  val cc = new SparkConf;
+  val sc = new SparkContext(cc)
+  val sparkSession = SparkSession.builder().getOrCreate()
+  val DF = sparkSession.sql("select * from salary") 
+----------------------------------------------------------------------------------------------------------------------------  
 10	Explode function in Spark
+convert collection (array/ maps) columns to rows in order to process in Spark effectively.
+Spark explode functions -> 
+A) explode ==> This will ignore elements that have null or empty datatypes. 
+B) explode_outer ==> This will not ignore elements that have null or empty datatypes. 
+C) posexplode  ==> This will ignore elements that have null or empty datatypes. it will add one more column to show position i.e. index number in array/map
+D) posexplode_outer==> This will not ignore elements that have null or empty datatypes. it will add one more column to show position i.e. index number in array/map
+https://sparkbyexamples.com/spark/explode-spark-array-and-map-dataframe-column/
+----------------------------------------------------------------------------------------------------------------------------  
 
 11	What is case class in spark
 
