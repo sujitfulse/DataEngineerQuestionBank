@@ -166,13 +166,102 @@ https://sparkbyexamples.com/spark/explode-spark-array-and-map-dataframe-column/
 ----------------------------------------------------------------------------------------------------------------------------  
 
 11	What is case class in spark
+Case classes uses reflection to generate the schema of an RDD that contains specific types of objects. 
+The Scala interface for Spark SQL supports automatically converting an RDD containing case classes to a DataFrame. 
+The case class defines the schema of the table. 
+The names of the arguments to the case class are read using reflection and they become the names of the columns.
+Case classes can also be nested or contain complex types such as Sequences or Arrays. 
+This RDD can be implicitly be converted to a DataFrame and then registered as a table. Tables can be used in subsequent SQL statements.
+example : 
+data 
+1201, satish, 25
+1202, krishna, 28
+1203, amith, 39
+1204, javed, 23
+1205, prudvi, 23
 
-12	How to process nested json or nested array in hive and spark
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.SparkSession
 
+scala> val sqlContext = new org.apache.spark.sql.SQLContext(sc)
+scala> import sqlContext.implicts._
+scala> case class Employee(id: Int, name: String, age: Int)
+scala> val empl=sc.textFile("employee.txt")
+.map(_.split(","))
+.map(e⇒ employee(e(0).trim.toInt,e(1), e(2).trim.toInt))
+.toDF()
+scala> empl.registerTempTable("employee")
+scala> val allrecords = sqlContext.sql("SELeCT * FROM employee")
+https://www.tutorialspoint.com/spark_sql/inferring_schema_using-reflection.htm#:~:text=The%20Scala%20interface%20for%20Spark,the%20names%20of%20the%20columns.
+----------------------------------------------------------------------------------------------------------------------------
+
+12	How to process nested json or nested array in spark
+    Step 1: Load JSON data into Spark Dataframe using API
+    Step 2: Explode Array datasets in Spark Dataframe.
+    Step 3: Fetch each order using GetItem on Explored columns.
+    Step 4: Repeat step 1 to 4 , untill we flatten all the object to column lelel.
+ 
+ import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.SparkSession
+
+ val ordersDf = spark.read.format("json")
+                         .option("inferSchema", "true")
+                         .option("multiLine", "true")
+                         .load("/FileStore/tables/orders_sample_datasets.json")
+ import org.apache.spark.sql.functions._
+ val parseOrdersDf = ordersDf.withColumn("orders", explode($"datasets"))      
+// Step 3: Fetch Each Order using getItem on explode column
+ val parseOrdersDf = parseOrdersDf.withColumn("customerId", $"orders".getItem("customerId"))
+                             .withColumn("orderId", $"orders".getItem("orderId"))
+                             .withColumn("orderDate", $"orders".getItem("orderDate"))
+                             .withColumn("orderDetails", $"orders".getItem("orderDetails"))
+                             .withColumn("shipmentDetails", $"orders".getItem("shipmentDetails"))                  
+                         
+   https://bigdataprogrammers.com/read-nested-json-in-spark-dataframe/
+----------------------------------------------------------------------------------------------------------------------------
 13	How to select few columns from an rdd and not converting it to a df
-
+   - use case class or struct to define DF column names.
+   - use rdd.map() and then choose selected column only.
+----------------------------------------------------------------------------------------------------------------------------
 14	If the data type is not correct, then How to enforce the data type on a column after the df is created
 
+import org.apache.spark.SparkConf
+import org.apache.spark.SparkContext
+import org.apache.spark.sql.SQLContext
+import org.apache.spark.sql.Row
+import org.apache.spark.sql.SparkSession
+import org.apache.spark.sql.types.DataType
+import org.apache.spark.sql.types.{StringType, StructType,IntegerType,StructField}
+
+val simpleData = Seq(Row("James ","","Smith","36636","M",3000),
+    Row("Michael ","Rose","","40288","M",4000),
+    Row("Robert ","","Williams","42114","M",4000),
+    Row("Maria ","Anne","Jones","39192","F",4000),
+    Row("Jen","Mary","Brown","","F",-1)
+  )
+
+val simpleSchema = StructType(Array(
+    StructField("firstname",StringType,true),
+    StructField("middlename",StringType,true),
+    StructField("lastname",StringType,true),
+    StructField("id", StringType, true),
+    StructField("gender", StringType, true),
+    StructField("salary", IntegerType, true)
+  ))
+
+  val df = spark.createDataFrame(
+      spark.sparkContext.parallelize(simpleData),simpleSchema)
+  df.printSchema()
+  df.show()
+  
+  https://sparkbyexamples.com/spark/spark-sql-structtype-on-dataframe/
+----------------------------------------------------------------------------------------------------------------------------
 15	How to read parquet file in spark
 
 16	Left fold..right fold diff. in Scala
