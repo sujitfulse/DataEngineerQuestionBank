@@ -613,44 +613,122 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
         - using cicd pipeline
 ----------------------------------------------------------------------------------------------------------------------------
 32	How to use the same spark jar for different variables inputs.
-       -in spark submtit. pass --classname parameter
+       -in spark submit. pass --classname parameter
 ----------------------------------------------------------------------------------------------------------------------------
 33	how to load the data through spark where few records are updates and few are new ?
 
 ----------------------------------------------------------------------------------------------------------------------------
 34	Hive and spark optimizations techniques
-	- 
-
+	
+	- Spark Code level optimization
+	a) Use DataFrame/Dataset over RDD
+	b) Use coalesce() over repartition()
+	c) Use mapPartitions() over map()
+	d) Use Serialized data format’s - avro, parquet
+	e) Avoid UDF’s (User Defined Functions)
+	f) Caching data in memory
+	g) Reduce expensive Shuffle operations
+	h) use adanced variables like - KRYO
+	i) Use reduceByKey instead of groupByKey.
+	j) tune default partition number       
 ----------------------------------------------------------------------------------------------------------------------------
 
 35	how to replace null values with some other value or discard the rows with null values in spark
+	// replace null with zero 
+	df.na.fill(0)
+	// replace null with empty string 
+	df.na.fill("")
+	// replace null with array datatype
+	df.na.fill("",Array("type"))
+	// if any column value is null then drop using 
+	df.na.drop()
+	// if all columns are null then only drop
+	df.na.drop("all")
+	// if selected column are null then drop using 
+	df.na.drop("all", Seq("col1", "col2", "col3"))
+----------------------------------------------------------------------------------------------------------------------------
+36	how to enforce datatype checks on column level in scala
+	val columns = df.schema.fields.filter(x => x.dataType == IntegerType || x.dataType == DoubleType)
+----------------------------------------------------------------------------------------------------------------------------
+37, 38	Spark architecture, yarn architecture
 
-36	how to force datatype checks on column level in scala
-
-37	How to process a log file in spark and store
-
-38	Spark architecture
-
+----------------------------------------------------------------------------------------------------------------------------
 39	what are Serde properties
-
+	- SerDe is short for Serializer/Deserializer. 
+	- Hive uses the SerDe interface for IO. 
+	- The interface handles both serialization and deserialization and also interpreting the results of serialization as individual fields for processing.
+	- Built-in SerDes
+		Avro (Hive 0.9.1 and later)
+		ORC (Hive 0.11 and later)
+		RegEx
+		Thrift
+		Parquet (Hive 0.13 and later)
+		CSV (Hive 0.14 and later)
+		JsonSerDe (Hive 0.12 and later in hcatalog-core)
+----------------------------------------------------------------------------------------------------------------------------
 40	Hive context in spark
+	Hive comes bundled with the Spark library as HiveContext, which inherits from SQLContext. 
+	Using HiveContext, you can create and find tables in the HiveMetaStore and write queries on it using HiveQL. 
+	Users who do not have an existing Hive deployment can still create a HiveContext.
+  
+  val cc = new SparkConf;
+  val sc = new SparkContext(cc)
+  val sparkSession = SparkSession.builder().enableHiveSupport().getOrCreate()
+  //First option for creating hive table through dataframe 
+  val DF = sparkSession.sql("select * from salary")
+  DF.createOrReplaceTempView("tempTable")
+  sparkSession.sql("Create table yourtable as select * form tempTable")
+----------------------------------------------------------------------------------------------------------------------------
+  
+41,42,43  Higher order function? and its advantages?
 
-41	what id RDD
-
-42	what are the properties of RDD
-
-43	Higher order function? and its advantages?
+   A function is called Higher Order Function if it contains other functions as a parameter or returns a function as an output 
+   i.e, the functions that operate with another functions are known as Higher order Functions. 
+   
+   a) it is beneficial in producing function composition where, functions might be formed from another functions. 
+   The function composition is the method of composing where a function shows the utilization of two composed functions.
+   b) It is also constructive in creating lambda functions or anonymous functions. 
+   The anonymous functions are the functions which does not has name, though perform like a function.
+   c) It is even utilized in minimizing redundant lines of code from a program.
+----------------------------------------------------------------------------------------------------------------------------
 
 44	Why you used Scala for Spark ?
-
-45	How do you do packaging (managing packages)
-
-46	How do you add dependencies for your project/application?
-
-47	Why do you need dependencies?
-
+	- Usually, Python is suitable for smaller projects, and Scala works best for large-scale ones. 
+	- If faster performance is a requirement, Scala is a good bet. Spark is native in Scala, hence making writing Spark jobs in Scala the native way.
+        - Scala is static-typed, while Python is a dynamically typed language. Due to its nature, the former is more suitable for projects dealing with high volumes of data.
+----------------------------------------------------------------------------------------------------------------------------
+45.46,47 How do you do packaging (managing packages) ? How do you add dependencies for your project/application? Why do you need dependencies?
+        - in pom.xml
+	- using depedency tag
+	- so that we can use third party jars 
+----------------------------------------------------------------------------------------------------------------------------
 48	pom.xml <- will things work if we rename pom.xml
+	- NO 
+----------------------------------------------------------------------------------------------------------------------------
+49	what are minimum mandatory imports that are required for scala application.
+	- 
+	import org.apache.spark.SparkContext
+	import org.apache.spark.SparkContext._
+	import org.apache.spark.SparkConf
+----------------------------------------------------------------------------------------------------------------------------
+50	Explain the Difference between cluster by & distribute by with example ..??
+      *DISTRIBUTE BY clause is used to distribute the input rows among reducers. 
+      - It ensures that all rows for the same key columns are going to the same reducer. 
+      - So, if we need to partition the data on some key column, we can use the DISTRIBUTE BY clause in the hive queries. 
+      - However, the DISTRIBUTE BY clause does not sort the data either at the reducer level or globally. 
+      - Also, the same key values might not be placed next to each other in the output dataset.
 
-49	what are minimum mandatory imports that are required for scala application
+SELECT SalesYear, Amount
+FROM tbl_Sales 
+DISTRIBUTE BY SalesYear;
 
-50	Explain the Difference between group by, order by, cluster by & distribute by with example ..??
+	* CLUSTER BY
+	- CLUSTER BY clause is a combination of DISTRIBUTE BY and SORT BY clauses together.
+	- That means the output of the CLUSTER BY clause is equivalent to the output of DISTRIBUTE BY + SORT BY clauses. 
+	- The CLUSTER BY clause distributes the data based on the key column and then sorts the output data by putting the same key column values adjacent 
+	to each other. So, the output of the CLUSTER BY clause is sorted at the reducer level. 
+	- As a result, we can get N number of sorted output files where N is the number of reducers used in the query processing. 
+	- Also, the CLUSTER by clause ensures that we are getting non-overlapping data ranges into the final outputs.
+	- However, if the query is processed by only one reducer the output will be equivalent to the output of the ORDER BY clause.
+
+https://sqlrelease.com/sort-by-order-by-distribute-by-and-cluster-by-in-hive
