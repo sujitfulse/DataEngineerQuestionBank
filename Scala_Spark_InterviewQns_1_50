@@ -467,13 +467,116 @@ df.write
 -- HDP 
 -- CDP
 ----------------------------------------------------------------------------------------------------------------------------
+22 	What are the differences between Spark 1.x and Spark 2.x and Spark 3.x ? 
 
-22	difference between spark 1.6 and spark 2.0
+*Spark 2.x :-
+a) SparkSession - 
+-A new entry point for Spark application execution is introduced. There are several reasons for introducing it. 
+-Some of them are: we need to create separately sql context, hive context if we have only SparkContext.
+b) Faster analysis - 
+-Spark 1.x uses compilers which uses of several function calls and CPU cycles, because of which so much unnecessary work spent on CPU cycles.
+-Spark 2.x uses performance enhanced Tungsten engine. 
+-This new version of Tungsten project takes the query plan and collapses it into a single function by avoiding unnecessary function calls. 
+-It uses CPU registers to store intermediate instead using CPU memory as that of Spark 1.x. This will improve the performance by 10 time at least..
+c) Added SQL features - 
+-SQL in Spark 2.x added with more functionalities along with support for SQL2003. 
+-Spark SQL in 2.x version can run all of the 99 TPC-DS queries. 
+-Hive support will have all the features when it create with Hive support. 
+-Native SQL parser which supports both ANSI - SQL and Hive QL. Native DDL commands are implemented.
+d) MLlib improvements - 
+- RDD based API is going into maintenance mode and DataFrame based has become the primary API now. 
+- Many machine learning algorithms like Gaussian Mixture Model, MaxAbsScaler, Bisecting K-Means clustering feature transformer are added to DataFrame based API.
+- many ML algorithms added to PySpark and SparkR also.
+e) New Streaming module - 
+- In Spark 2.x a new high level streaming API built on Spark SQL and Catalyst Optimizer has been added. 
+- It is added as a separate module in Spark release with the name Structured Streaming.
+- Using this users can connect to any streaming source and sink leveraging the optimization techniques which come with DataFrame API. 
+- for DataFrame API support for connection with Kafka has been added but it is experimental stage.
+f) Unified Dataset and DataFrame APIs 
+- DataFrame  is a high level API for structured data introduced since 1.3 version of Spark. 
+- This has lot performance optimizations compared to RDD. 
+- Later in 1.6 version of Spark new API for structured data is introduced, DataSet. 
+- Dataset provide type safety compared DataFrames. 
+- In Spark 2.x onwards these two are unified to form new single API. 
+- Now Dataframe is just an alias for Dataset of Row. Datasets will have all the typed and untyped methods. 
 
-23	How to read a nested JSON data in spark
+*Spark 3.0
+A. Adaptive Query Execution (AQE) enhancements
+- Unlike more traditional technologies, runtime adaptivity in Spark is crucial as it enables the optimization of execution plans based on the input data. 
+The reason why this is so important in Spark is due to the fact that the data itself affects the efficiency of the application. 
+Good example that demonstrates the importance of the dynamic adaptation of execution plans is broadcasting and data skewness. 
+- Spark 3.0 introduced two major improvements over Adaptive Query Execution that now simplify Spark parameter tuning even further:
+  AQE now combines small partitions together so that users don’t need to worry too much about shuffle partitions since this will now be dynamically adjusted in runtime.
+  AQE automatically breaks down partitions into smaller ones once data skewness is detected
+
+B. Improvements on pandas UDF API
+The new interface allows pandas UDFs to infer the type from the given Python type hints in the Python function definition.
+import pandas as pd
+from pyspark.sql.functions import pandas_udf
+
+@pandas_udf('long')
+def pandas_subtract_unit(s: pd.Series) -> pd.Series:
+    return s - 1
+    
+C. New User Interface for Structured Streaming    
+- Web UI in Apache Spark 3.0 comes with an extra tab which is dedicated to Structured Streaming and simplifies monitoring over streaming jobs.
+- existing metrics :
+Input Rate
+Process Rate
+Input Rows
+Batch Duration
+Operation Duration
+- newley added 
+scheduling delay and processing time for each micro-batch
+
+----------------------------------------------------------------------------------------------------------------------------
+
+23	Difference between SparkContext and SparkSession:
+- In Spark version 1.x we have the SparkContext as entry point for out Spark applications, for which we need to create SparkConf object. 
+All our configurations will be set to SparkConf object and using which SparkContext object will be created as shown below:
+import org.apache.spark.{SparkConf, SparkContext}
+val conf = new SparkConf().setAppName(“MyAppliction”).setMaster(“local”) 
+val sparkContext = new SparkContext(conf)
+
+- Whereas in Spark version 2.x we have SparkSession as entry point. Which is completely different from SparkContext. 
+Using this SparkSession we create DataFrames and Datasets and accomplish the task. 
+org.apache.spark.sql.SparkSession
+val spark = SparkSession
+            .builder
+            .master("local")
+            .appName(“WorldBankIndex”)
+            .getOrCreate()
+val context = spark.sparkContext
+
+- Spark Session also includes all the APIs available in different contexts –
+
+Spark Context,
+SQL Context,
+Streaming Context,
+Hive Context.
+
+- If you observe two different SparkSessions created in an application will have the same SparkContext object. 
+Another reason for having only one SparkContext object and multiple SparkSesssions is multiple users to process the data. 
+If we are using Spark version 1.6 and we have multiple users to operate on the datasets and 
+need the datasets to be isolated for each user then we have to create multiple SparkContext objects, 
+which is not at all acceptable in performance perception. 
+Whereas for the same situation is handled in Spark version 2.x by creating multiple SparkSessions and single SparkContext. 
+----------------------------------------------------------------------------------------------------------------------------
 
 24	How to convert rdd to data frame
-
+	A) using toDF
+	 rdd.toDF()
+	 rdd.toDF("language","users_count")
+	B) Using createDataFrame()
+	val columns = Seq("language","users_count")
+	val dfFromRDD2 = spark.createDataFrame(rdd).toDF(columns:_*)
+	- using StructType
+	val schema = StructType(columns.map(fieldName => StructField(fieldName, StringType, nullable = true)))
+        val rowRDD = rdd.map(attributes => Row(attributes._1, attributes._2))
+        val dfFromRDD3 = spark.createDataFrame(rowRDD,schema)
+	C) RDD to DataSet :
+       val ds = spark.createDataset(rdd)
+----------------------------------------------------------------------------------------------------------------------------
 25	what is struct type
 
 26	is it possible to define array field in struct
