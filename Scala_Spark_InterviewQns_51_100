@@ -37,12 +37,12 @@
 
 53	"What is Spark Core?
 
-Spark Core is the fundamental unit of the whole Spark project. It provides all sort of functionalities like task dispatching, scheduling, and 
-input-output operations etc.Spark makes use of Special data structure known as RDD (Resilient Distributed Dataset). 
-It is the home for API that defines and manipulate the RDDs. Spark Core is distributed execution engine with all the functionality attached on its top.
-For example, MLlib, SparkSQL, GraphX, Spark Streaming. Thus, allows diverse workload on single platform. All the basic functionality of Apache Spark 
-Like in-memory computation, fault tolerance, memory management, monitoring, task scheduling is provided by Spark Core.
-Apart from this Spark also provides the basic connectivity with the data sources. For example, HBase, Amazon S3, HDFS etc."
+	Spark Core is the fundamental unit of the whole Spark project. It provides all sort of functionalities like task dispatching, scheduling, and 
+	input-output operations etc.Spark makes use of Special data structure known as RDD (Resilient Distributed Dataset). 
+	It is the home for API that defines and manipulate the RDDs. Spark Core is distributed execution engine with all the functionality attached on its top.
+	For example, MLlib, SparkSQL, GraphX, Spark Streaming. Thus, allows diverse workload on single platform. All the basic functionality of Apache Spark 
+	Like in-memory computation, fault tolerance, memory management, monitoring, task scheduling is provided by Spark Core.
+	Apart from this Spark also provides the basic connectivity with the data sources. For example, HBase, Amazon S3, HDFS etc."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
 54	"How is Apache Spark better than Hadoop?
@@ -188,242 +188,315 @@ Apart from this Spark also provides the basic connectivity with the data sources
 
 64	"How can we create RDD in Apache Spark?
 
-Each dataset in RDD is divided into logical partitions,
-which may be computed on different nodes of the cluster.
-Including user-defined classes, RDDs may contain any type of Python, Java, or Scala objects.
+	Each dataset in RDD is divided into logical partitions, which may be computed on different nodes of the cluster.
+	Including user-defined classes, RDDs may contain any type of Python, Java, or Scala objects.
 
-In 3 ways we can create RDD in Apache Spark:
-1. Through distributing collection of objects
-2. By loading an external dataset
-3. From existing Apache Spark RDDs
+	In 3 ways we can create RDD in Apache Spark:
+	1. Through distributing collection of objects
+	2. By loading an external dataset
+	3. From existing Apache Spark RDDs
 
-1. Using parallelized collection
+	1. Using parallelized collection
 
-RDDs are generally created by parallelizing an existing collection
-i.e. by taking an existing collection in the program and passing
-it to SparkContext’s parallelize() method.
+	RDDs are generally created by parallelizing an existing collection
+	i.e. by taking an existing collection in the program and passing
+	it to SparkContext’s parallelize() method.
 
-scala > val data = Array(1,2,3,4,5)
-scala > val dataRDD = sc.parallelize (data)
-scala > dataRDD.count
+	scala > val data = Array(1,2,3,4,5)
+	scala > val dataRDD = sc.parallelize (data)
+	scala > dataRDD.count
 
-2. External Datasets
+	2. External Datasets
 
-In Spark, a distributed dataset can be formed from any data source supported by Hadoop.
+	In Spark, a distributed dataset can be formed from any data source supported by Hadoop.
 
-val dataRDD = spark.read.textFile(“F:/BigData/DataFlair/Spark/Posts.xml”).rdd
+	val dataRDD = spark.read.textFile(“/Spark/Posts.xml”).rdd
 
-3. Creating RDD from existing RDD
+	3. Creating RDD from existing RDD
 
-Transformation is the way to create an RDD from already existing RDD.
+	Transformation is the way to create an RDD from already existing RDD.
 
-Transformation acts as a function that intakes an RDD and produces another resultant RDD.
-The input RDD does not get changed,
-Some of the operations applied on RDD are: filter, Map, FlatMap
+	Transformation acts as a function that intakes an RDD and produces another resultant RDD.
+	The input RDD does not get changed,
+	Some of the operations applied on RDD are: filter, Map, FlatMap
 
-val dataRDD = spark.read.textFile(“F:/Mritunjay/BigData/DataFlair/Spark/Posts.xml”).rdd
+	val dataRDD = spark.read.textFile(“Spark/Posts.xml”).rdd
 
-val resultRDD = data.filter{line => {line.trim().startsWith(“<row”)}
-}"
+	val resultRDD = data.filter{line => {line.trim().startsWith(“<row”)}
+	}"
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
 65	"Explain the term paired RDD in Apache Spark
 
+	Paired RDD is a distributed collection of data with the key-value pair. 
+	It is a subset of Resilient Distributed Dataset. So it has all the feature of RDD and some new feature for the key-value pair. 
+	There are many transformation operations available for Paired RDD. 
+	These operations on Paired RDD are very useful to solve many use cases that require sorting, grouping, reducing some value/function.
+	Commonly used operations on paired RDD are: groupByKey() reduceByKey() countByKey() join() etc
 
-Paired RDD is a distributed collection of data with the key-value pair. It is a subset of Resilient Distributed Dataset. So it has all the feature of RDD and some new feature for the key-value pair. There are many transformation operations available for Paired RDD. These operations on Paired RDD are very useful to solve many use cases that require sorting, grouping, reducing some value/function.
-Commonly used operations on paired RDD are: groupByKey() reduceByKey() countByKey() join() etc
-Creation of Paired RDD:
-val pRDD:[(String),(Int)]=sc.textFile(“path_of_your_file”)
-.flatMap(line => line.split(” “))
-.map{word=>(word,word.length)}
+	Creation of Paired RDD:
+	val pRDD:[(String),(Int)]=sc.textFile(“path_of_your_file”)
+	.flatMap(line => line.split(” “))
+	.map{word=>(word,word.length)}
 
 
+	Also using subString method(if we have a file with id and some value, we can create paired rdd with id as key and value as other details)
 
-Also using subString method(if we have a file with id and some value, we can create paired rdd with id as key and value as other details)
-
-val pRDD2[(Int),(String)]=sc.textFile(“path_of_your_file”)
-.keyBy(line=>line.subString(1,5).trim().toInt)
-.mapValues(line=>line.subString(10,30).trim())"
+	val pRDD2[(Int),(String)]=sc.textFile(“path_of_your_file”)
+	.keyBy(line=>line.subString(1,5).trim().toInt)
+	.mapValues(line=>line.subString(10,30).trim())"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
 66	"How is RDD in Spark different from Distributed Storage Management?
 
-
-RDDs store data in-memory (unless explicitly cached).
-Distributed Storage stores data in persistent storage.
-
-RDDs can re-compute itself in the case of failure or data loss.
-If data is lost from the Distributed Storage system it is gone forever"
+	RDDs store data in-memory (unless explicitly cached). Distributed Storage stores data in persistent storage.
+	RDDs can re-compute itself in the case of failure or data loss. 
+	If data is lost from the Distributed Storage system it is gone forever"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
 67	"Explain transformation and action in RDD in Apache Spark.
 
 
-Transformations are operations on RDD that create one or more new RDDs. E.g. map, filter, reduceByKey etc. In other words, transformations are functions that take an RDD as the input and produce one or more RDDs as the output. There is no change in the input RDD, but it always produces one or more new RDDs by applying the computations they represent.Transformations are lazy, i.e. are not executed immediately. Only after calling an action are transformations executed.
+	Transformations are operations on RDD that create one or more new RDDs. E.g. map, filter, reduceByKey etc. In other words, 
+	transformations are functions that take an RDD as the input and produce one or more RDDs as the output. 
+	There is no change in the input RDD, but it always produces one or more new RDDs by applying the computations they represent.
+	Transformations are lazy, i.e. are not executed immediately. Only after calling an action are transformations executed.
 
-Actions are RDD operations that produce non-RDD values. In other words, an RDD operation that returns a value of any type but an RDD is an action. They trigger execution of RDD transformations to return values. Simply put, an action evaluates the RDD lineage graph. E.g. collect, reduce, count, foreach etc."
+	Actions are RDD operations that produce non-RDD values. In other words, an RDD operation that returns a value of any type but an RDD is an action. 
+	They trigger execution of RDD transformations to return values. 
+	Simply put, an action evaluates the RDD lineage graph. E.g. collect, reduce, count, foreach etc."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 68	"What are the types of Apache Spark transformation?
 
-there are fundamentally two types of transformations:
+	there are fundamentally two types of transformations:
 
-1. Narrow transformation –
-While talking about Narrow transformation, all the elements which are required to compute the records in single partition reside in the single partition of parent RDD. To calculate the result, a limited subset of partition is used. This Transformation are the result of map(), filter().
+	1. Narrow transformation –
+	While talking about Narrow transformation, all the elements which are required to compute the records in single partition reside 
+	in the single partition of parent RDD. To calculate the result, a limited subset of partition is used. 
+	This Transformation are the result of map(), filter().
 
-2. Wide Transformations – 
-Wide transformation means all the elements that are required to compute the records in the single partition may live in many partitions of parent RDD. Partitions may reside in many different partitions of parent RDD. This Transformation is a result of groupbyKey() and reducebyKey()."
+	2. Wide Transformations – 
+	Wide transformation means all the elements that are required to compute the records in the single partition may live in many partitions 
+	of parent RDD. Partitions may reside in many different partitions of parent RDD. T
+	his Transformation is a result of groupbyKey() and reducebyKey()."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 69	"Explain the RDD properties.
 
+	1. List or Set of partitions.
+	2. List of dependencies on other (parent) RDD
+	3. A function to compute each partition
+	Below operations are used for optimization during execution.
+	4. Optional preferred location [i.e. block location of an HDFS file] [it’s about data locality] 
+	5. Optional partitioned info [i.e. Hash-Partition for Key/Value pair –> When data shuffled how data will be traveled]"
 
-1. List or Set of partitions.
-2. List of dependencies on other (parent) RDD
-3. A function to compute each partition
-Below operations are used for optimization during execution.
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-4. Optional preferred location [i.e. block location of an HDFS file] [it’s about data locality] 
-5. Optional partitioned info [i.e. Hash-Partition for Key/Value pair –> When data shuffled how data will be traveled]"
 70	"What is lineage graph in Apache Spark?
 
+	When we apply a different transformation on RDD it creates RDD Linage graph. It is a new RDD from already existing RDDs.
+	It is the dependencies graph between the existing and the new RDD formed. 
+	The need of RDD lineage graph arrives when we want to compute new RDD or if we want to recover the lost data from the lost persisted RDD.
+	You can check lineage between two RDDs using rdd0.toDebugString. 
+	This gives back you the lineage graph from current rdd to all the previous dependencies of RDDs.
+	See below. Whenever you see “+-” symbol from the toDebugString output, it means there will be next stage from the next operation onwards. 
+	This is indicates to identify that how many stage are created."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-When we apply a different transformation on RDD it creates RDD Linage graph. It is a new RDD from already existing RDDs. It is the dependencies graph between the existing and the new RDD formed. the need of RDD lineage graph arrives when we want to compute new RDD or if we want to recover the lost data from the lost persisted RDD.
+71	Explain the terms  Spark Partitions and Partitioners.
 
+	Partition in Spark is similar to split in HDFS. 
+	A partition in Spark is a logical division of data stored on a node in the cluster. 
+	They are the basic units of parallelism in Apache Spark. R
+	DDs are a collection of partitions. When some actions are executed, a task is launched per partition.
 
-You can check lineage between two RDDs using rdd0.toDebugString. This gives back you the lineage graph from current rdd to all the previous dependencies of RDDs. See below. Whenever you see “+-” symbol from the toDebugString output, it means there will be next stage from the next operation onwards. This is indicates to identify that how many stage are created."
-71	" Explain the terms  Spark Partitions and Partitioners.
+	By default, partitions are automatically created by the framework. However, the number of partitions in Spark are configurable to suit the needs.
+	For the number of partitions, if spark.default.parallelism is set, then we should use the value from SparkContext defaultParallelism, 
+	otherwise we should use the max number of upstream partitions. Unless spark.default.parallelism is set, the number of partitions will be the 
+	same as that of the largest upstream RDD, as this would least likely cause an out-of-memory errors.
+	
+	A partitioner is an object that defines how the elements in a key-value pair RDD are partitioned by key, maps each key to a partition ID
+	from 0 to numPartitions – 1. It captures the data distribution at the output. With the help of partitioner, the scheduler can optimize 
+	the future operations. The contract of partitioner ensures that records for a given key have to reside on a single partition.
+	We should choose a partitioner to use for a cogroup-like operations. If any of the RDDs already has a partitioner, 
+	we should choose that one. Otherwise, we use a default HashPartitioner.
 
-Ans. Partition in Spark is similar to split in HDFS. A partition in Spark is a logical division of data stored on a node in the cluster. They are the basic units of parallelism in Apache Spark. RDDs are a collection of partitions.When some actions are executed, a task is launched per partition.
+	There are three types of partitioners in Spark :
+	a) Hash Partitioner b) Range Partitioner c) Custom Partitioner
+	Hash – Partitioner : Hash- partitioning attempts to spread the data evenly across various partitions based on the key.
+	Range – Partitioner : In Range- Partitioning method , tuples having keys with same range will appear on the same machine.
 
-By default, partitions are automatically created by the framework. However, the number of partitions in Spark are configurable to suit the needs.
-For the number of partitions, if spark.default.parallelism is set, then we should use the value from SparkContext defaultParallelism, othewrwise we suould use the max number of upstream partitions. Unless spark.default.parallelism is set, the number of partitions will be the same as that of the largest upstream RDD, as this would least likely cause an out-of-memory errors.
+	RDDs can be created with specific partitioning in two ways :
+	i) Providing explicit partitioner by calling partitionBy method on an RDD
+	ii) Applying transformations that return RDDs with specific partitioners"
 
-A partitioner is an object that defines how the elements in a key-value pair RDD are partitioned by key, maps each key to a partition ID from 0 to numPartitions – 1. It captures the data distribution at the output. With the help of partitioner, the scheduler can optimize the future operations. The contract of partitioner ensures that records for a given key have to reside on a single partition.
-We should choose a partitioner to use for a cogroup-like operations. If any of the RDDs already has a partitioner, we should choose that one. Otherwise, we use a default HashPartitioner.
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-There are three types of partitioners in Spark :
-a) Hash Partitioner b) Range Partitioner c) Custom Partitioner
-Hash – Partitioner : Hash- partitioning attempts to spread the data evenly across various partitions based on the key.
-Range – Partitioner : In Range- Partitioning method , tuples having keys with same range will appear on the same machine.
-
-RDDs can be created with specific partitioning in two ways :
-i) Providing explicit partitioner by calling partitionBy method on an RDD
-ii) Applying transformations that return RDDs with specific partitioners"
 72	" By Default, how many partitions are created in RDD in Apache Spark?
 
+	By Default, Spark creates one Partition for each block of the file (For HDFS)
+	val rdd1 = sc.textFile(""/home/hdadmin/wc-data.txt"")
+	val rdd1 = sc.textFile(""/home/hdadmin/wc-data.txt"", 10) --this will create 10 partition 
+	//To check no. of partition 
+	rdd1.partitions.length or  rdd1.getNumPartitions"
 
-By Default, Spark creates one Partition for each block of the file (For HDFS)
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-val rdd1 = sc.textFile(""/home/hdadmin/wc-data.txt"")
-
-val rdd1 = sc.textFile(""/home/hdadmin/wc-data.txt"", 10) --this will create 10 partition 
-
-//To check no. of partition 
-
-rdd1.partitions.length or  rdd1.getNumPartitions"
 73	"What is Spark DataFrames?
 
 
-DataFrame consists of two words data and frame, means data has to be fit in some kind of frame. We can understand a frame as a schema of the relational database.
+	DataFrame consists of two words data and frame, means data has to be fit in some kind of frame.
+	We can understand a frame as a schema of the relational database.
 
-In Spark, DataFrame is a collection of distributed data over the network with some schema. We can understand it as the data formatted as row/column manner. DataFrame can be created from Hive data, JSON file, CSV, Structured data or raw data that can be framed in structured data. We can also create a DataFrame from RDD if some schema can be applied on that RDD.
-Temporary view or table can also be created from DataFrame as it has data and schema. We can also run SQL query on created table/view to get the faster result.
-It is also evaluated lazily (Lazy Evaluation) for better resource utilization."
+	In Spark, DataFrame is a collection of distributed data over the network with some schema. 
+	We can understand it as the data formatted as row/column manner. 
+	DataFrame can be created from Hive data, JSON file, CSV, Structured data or raw data that can be framed in structured data.
+	We can also create a DataFrame from RDD if some schema can be applied on that RDD.
+	Temporary view or table can also be created from DataFrame as it has data and schema.
+	We can also run SQL query on created table/view to get the faster result.
+	It is also evaluated lazily (Lazy Evaluation) for better resource utilization."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 74	"What are benefits of DataFrame in Spark?
 
+	In DataFrames, data is organized in named column.
+	DataFrames empower SQL queries and the DataFrame API.
+	we can process both structured and unstructured data formats through it. 
+	Such as: Avro, CSV, elastic search, and Cassandra. Also, it deals with storage systems HDFS, HIVE tables, MySQL, etc.
+	In DataFrames, Catalyst supports optimization(catalyst Optimizer).
+	DataFrame provides easy integration with Big data tools and framework via Spark core."
 
-In DataFrames, data is organized in named column.
-DataFrames empower SQL queries and the DataFrame API.
-we can process both structured and unstructured data formats through it. Such as: Avro, CSV, elastic search, and Cassandra. Also, it deals with storage systems HDFS, HIVE tables, MySQL, etc.
-In DataFrames, Catalyst supports optimization(catalyst Optimizer).
-DataFrame provides easy integration with Big data tools and framework via Spark core."
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
 75	"What is Spark Dataset?
 
-A Dataset is an immutable collection of objects, those are mapped to a relational schema. They are strongly-typed in nature.There is an encoder, at the core of the Dataset API. That Encoder is responsible for converting between JVM objects and tabular representation. By using Spark’s internal binary format, the tabular representation is stored that allows to carry out operations on serialized data and improves memory utilization.
+	A Dataset is an immutable collection of objects, those are mapped to a relational schema. 
+	They are strongly-typed in nature. 
+	There is an encoder, at the core of the Dataset API. That Encoder is responsible for converting between JVM objects and tabular representation. 
+	By using Spark’s internal binary format, the tabular representation is stored that allows to carry out operations on serialized data and 
+	improves memory utilization.
+	Datasets are ""lazy"", i.e. computations are only triggered when an action is invoked. 
+	Internally, a Dataset represents a logical plan that describes the computation required to produce the data. 
+	When an action is invoked, Spark's query optimizer optimizes the logical plan and generates a physical plan for efficient execution in a 
+	parallel and distributed manner. To explore the logical plan as well as optimized physical plan, use the explain.function.
+ 
+ 	val people = spark.read.parquet(""..."")
+   	val department = spark.read.parquet(""..."")
 
+ 	  people.filter(""age > 30"")
+    	 .join(department, people(""deptId"") === department(""id""))
+    	 .groupBy(department(""name""), people(""gender""))
+    	 .agg(avg(people(""salary"")), max(people(""age"")))
+	To efficiently support domain-specific objects, an Encoder is required. 
+	The encoder maps the domain specific type T to Spark's internal type system.
+	For example, given a class Person with two fields, name (string) and age (int), an encoder is used to tell Spark to generate 
+	code at runtime to serialize the Person object into a binary structure. 
+	This binary structure often has much lower memory footprint as well as are optimized for efficiency in data processing 
+	(e.g. in a columnar format). To understand the internal binary representation for data, use the schema function."
 
-Datasets are ""lazy"", i.e. computations are only triggered when an action is invoked. Internally, a Dataset represents a logical plan that describes the computation required to produce the data. When an action is invoked, Spark's query optimizer optimizes the logical plan and generates a physical plan for efficient execution in a parallel and distributed manner. To explore the logical plan as well as optimized physical plan, use the explain.function.
- val people = spark.read.parquet(""..."")
-   val department = spark.read.parquet(""..."")
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-   people.filter(""age > 30"")
-     .join(department, people(""deptId"") === department(""id""))
-     .groupBy(department(""name""), people(""gender""))
-     .agg(avg(people(""salary"")), max(people(""age"")))
-To efficiently support domain-specific objects, an Encoder is required. The encoder maps the domain specific type T to Spark's internal type system. For example, given a class Person with two fields, name (string) and age (int), an encoder is used to tell Spark to generate code at runtime to serialize the Person object into a binary structure. This binary structure often has much lower memory footprint as well as are optimized for efficiency in data processing (e.g. in a columnar format). To understand the internal binary representation for data, use the schema function."
 76	"What are the advantages of datasets in spark?
 
+	Static typing feature of Dataset, a developer can catch errors at compile time 
+	Dataset APIs are built on top of the Spark SQL engine, it uses Catalyst to generate an optimized logical and physical query plan providing the 
+	space and speed efficiency."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-Static typing feature of Dataset, a developer can catch errors at compile time 
-
-Dataset APIs are built on top of the Spark SQL engine, it uses Catalyst to generate an optimized logical and physical query plan providing the space and speed efficiency."
 77	"What is Directed Acyclic Graph in Apache Spark?
 
+	Directed Acyclic Graph is a graph with cycles which are not directed. 
+	DAG is a graph which contains set of all the operations that are applied on RDD. On RDD when any action is called. 
+	Spark creates the DAG and submits it to the DAG scheduler. Only after the DAG is built, Spark creates the query optimization plan. 
+	The DAG scheduler divides operators into stages of tasks. A stage is comprised of tasks based on partitions of the input data. 
+	The DAG scheduler pipelines operators together.
+	Fault tolerance is achieved in Spark using the Directed Acyclic Graph. The query optimization is possible in Spark by the use of DAG."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-Directed Acyclic Graph is a graph with cycles which are not directed. DAG is a graph which contains set of all the operations that are applied on RDD. On RDD when any action is called. Spark creates the DAG and submits it to the DAG scheduler. Only after the DAG is built, Spark creates the query optimization plan. The DAG scheduler divides operators into stages of tasks. A stage is comprised of tasks based on partitions of the input data. The DAG scheduler pipelines operators together.
-Fault tolerance is achieved in Spark using the Directed Acyclic Graph. The query optimization is possible in Spark by the use of DAG."
 78	"What is the difference between DAG and Lineage?
 
+	Lineage graph
+	As we know, that whenever a series of transformations are performed on an RDD, they are not evaluated immediately, 
+	but lazily(Lazy Evaluation). When a new RDD has been created from an existing RDD, that new RDD contains a pointer to the parent RDD. 
+	Similarly, all the dependencies between the RDDs will be logged in a graph, rather than the actual data. This graph is called the lineage graph.
 
-Lineage graph
-As we know, that whenever a series of transformations are performed on an RDD, they are not evaluated immediately, but lazily(Lazy Evaluation). When a new RDD has been created from an existing RDD, that new RDD contains a pointer to the parent RDD. Similarly, all the dependencies between the RDDs will be logged in a graph, rather than the actual data. This graph is called the lineage graph.
+	Now coming to DAG,
 
-Now coming to DAG,
+	Directed Acyclic Graph(DAG)
+	DAG in Apache Spark is a combination of Vertices as well as Edges. 
+	In DAG vertices represent the RDDs and the edges represent the Operation to be applied on RDD. 
+	Every edge in DAG is directed from earlier to later in a sequence.
+	When we call anAction, the created DAG is submitted to DAG Scheduler which further splits the graph into the stages of the task."
+---------------------------------------------------------------------------------------------------------------------------------------------------
+		
+79	What is the difference between Caching and Persistence in Apache Spark?
 
-Directed Acyclic Graph(DAG)
-DAG in Apache Spark is a combination of Vertices as well as Edges. In DAG vertices represent the RDDs and the edges represent the Operation to be applied on RDD. Every edge in DAG is directed from earlier to later in a sequence.When we call anAction, the created DAG is submitted to DAG Scheduler which further splits the graph into the stages of the task."
-79	" What is the difference between Caching and Persistence in Apache Spark?
+	Cache is a synonym of Persist with MEMORY_ONLY storage level(i.e) using Cache technique we can save intermediate results 
+	in memory only when needed.
 
+	Persist marks an RDD for persistence using storage level which can be 
+	MEMORY, MEMORY_AND_DISK, MEMORY_ONLY_SER, MEMORY_AND_DISK_SER, DISK_ONLY, MEMORY_ONLY_2, MEMORY_AND_DISK_2"
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-Cache is a synonym of Persist with MEMORY_ONLY storage level(i.e) using Cache technique we can save intermediate results in memory only when needed.
-
-Persist marks an RDD for persistence using storage level which can be MEMORY, MEMORY_AND_DISK, MEMORY_ONLY_SER, MEMORY_AND_DISK_SER, DISK_ONLY, MEMORY_ONLY_2, MEMORY_AND_DISK_2"
 80	"What are the limitations of Apache Spark?
 
 
-1. No File Management System
-Apache Spark relies on other platforms like Hadoop or some another cloud-based Platform for file management system. This is one of the major issues with Apache Spark.
+	1. No File Management System
+	Apache Spark relies on other platforms like Hadoop or some another cloud-based Platform for file management system. 
+	This is one of the major issues with Apache Spark.
 
 
-3. No support for Real-Time Processing
-In Spark Streaming, the arriving live stream of data is divided into batches of the pre-defined interval, and each batch of data is treated like Spark Resilient Distributed Database (RDDs). Then these RDDs are processed using the operations like map, reduce, join etc. The result of these operations is returned in batches. Thus, it is not real-time processing but Spark is near real-time processing of live data. Micro-batch processing takes place in Spark Streaming.
+	2. No support for Real-Time Processing
+	In Spark Streaming, the arriving live stream of data is divided into batches of the pre-defined interval, 
+	and each batch of data is treated like Spark Resilient Distributed Database (RDDs). 
+	Then these RDDs are processed using the operations like map, reduce, join etc. 
+	The result of these operations is returned in batches. Thus, it is not real-time processing but Spark is near real-time processing of live data.
+	Micro-batch processing takes place in Spark Streaming.
 
 
-4. Manual Optimization
-Manual Optimization is required to optimize Spark jobs. Also, it is adequate to specific datasets. we need to control manually if we want to partition and cache in Spark to be correct.
+	3. Manual Optimization
+	Manual Optimization is required to optimize Spark jobs. Also, it is adequate to specific datasets. 
+	we need to control manually if we want to partition and cache in Spark to be correct.
 
 
-6. Window Criteria
-Spark does not support record based window criteria. It only has time-based window criteria.
+	4. Window Criteria
+	Spark does not support record based window criteria. It only has time-based window criteria.
 
 
-8. Expensive
-when we want cost-efficient processing of big data In-memory capability can become a bottleneck as keeping data in memory is quite expensive. At that time the memory consumption is very high, and it is not handled in a user-friendly manner. The cost of Spark is quite high because Apache Spark requires lots of RAM to run in-memory."
+	5. Expensive
+	when we want cost-efficient processing of big data In-memory capability can become a bottleneck as keeping data in memory is quite expensive. 
+	At that time the memory consumption is very high, and it is not handled in a user-friendly manner. 
+	The cost of Spark is quite high because Apache Spark requires lots of RAM to run in-memory."
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 81	"Different Running Modes of Apache Spark
 
 
-We can launch spark application in four modes:
+	We can launch spark application in four modes:
 
-1) Local Mode (local[*],local,local[2]…etc)
--> When you launch spark-shell without control/configuration argument, It will launch in local mode
-spark-shell –master local[1]
--> spark-submit –class com.df.SparkWordCount SparkWC.jar local[1]
+	1) Local Mode (local[*],local,local[2]…etc)
+	-> When you launch spark-shell without control/configuration argument, It will launch in local mode
+	spark-shell –master local[1]
+	-> spark-submit –class com.df.SparkWordCount SparkWC.jar local[1]
 
-2) Spark Standalone cluster manger:
--> spark-shell –master spark://hduser:7077
--> spark-submit –class com.df.SparkWordCount SparkWC.jar spark://hduser:7077
+	2) Spark Standalone cluster manger:
+	-> spark-shell –master spark://hduser:7077
+	-> spark-submit –class com.df.SparkWordCount SparkWC.jar spark://hduser:7077
 
-3) Yarn mode (Client/Cluster mode):
--> spark-shell –master yarn or
-(or)
-->spark-shell –master yarn –deploy-mode client
+	3) Yarn mode (Client/Cluster mode):
+	-> spark-shell –master yarn or
+	(or)
+	->spark-shell –master yarn –deploy-mode client
 
-Above both commands are same.
-To launch spark application in cluster mode, we have to use spark-submit command. We cannot run yarn-cluster mode via spark-shell because when we run spark application, driver program will be running as part application master container/process. So it is not possible to run cluster mode via spark-shell.
--> spark-submit –class com.df.SparkWordCount SparkWC.jar yarn-client
--> spark-submit –class com.df.SparkWordCount SparkWC.jar yarn-cluster
+	Above both commands are same.
+	To launch spark application in cluster mode, we have to use spark-submit command. We cannot run yarn-cluster mode via spark-shell because when we run spark application, driver program will be running as part application master container/process. So it is not possible to run cluster mode via spark-shell.
+	-> spark-submit –class com.df.SparkWordCount SparkWC.jar yarn-client
+	-> spark-submit –class com.df.SparkWordCount SparkWC.jar yarn-cluster
 
-4) Mesos mode:
--> spark-shell –master mesos://HOST:5050"
+	4) Mesos mode:
+	-> spark-shell –master mesos://HOST:5050"
 82	" What are the different ways of representing data in Spark?
 
 Different Ways of representing data in Spark are:-
