@@ -1,166 +1,192 @@
 51	"Why Apache Spark?
 
-1. Hadoop MapReduce can only allow for batch processing.
-2. If we talk about stream processing only Apache Storm / S4 can perform.
-3. Again for interactive processing, we need Apache Impala / Apache Tez.
-4. While we need to perform graph processing, we opt for Neo4j / Apache Giraph.
-Therefore, No single engine can perform all the tasks together. hence there was a big demand for a powerful engine that can process the data in real-time (streaming) as well as in batch mode
-Also, which can respond to sub-second and perform in-memory processing
-.In this way, Apache Spark comes in picture. It is a powerful open-source engine that offers interactive processing, real-time stream processing, graph processing, in-memory processing as well as batch processing. Even with very fast speed, ease of use and also standard interface at the same time."
+	1. Hadoop MapReduce can only allow for batch processing.
+	2. If we talk about stream processing only Apache Storm / S4 can perform.
+	3. Again for interactive processing, we need Apache Impala / Apache Tez.
+	4. While we need to perform graph processing, we opt for Neo4j / Apache Giraph.
+	Therefore, No single engine can perform all the tasks together. 
+	hence there was a big demand for a powerful engine that can process the data in real-time (streaming) as well as in batch mode
+	Also, which can respond to sub-second and perform in-memory processing.
+	In this way, Apache Spark comes in picture. It is a powerful open-source engine that offers interactive processing, real-time stream processing, 
+	graph processing, in-memory processing as well as batch processing. 
+	Even with very fast speed, ease of use and also standard interface at the same time."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+	
 52	"What are the components of Apache Spark Ecosystem?
 
-Apache spark consists of following components
-1.Spark Core
-2.Spark SQL
-3.Spark Streaming
-4.MLlib
-5.GraphX
+	Apache spark consists of following components
+	1.Spark Core
+	2.Spark SQL
+	3.Spark Streaming
+	4.MLlib
+	5.GraphX
 
-Spark Core: Spark Core contains the basic functionality of Spark, including components for task scheduling, memory management, fault recovery, interacting with storage systems, and more. Spark Core is also home to the API that defines resilient distributed datasets (RDDs), which are Spark’s main programming abstraction.It also provides many APIs for building and manipulating these RDDS.
+	Spark Core: Spark Core contains the basic functionality of Spark, including components for task scheduling, memory management, fault recovery, 
+	interacting with storage systems, and more. Spark Core is also home to the API that defines resilient distributed datasets (RDDs), 
+	which are Spark’s main programming abstraction. It also provides many APIs for building and manipulating these RDDS.
 
-Spark SQL: Spark SQL provides an interface to work with structured data.It allows querying in SQL as well as Apache Hivevariant of SQL(HQL).It supports many sources.
+	Spark SQL: Spark SQL provides an interface to work with structured data.It allows querying in SQL as well as Apache Hivevariant of SQL(HQL).
+	It supports many sources.
 
-Spark Streaming: It is spark component that enables processing of live streams of data.
+	Spark Streaming: It is spark component that enables processing of live streams of data.
 
-MLlib: Spark comes with common machine learning package called MLlib
+	MLlib: Spark comes with common machine learning package called MLlib
 
-GraphX: GraphX is a library for manipulating graphs (e.g., a social network’s friend graph)and performing graph-parallel computations."
+	GraphX: GraphX is a library for manipulating graphs (e.g., a social network’s friend graph)and performing graph-parallel computations."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 53	"What is Spark Core?
 
-
-Spark Core is the fundamental unit of the whole Spark project. It provides all sort of functionalities like task dispatching, scheduling, and input-output operations etc.Spark makes use of Special data structure known as RDD (Resilient Distributed Dataset). It is the home for API that defines and manipulate the RDDs. Spark Core is distributed execution engine with all the functionality attached on its top. For example, MLlib, SparkSQL, GraphX, Spark Streaming. Thus, allows diverse workload on single platform. All the basic functionality of Apache Spark Like in-memory computation, fault tolerance, memory management, monitoring, task scheduling is provided by Spark Core.
+Spark Core is the fundamental unit of the whole Spark project. It provides all sort of functionalities like task dispatching, scheduling, and 
+input-output operations etc.Spark makes use of Special data structure known as RDD (Resilient Distributed Dataset). 
+It is the home for API that defines and manipulate the RDDs. Spark Core is distributed execution engine with all the functionality attached on its top.
+For example, MLlib, SparkSQL, GraphX, Spark Streaming. Thus, allows diverse workload on single platform. All the basic functionality of Apache Spark 
+Like in-memory computation, fault tolerance, memory management, monitoring, task scheduling is provided by Spark Core.
 Apart from this Spark also provides the basic connectivity with the data sources. For example, HBase, Amazon S3, HDFS etc."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 54	"How is Apache Spark better than Hadoop?
 
+	1. Processing the data in memory which is not possible in Hadoop
+	2. Processing the data that is in batch, iterative, interactive & streaming i.e. Real Time mode. Whereas Hadoop processes only in batch mode.
+	3. Spark is faster because it reduces the number of disk read-write operations due to its virtue of storing intermediate data in memory. 
+		Whereas in Hadoop MapReduce intermediate output which is output of Map() is always written on local hard disk
+	4. Apache Spark is easy to program as it has hundreds of high-level operators with RDD (Resilient Distributed Dataset)
+	5. Apache Spark code is compact due compared to Hadoop MapReduce. Use of Scala makes it very short, reduces programming efforts. 
+	6. Spark application running in Hadoop clusters is up to 10 times faster on disk than Hadoop MapReduce."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-1. Processing the data in memory which is not possible in Hadoop
-2. Processing the data that is in batch, iterative, interactive & streaming i.e. Real Time mode. Whereas Hadoop processes only in batch mode.
-3. Spark is faster because it reduces the number of disk read-write operations due to its virtue of storing intermediate data in memory. Whereas in Hadoop MapReduce intermediate output which is output of Map() is always written on local hard disk
-4. Apache Spark is easy to program as it has hundreds of high-level operators with RDD (Resilient Distributed Dataset)
-5. Apache Spark code is compact due compared to Hadoop MapReduce. Use of Scala makes it very short, reduces programming efforts. 
-7. Spark application running in Hadoop clusters is up to 10 times faster on disk than Hadoop MapReduce."
-55	"What are the different methods to run Spark over Apache Hadoop?
+55,56	"In what modes Spark can run as individual ? "What are the different methods to run Spark over Apache Hadoop?
 
-There are three methods to run Spark in a Hadoop cluster:
-standalone, YARN, and SIMR.
+	1. Local mode – There is no resource manager in local mode. This mode is used for test the spark application in test environment 
+	where we do not want to eat the resources and want to run applications faster.
+	Here everything run on single JVM.
 
-Standalone deployment: In Standalone Deployment, one can statically allocate resources on all or a subset of machines in a Hadoop cluster and run Spark side by side with Hadoop MR. The user can run arbitrary Spark jobs on their HDFS data. Generally, Hadoop 1.x users will use this method.
+	2. Distributed / Cluster modes:
 
-Hadoop Yarn deployment: Hadoop users who have already deployed or are planning to deploy Hadoop Yarn can simply run Spark on YARN without any pre-installation or administrative access required. Thus users can easily integrate Spark in their Hadoop stack and take advantage of Spark, as well as of other components running on Spark.
+	We can run spark on distributed manner with master-slave architecture.
+	There will be multiple worker nodes in each cluster and cluster manager will be allocating the resources to each worked node.
 
-Spark In MapReduce (SIMR): For the Hadoop users that are not running YARN yet, another option, in addition to the standalone deployment, It uses SIMR to launch Spark jobs inside MapReduce. Using SIMR, one can experiment with Spark. And also uses its shell within a couple of minutes after downloading. It lowers the barrier of deployment and plays with Spark."
-56	"In what modes Spark can run as individual ?
+	Spark can be deployed in distributed cluster in 3 ways.
 
+	1. Standalone:
 
-1. Local mode – There is no resource manager in local mode. This mode is used for test the spark application in test environment where we do not want to eat the resources
-and want to run applications faster.
-Here everything run on single JVM.
+	In standalone mode spark itself handle the resource allocation, their won’t be any separate cluster manager. 
+	Spark allocated the CPU and memory to worker nodes based on the resource availability.
 
-2. Distributed / Cluster modes:
+	2. YARN :
 
-We can run spark on distributed manner with master-slave architecture.There will be multiple worker nodes in each cluster and cluster manager will be allocating the resources to each worked node.
+	Here, YARN will be used as cluster manager. YARN distribution will be mainly used when spark running with other Hadoop components 
+	like MR in Cloudera or HortonWorks Distribution. YARN is a combination of Resource Manager and Node Manager.
 
-Spark can be deployed in distributed cluster in 3 ways.
+	Resource manager has Scheduler and Application manager.
+	Scheduler: Scheduler allocate resources to various running application
+	Application Manager: Manages all application across all nodes.
 
-1.Standalone mode
-2.YARN
-3.Mesos
+	Node Manager contains Application master and container.
+	The container is the place where actual work happens.
+	Application master negotiate resources from Resource manager.
 
-1. Standalone:
+	3. Mesos:
 
-In standalone mode spark itself handle the resource allocation, their won’t be any separate cluster manager. Spark allocated the CPU and memory to worker nodes based on
-the resource availability.
+	Mesos is used in large scala production deployments. In meson distribution, all the resources available in the cluster across all nodes will be 
+	clubbed together and  dynamic sharing of resources will be done.
+	Meson master, slave, and framework are the three components of mess.
+	master-provides fault tolerance
+	slave- actually does the resource allocation
+	framework-help the application to request for resources"
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-2. YARN :
-
-Here, YARN will be used as cluster manager. YARN distribution will be mainly used when spark running with other Hadoop components like MR in Cloudera or HortonWorks Distribution.
-YARN is a combination of Resource Manager and Node Manager.
-
-Resource manager has scheduled and Application manager.
-Scheduler: Scheduler allocate resources to various running application
-Application Manager: Manages all application across all nodes.
-
-Node Manager contains Application master and container.
-The container is the place where actual work happens.
-Application master negotiate resources from Resource manager.
-
-3. Mesos:
-
-Mesos is used in large scala production deployments. In meson distribution, all the resources available in the cluster across all nodes will be clubbed together and
-dynamic sharing of resources will be done.
-Meson master, slave, and framework are the three components of mess.
-master-provides fault tolerance
-slave- actually does the resource allocation
-framework-help the application to request for resources"
 57	"What is Apache Mesos ?
 
+	Spark runs on top of Mesos. Mesos is a cluster manager system that provides efficient resource isolation across distributed applications, 
+	including MPI and Hadoop. Mesos enables fine-grained sharing that allows a Spark job to dynamically take advantage of the ideal resources 
+	in the cluster during execution. This results in performance improvements, especially for long-running Spark jobs.
 
-Spark runs on top of Mesos. Mesos is a cluster manager system that provides efficient resource isolation across distributed applications, including MPI and Hadoop. Mesos enables fine-grained sharing that allows a Spark job to dynamically take advantage of the ideal resources in the cluster during execution. This results in performance improvements, especially for long-running Spark jobs.
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-Mesos is used in large scala production deployments. In meson distribution, all the resources available in the cluster across all nodes will be clubbed together and
-dynamic sharing of resources will be done.
-Meson master, slave, and framework are the three components of mess.
-master-provides fault tolerance
-slave- actually does the resource allocation
-framework-help the application to request for resources"
 58	"What is SparkContext in Apache Spark?
 
+	A SparkContext is a client of Spark’s execution environment and it acts as the master of the Spark application. 
+	SparkContext sets up internal services and establishes a connection to a Spark execution environment. 
+	One can create RDDs, accumulators and broadcast variables, access Spark services and run jobs (until SparkContext stops) 
+	after the creation of SparkContext. 
+	Only one SparkContext may be active per JVM. You must stop() the active SparkContext before creating a new one.
 
-A SparkContext is a client of Spark’s execution environment and it acts as the master of the Spark application. SparkContext sets up internal services and establishes a connection to a Spark execution environment. You can create RDDs, accumulators and broadcast variables, access Spark services and run jobs (until SparkContext stops) after the creation of SparkContext. Only one SparkContext may be active per JVM. You must stop() the active SparkContext before creating a new one.
+	In Spark shell, a special interpreter-aware SparkContext is already created for the user, in the variable called sc.
 
-In Spark shell, a special interpreter-aware SparkContext is already created for the user, in the variable called sc.
+	Few functionalities which SparkContext offers are: 
+	1. We can get the current status of a Spark application like configuration, app name.
+	2. We can set Configuration like master URL, default logging level.
+	3. One can create Distributed Entities like RDDs."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-Few functionalities which SparkContext offers are: 
-1. We can get the current status of a Spark application like configuration, app name.
-2. We can set Configuration like master URL, default logging level.
-3. One can create Distributed Entities like RDDs."
 59	"What is SparkSession in Apache Spark?
 
+	Starting from Apache Spark 2.0, Spark Session is the new entry point for Spark applications.
+	Prior to 2.0, SparkContext was the entry point for spark jobs. RDD was one of the main APIs then, and it was created and manipulated 
+	using Spark Context. 
+	For every other APIs, different contexts were required – For SQL, SQL Context was required; For Streaming, Streaming Context was required; 
+	For Hive, Hive Context was required.
 
-Starting from Apache Spark 2.0, Spark Session is the new entry point for Spark applications.
+	But from 2.0, RDD along with DataSet and its subset DataFrame APIs are becoming the standard APIs and are a basic unit of data abstraction
+	in Spark. All of the user defined code will be written and evaluated against the DataSet and DataFrame APIs as well as RDD.
 
-Prior to 2.0, SparkContext was the entry point for spark jobs. RDD was one of the main APIs then, and it was created and manipulated using Spark Context. For every other APIs, different contexts were required – For SQL, SQL Context was required; For Streaming, Streaming Context was required; For Hive, Hive Context was required.
+	So, there is a need for a new entry point build for handling these new APIs, which is why Spark Session has been introduced.
+	Spark Session also includes all the APIs available in different contexts – Spark Context, SQL Context, Streaming Context, Hive Context"
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-But from 2.0, RDD along with DataSet and its subset DataFrame APIs are becoming the standard APIs and are a basic unit of data abstraction in Spark. All of the user defined code will be written and evaluated against the DataSet and DataFrame APIs as well as RDD.
-
-So, there is a need for a new entry point build for handling these new APIs, which is why Spark Session has been introduced. Spark Session also includes all the APIs available in different contexts – Spark Context, SQL Context, Streaming Context, Hive Context"
 60	"SparkSession vs SparkContext in Apache Spark.
 
+	Prior to Spark 2.0.0 sparkContext was used as a channel to access all spark functionality.
+	sparkConf is required to create the spark context object, which stores configuration parameter like appName (to identify your spark driver), 
+	application, number of core and memory size of executor running on worker node. 
+	In order to use APIs of SQL, HIVE, and Streaming, separate contexts need to be created.
+	SPARK 2.0.0 onwards, SparkSession provides a single point of entry to interact with underlying Spark functionality and allows programming 
+	Spark with DataFrame and Dataset APIs. In order to use APIs of SQL, HIVE, and Streaming, no need to create separate contexts as 
+	sparkSession includes all the APIs."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-Prior to Spark 2.0.0 sparkContext was used as a channel to access all spark functionality.sparkConf is required to create the spark context object, which stores configuration parameter like appName (to identify your spark driver), application, number of core and memory size of executor running on worker node. In order to use APIs of SQL, HIVE, and Streaming, separate contexts need to be created.SPARK 2.0.0 onwards, SparkSession provides a single point of entry to interact with underlying Spark functionality and allows programming Spark with DataFrame and Dataset APIs. In order to use APIs of SQL, HIVE, and Streaming, no need to create separate contexts as sparkSession includes all the APIs."
 61	"How to create SparkConf ?
 
+	val conf = new SparkConf().
+	setAppName(“RetailDataAnalysis”).
+	setMaster(“spark://master:7077”).
+	set(“spark.executor.memory”, “2g”)
 
-val conf = new SparkConf().setAppName(“RetailDataAnalysis”).setMaster(“spark://master:7077”).set(“spark.executor.memory”, “2g”)
+	creation of sparkContext:
+	val sc = new SparkContext(conf)"
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-creation of sparkContext:
-val sc = new SparkContext(conf)"
 62	"How to create a spark session ?
 
+	val spark = SparkSession
+	.builder
+	.appName(“WorldBankIndex”)
+	.getOrCreate()
 
-val spark = SparkSession
-.builder
-.appName(“WorldBankIndex”)
-.getOrCreate()
+	Configuring properties:
+	spark.conf.set(“spark.sql.shuffle.partitions”, 6)
+	spark.conf.set(“spark.executor.memory”, “2g”)"
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-Configuring properties:
-spark.conf.set(“spark.sql.shuffle.partitions”, 6)
-spark.conf.set(“spark.executor.memory”, “2g”)"
 63	" What are the abstractions of Apache Spark?
 
+	1. RDD:
+	An RDD refers to Resilient Distributed Datasets. RDDs are Read-only partition collection of records. 
+	It is Spark’s core abstraction and also a fundamental data structure of Spark. It offers to conduct in-memory computations on large clusters. 
 
-1. RDD:
-An RDD refers to Resilient Distributed Datasets. RDDs are Read-only partition collection of records. It is Spark’s core abstraction and also a fundamental data structure of Spark. It offers to conduct in-memory computations on large clusters. 
+	2. DataFrames:
+	It is a Dataset organized into named columns. DataFrames are equivalent to the table in a relational database or data frame in R /Python. In other words, we can say it is a relational table with good optimization technique. It is an immutable distributed collection of data. Allowing higher-level abstraction, it allows developers to impose a structure onto a distributed collection of data,. 
+	
+	3. Spark Streaming:
+	It is a Spark’s core extension, which allows Real-time stream processing From several sources. For example Flume and Kafka. To offer a unified, continuous DataFrame abstraction that can be used for interactive and batch queries these two sources work together. It offers scalable, high-throughput and fault-tolerant processing. For more detailed insights on Spark Streaming. refer link: Spark Streaming Tutorial for Beginners
 
-2. DataFrames:
-It is a Dataset organized into named columns. DataFrames are equivalent to the table in a relational database or data frame in R /Python. In other words, we can say it is a relational table with good optimization technique. It is an immutable distributed collection of data. Allowing higher-level abstraction, it allows developers to impose a structure onto a distributed collection of data,. 
-3. Spark Streaming:
-It is a Spark’s core extension, which allows Real-time stream processing From several sources. For example Flume and Kafka. To offer a unified, continuous DataFrame abstraction that can be used for interactive and batch queries these two sources work together. It offers scalable, high-throughput and fault-tolerant processing. For more detailed insights on Spark Streaming. refer link: Spark Streaming Tutorial for Beginners
+	4. GraphX
+	It is one more example of specialized data abstraction. It enables developers to analyze social networks. Also, other graphs alongside Excel-like two-dimensional data. For more detailed insights on GaphX."
+---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-4. GraphX
-It is one more example of specialized data abstraction. It enables developers to analyze social networks. Also, other graphs alongside Excel-like two-dimensional data. For more detailed insights on GaphX."
 64	"How can we create RDD in Apache Spark?
-
 
 Each dataset in RDD is divided into logical partitions,
 which may be computed on different nodes of the cluster.
@@ -199,6 +225,9 @@ val dataRDD = spark.read.textFile(“F:/Mritunjay/BigData/DataFlair/Spark/Posts.
 
 val resultRDD = data.filter{line => {line.trim().startsWith(“<row”)}
 }"
+
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 65	"Explain the term paired RDD in Apache Spark
 
 
@@ -216,6 +245,8 @@ Also using subString method(if we have a file with id and some value, we can cre
 val pRDD2[(Int),(String)]=sc.textFile(“path_of_your_file”)
 .keyBy(line=>line.subString(1,5).trim().toInt)
 .mapValues(line=>line.subString(10,30).trim())"
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 66	"How is RDD in Spark different from Distributed Storage Management?
 
 
@@ -224,6 +255,8 @@ Distributed Storage stores data in persistent storage.
 
 RDDs can re-compute itself in the case of failure or data loss.
 If data is lost from the Distributed Storage system it is gone forever"
+---------------------------------------------------------------------------------------------------------------------------------------------------	
+
 67	"Explain transformation and action in RDD in Apache Spark.
 
 
