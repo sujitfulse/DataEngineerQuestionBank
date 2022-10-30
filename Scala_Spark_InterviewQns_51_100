@@ -497,278 +497,316 @@
 
 	4) Mesos mode:
 	-> spark-shell –master mesos://HOST:5050"
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 82	" What are the different ways of representing data in Spark?
 
-Different Ways of representing data in Spark are:-
+	Different Ways of representing data in Spark are:-
 
-RDD-:Spark revolves around the concept of a resilient distributed dataset (RDD),
-which is a fault-tolerant collection of elements that can be operated on in parallel.
-There are two ways to create RDDs:
-1) parallelizing an existing collection in your driver program
-2) referencing a dataset in an external storage system,
-such as a shared filesystem, HDFS, HBase, or any data source offering a Hadoop InputFormat.
-3)Existing RDDs – Creating RDD from already existing RDDs.
-By applying transformation operation on existing RDDs we can create new RDD.
+	RDD-:Spark revolves around the concept of a resilient distributed dataset (RDD),
+	which is a fault-tolerant collection of elements that can be operated on in parallel.
+	There are two ways to create RDDs:
+	1) parallelizing an existing collection in your driver program
+	2) referencing a dataset in an external storage system,
+	such as a shared filesystem, HDFS, HBase, or any data source offering a Hadoop InputFormat.
+	3)Existing RDDs – Creating RDD from already existing RDDs.
+	By applying transformation operation on existing RDDs we can create new RDD.
 
-DataFrame:-DataFrame is an abstraction which gives a schema view of data.
-Which means it gives us a view of data as columns with column name and types info,
-We can think data in data frame like a table in database.
--Like RDD, execution in Dataframe too is lazy triggered .-offers huge performance
-improvement over RDDs because of 2 powerful features it has:
-1. Custom Memory management :Data is stored in off-heap memory in binary format.
-This saves a lot of memory space. Also there is no Garbage Collection overhead involved.
-By knowing the schema of data in advance and storing efficiently in binary format,
-expensive java Serialization is also avoided.
-2. Optimized Execution Plans :Query plans are created for execution using Spark catalyst
-optimiser. After an optimised execution plan is prepared going through some steps,
-the final execution happens internally on RDDs only but thats completely hidden from the
-users.
+	DataFrame:-DataFrame is an abstraction which gives a schema view of data.
+	Which means it gives us a view of data as columns with column name and types info,
+	We can think data in data frame like a table in database.
+	-Like RDD, execution in Dataframe too is lazy triggered .-offers huge performance
+	improvement over RDDs because of 2 powerful features it has:
+	1. Custom Memory management :Data is stored in off-heap memory in binary format.
+	This saves a lot of memory space. Also there is no Garbage Collection overhead involved.
+	By knowing the schema of data in advance and storing efficiently in binary format,
+	expensive java Serialization is also avoided.
+	2. Optimized Execution Plans :Query plans are created for execution using Spark catalyst
+	optimiser. After an optimised execution plan is prepared going through some steps,
+	the final execution happens internally on RDDs only but thats completely hidden from the
+	users.
 
-DataSet:-Datasets in Apache Spark are an extension of DataFrame API which provides
-type-safe, object-oriented programming interface.
-Dataset takes advantage of Spark’s Catalyst optimizer by exposing expressions and
-data fields to a query planner.
+	DataSet:-Datasets in Apache Spark are an extension of DataFrame API which provides
+	type-safe, object-oriented programming interface.
+	Dataset takes advantage of Spark’s Catalyst optimizer by exposing expressions and
+	data fields to a query planner.
 
-Dataset and DataFrame internally does final execution on RDD objects only but the difference
-is users do not write code to create the RDD collections and have no control as such over RDDs."
+	Dataset and DataFrame internally does final execution on RDD objects only but the difference
+	is users do not write code to create the RDD collections and have no control as such over RDDs."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 83	"What is write ahead log(journaling) in Spark?
 
-There are two types of failures in any Apache Spark job – Either the driver failure or the worker failure.
+	There are two types of failures in any Apache Spark job – Either the driver failure or the worker failure.
 
-When any worker node fails, the executor processes running in that worker node will be killed, and the tasks which were scheduled on that worker node will be automatically moved to any of the other running worker nodes, and the tasks will be accomplished.
+	When any worker node fails, the executor processes running in that worker node will be killed, and the tasks which were scheduled on that worker
+	node will be automatically moved to any of the other running worker nodes, and the tasks will be accomplished.
 
-When the driver or master node fails, all of the associated worker nodes running the executors will be killed, along with the data in each of the executors’ memory. In the case of files being read from reliable and fault tolerant file systems like HDFS, zero data loss is always guaranteed, as the data is ready to be read anytime from the file system. Checkpointing also ensures fault tolerance in Spark by periodically saving the application data in specific intervals.
+	When the driver or master node fails, all of the associated worker nodes running the executors will be killed, along with the data in each of 
+	the executors’ memory. 
+	
+	To overcome this data loss scenario, Write Ahead Logging (WAL) has been introduced in Apache Spark 1.2. With WAL enabled,
+	the intention of the operation is first noted down in a log file, such that if the driver fails and is restarted, 
+	the noted operations in that log file can be applied to the data. For sources that read streaming data, like Kafka or Flume, 
+	receivers will be receiving the data, and those will be stored in the executor’s memory. 
+	With WAL enabled, these received data will also be stored in the log files.
 
-In the case of Spark Streaming application, zero data loss is not always guaranteed, as the data will be buffered in the executors’ memory until they get processed. If the driver fails, all of the executors will be killed, with the data in their memory, and the data cannot be recovered.
+	WAL can be enabled by performing the below:
 
-To overcome this data loss scenario, Write Ahead Logging (WAL) has been introduced in Apache Spark 1.2. With WAL enabled, the intention of the operation is first noted down in a log file, such that if the driver fails and is restarted, the noted operations in that log file can be applied to the data. For sources that read streaming data, like Kafka or Flume, receivers will be receiving the data, and those will be stored in the executor’s memory. With WAL enabled, these received data will also be stored in the log files.
-
-WAL can be enabled by performing the below:
-
-1. Setting the checkpoint directory, by using streamingContext.checkpoint(path)
-
-2. Enabling the WAL logging, by setting spark.stream.receiver.WriteAheadLog.enable to True."
+	1. Setting the checkpoint directory, by using streamingContext.checkpoint(path)
+	2. Enabling the WAL logging, by setting spark.stream.receiver.WriteAheadLog.enable to True."
+	
+---------------------------------------------------------------------------------------------------------------------------------------------------
 84	"Explain catalyst query optimizer in Apache Spark.
+	
+	This optimizer is based on functional programming construct in Scala.
+	Catalyst Optimizer supports both rule-based and cost-based optimization. 
+	In rule-based optimization the rule based optimizer use set of rule to determine how to execute the query. 
+	While the cost based optimization finds the most suitable way to carry out SQL statement. 
+	In cost-based optimization, multiple plans are generated using rules and then their cost is computed.
 
+	Catalyst optimizer makes use of standard features of Scala programming like pattern matching.
+	In the depth, Catalyst contains the tree and the set of rules to manipulate the tree. T
+	here are specific libraries to process relational queries. 
 
-“The term optimization refers to a process in which a system is modified in such a way that it work more efficiently or it uses fewer resources.”
-Spark SQL is the most technically involved component of Apache Spark. Spark SQL deals with both SQL queries and DataFrame API. In the depth of Spark SQL there lies a catalyst optimizer. Catalyst optimization allows some advanced programming language features that allow you to build an extensible query optimizer.
-A new extensible optimizer called Catalyst emerged to implement Spark SQL. This optimizer is based on functional programming construct in Scala.
-Catalyst Optimizer supports both rule-based and cost-based optimization. In rule-based optimization the rule based optimizer use set of rule to determine how to execute the query. While the cost based optimization finds the most suitable way to carry out SQL statement. In cost-based optimization, multiple plans are generated using rules and then their cost is computed.
+	There are various rule sets which handle different phases of query execution like analysis, query optimization, physical planning,
+	and code generation to compile parts of queries to Java bytecode."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-Catalyst optimizer makes use of standard features of Scala programming like pattern matching. In the depth, Catalyst contains the tree and the set of rules to manipulate the tree. There are specific libraries to process relational queries. There are various rule sets which handle different phases of query execution like analysis, query optimization, physical planning, and code generation to compile parts of queries to Java bytecode."
 85	"What are shared variables in Apache Spark?
 
+        Shared variables are nothing but the variables that can be used in parallel operations. 
+	By default, when Apache Spark runs a function in parallel as a set of tasks on different nodes, 
+	it ships a copy of each variable used in the function to each task.
+	Sometimes, a variable needs to be shared across tasks, or between tasks and the driver program. 
+	Spark supports two types of shared variables: 
+	broadcast variables can be used to cache a value in memory on all nodes.
+	accumulators are variables that are only “added” to, such as counters and sums."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-Shared variables are nothing but the variables that can be used in parallel operations. By default, when Apache Spark runs a function in parallel as a set of tasks on different nodes, it ships a copy of each variable used in the function to each task. Sometimes, a variable needs to be shared across tasks, or between tasks and the driver program. Spark supports two types of shared variables: broadcast variables, which can be used to cache a value in memory on all nodes, and accumulators, which are variables that are only “added” to, such as counters and sums."
 86	"How does Apache Spark handles accumulated Metadata?
 
+	Metadata accumulates on the driver as consequence of shuffle operations. It becomes particularly tedious during long-running jobs.
+	To deal with the issue of accumulating metadata, there are two options:
 
-Metadata accumulates on the driver as consequence of shuffle operations. It becomes particularly tedious during long-running jobs.
-To deal with the issue of accumulating metadata, there are two options:
-
-First, set the spark.cleaner.ttl parameter to trigger automatic cleanups. However, this will vanish any persisted RDDs.
-The other solution is to simply split long-running jobs into batches and write intermediate results to disk. This facilitates a fresh environment for every batch and don’t have to worry about metadata build-up."
+	First, set the spark.cleaner.ttl parameter to trigger automatic cleanups. However, this will vanish any persisted RDDs.
+	The other solution is to simply split long-running jobs into batches and write intermediate results to disk. 
+	This facilitates a fresh environment for every batch and don’t have to worry about metadata build-up."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 87	"what is breeze?
 
- Breeze is a collection of libraries for numerical computing and machine learning."
+	Breeze is a collection of libraries for numerical computing and machine learning."
+ ---------------------------------------------------------------------------------------------------------------------------------------------------
+ 
 88	"What is Apache Spark Machine learning library?
 
-
-To make machine learning scalable and easy, MLlib is created. There are machine learning libraries that included an implementation of various machine learning algorithms. For example, clustering, regression, classification and collaborative filtering. Some lower level machine learning primitives like generic gradient descent optimization algorithm are also present in MLlib.
-
-
-MLlib is switching to DataFrame API. Some of the benefits of using DataFrames are it includes Spark Data sources, Spark SQL DataFrame queries Tungsten and Catalyst optimizations, and uniform APIs across languages."
+	To make machine learning scalable and easy, MLlib is created. 
+	There are machine learning libraries that included an implementation of various machine learning algorithms. 
+	For example, clustering, regression, classification and collaborative filtering. 
+	Some lower level machine learning primitives like generic gradient descent optimization algorithm are also present in MLlib.
+	MLlib is switching to DataFrame API. 
+	Some of the benefits of using DataFrames are it includes Spark Data sources, Spark SQL DataFrame queries Tungsten and Catalyst optimizations, 
+	and uniform APIs across languages."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 89	"List commonly used Machine Learning Algorithm.
 
+	(1) Supervised Learning Algorithm
+	(2) Unsupervised Learning Algorithm
+	(3) Reinforcement Learning Algorithm
 
+	> Most commonly used Machine Learning Algorithm are as follows :
+	(1) Linear Regression
+	(2) Logistic Regression
+	(3) Decision Tree
+	(4) K-Means
+	(5) KNN
+	(6) SVM
+	(7) Random Forest
+	(8) Naïve Bayes
+	(9) Dimensionality Reduction Algorithm
+	(10) Gradient Boost and Adaboost"
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-(1) Supervised Learning Algorithm
-(2) Unsupervised Learning Algorithm
-(3) Reinforcement Learning Algorithm
-
-> Most commonly used Machine Learning Algorithm are as follows :
-(1) Linear Regression
-(2) Logistic Regression
-(3) Decision Tree
-(4) K-Means
-(5) KNN
-(6) SVM
-(7) Random Forest
-(8) Naïve Bayes
-(9) Dimensionality Reduction Algorithm
-(10) Gradient Boost and Adaboost"
 90	"What is the difference between DSM and RDD?
 
+	On the basis of several features, the difference between RDD and DSM is:
 
-On the basis of several features, the difference between RDD and DSM is:
+	i. Read
 
-i. Read
+	RDD – The read operation in RDD is either coarse-grained or fine-grained. 
+	      Coarse-grained meaning we can transform the whole dataset but not an individual element on the dataset. 
+	      While fine-grained means we can transform individual element on the dataset.
+	DSM – The read operation in Distributed shared memory is fine-grained.
 
-RDD – The read operation in RDD is either coarse-grained or fine-grained. Coarse-grained meaning we can transform the whole dataset but not an individual element on the dataset. While fine-grained means we can transform individual element on the dataset.
-DSM – The read operation in Distributed shared memory is fine-grained.
+	ii. Write
 
-ii. Write
+	RDD – The write operation in RDD is coarse-grained.
+	DSM – The Write operation is fine grained in distributed shared system.
 
-RDD – The write operation in RDD is coarse-grained.
-DSM – The Write operation is fine grained in distributed shared system.
-
-
-Fault-Recovery Mechanism
-
-RDD – By using lineage graph at any moment, the lost data can be easily recovered in Spark RDD. Therefore, for each transformation, new RDD is formed. As RDDs are immutable in nature, hence, it is easy to recover.
-DSM – Fault tolerance is achieved by a checkpointing technique which allows applications to roll back to a recent checkpoint rather than restarting.
+	Fault-Recovery Mechanism
+	RDD – By using lineage graph at any moment, the lost data can be easily recovered in Spark RDD. 
+	Therefore, for each transformation, new RDD is formed. As RDDs are immutable in nature, hence, it is easy to recover.
+	DSM – Fault tolerance is achieved by a checkpointing technique which allows applications to roll back to a recent checkpoint 
+	rather than restarting.
 
 
-Straggler Mitigation
+	Straggler Mitigation
 
-Stragglers, in general, are those that take more time to complete than their peers. This could happen due to many reasons such as load imbalance, I/O blocks, garbage collections, etc.
-An issue with the stragglers is that when the parallel computation is followed by synchronizations such as reductions that causes all the parallel tasks to wait for others.
+	Stragglers, in general, are those that take more time to complete than their peers. 
+	This could happen due to many reasons such as load imbalance, I/O blocks, garbage collections, etc.
+	An issue with the stragglers is that when the parallel computation is followed by synchronizations such as reductions that 
+	causes all the parallel tasks to wait for others.
 
-RDD – It is possible to mitigate stragglers by using backup task, in RDDs.
-DSM – To achieve straggler mitigation, is quite difficult.
+	RDD – It is possible to mitigate stragglers by using backup task, in RDDs.
+	DSM – To achieve straggler mitigation, is quite difficult.
 
-vi. Behavior if not enough RAM
+	vi. Behavior if not enough RAM
 
-RDD – As there is not enough space to store RDD in RAM, therefore, the RDDs are shifted to disk.
-DSM – If the RAM runs out of storage, the performance decreases, in this type of systems."
+	RDD – As there is not enough space to store RDD in RAM, therefore, the RDDs are shifted to disk.
+	DSM – If the RAM runs out of storage, the performance decreases, in this type of systems."
+
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 91	"What is lazy evaluation in Spark?
 
 
-Lazy evaluation means the execution will not start until anaction is triggered. Transformations are lazy in nature i.e. when we call some operation on RDD, it does not execute immediately. Spark adds them to a DAG of computation and only when driver requests some data, this DAG actually gets executed
+	Lazy evaluation means the execution will not start until anaction is triggered. Transformations are lazy in nature i.e.
+	when we call some operation on RDD, it does not execute immediately. 
+	Spark adds them to a DAG of computation and only when driver requests some data, this DAG actually gets executed
 
-Advantages of lazy evaluation.
+	Advantages of lazy evaluation.
 
-1) It is an optimization technique i.e. it provides optimization by reducing the number of queries.
-2) It saves the round trips between driver and cluster, thus speeds up the process.
-Spark uses lazy evaluation to reduce the number of passes it has to take over our data by grouping operations together. In case MapReduce, user/developer has to spend a lot of time on how to group operations together in order to minimize the number of MapReduce passes. In spark, there is no benefit of writing a single complex map instead of chaining together many simple operations. The user can organize their spark program into smaller operations. Spark will be managed very efficiently of all the operations by using lazy evaluation"
-92	"What are the ways to launch Apache Spark over YARN?
-
-
-Apache Spark has two modes of running applications on YARN: cluster and client
-spark-submit or spark-shell –master yarn-cluster or –master yarn-client"
-93	"What is Speculative Execution in Apache Spark?
-
-
-The Speculative task in Apache Spark is task that runs slower than the rest of the task in the job.It is health check process that verifies the task is speculated, meaning the task that runs slower than the median of successfully completed task in the task sheet. Such tasks are submitted to another worker. It runs the new copy in parallel rather than shutting down the slow task.
+	1) It is an optimization technique i.e. it provides optimization by reducing the number of queries.
+	2) It saves the round trips between driver and cluster, thus speeds up the process.
+	Spark uses lazy evaluation to reduce the number of passes it has to take over our data by grouping operations together.
+	In case MapReduce, user/developer has to spend a lot of time on how to group operations together in order to minimize the number of 
+	MapReduce passes. In spark, there is no benefit of writing a single complex map instead of chaining together many simple operations. 
+	The user can organize their spark program into smaller operations. Spark will be managed very efficiently of all the operations by using lazy evaluation"
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-Spark Property >> Default Value >> Description
-spark.speculation >> false >> enables ( true ) or disables ( false ) speculative execution of tasks.
-spark.speculation.interval >> 100ms >> The time interval to use before checking for speculative tasks.
-spark.speculation.multiplier >> 1.5 >> How many times slower a task is than the median to be for speculation.
-spark.speculation.quantile >> 0.75 >> The percentage of tasks that has not finished yet at which to start speculation."
+92,93 What is Speculative Execution in Apache Spark?
+
+	The Speculative task in Apache Spark is task that runs slower than the rest of the task in the job.
+	It is health check process that verifies the task is speculated, meaning the task that runs slower than the median of successfully 
+	completed task in the task sheet. 
+	Such tasks are submitted to another worker. 
+	It runs the new copy in parallel rather than shutting down the slow task.
+
+
+	Spark Property >> Default Value >> Description
+	spark.speculation >> false >> enables ( true ) or disables ( false ) speculative execution of tasks.
+	spark.speculation.interval >> 100ms >> The time interval to use before checking for speculative tasks.
+	spark.speculation.multiplier >> 1.5 >> How many times slower a task is than the median to be for speculation.
+	spark.speculation.quantile >> 0.75 >> The percentage of tasks that has not finished yet at which to start speculation."
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 94	"How can data transfer be minimized when working with Apache Spark?
 
 
-In Spark, Data Transfer can be reduced by avoiding operation which results in data shuffle.
-Avoid operations like repartition and coalesce, ByKey operations like groupByKey and reduceByKey, and join operations like cogroup and join.
+	In Spark, Data Transfer can be reduced by avoiding operation which results in data shuffle.
+	Avoid operations like repartition and coalesce, ByKey operations like groupByKey and reduceByKey, and join operations like cogroup and join.
 
-Spark Shared Variables help in reducing data transfer. There two types for shared variables-Broadcast variable and Accumulator.
+	Spark Shared Variables help in reducing data transfer. There two types for shared variables-Broadcast variable and Accumulator.
 
-Broadcast variable:
+	Broadcast variable
+	Accumulator
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-If we have a large dataset, instead of transferring a copy of data set for each task, we can use a broadcast variable which can be copied to each node at one time
-and share the same data for each task in that node. Broadcast variable help to give a large data set to each node.
-First, we need to create a broadcast variable using SparkContext.broadcast and then broadcast the same to all nodes from driver program. Value method
-can be used to access the shared value. The broadcast variable will be used only if tasks for multiple stages use the same data.
-
-Accumulator:
-
-Spark functions used variables defined in the driver program and local copied of variables will be generated. Accumulator are shared variables which help to update
-variables in parallel during execution and share the results from workers to the driver."
 95	"What is action, how it process data in apache spark
 
+	Actions return final result of RDD computations/operation.
+	It triggers execution using lineage graph to load the data into original RDD, and carries out all intermediate transformations and 
+	returns final result to Driver program or write it out to file system.
 
-Actions return final result of RDD computations/operation.It triggers execution using lineage graph to load the data into original RDD, and carries out all intermediate transformations and returns final result to Driver program or write it out to file system.
+	For example: First, take, reduce, collect, count, aggregate,min,max,sum are some of the actions in spark."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-For example: First, take, reduce, collect, count, aggregate,min,max,sum are some of the actions in spark."
 96	"How is fault tolerance achieved in Apache Spark?
 
+	The basic semantics of fault tolerance in Apache Spark is, all the Spark RDDs are immutable. 
+	It remembers the dependencies between every RDD involved in the operations, through the lineage graph created in the DAG, 
+	and in the event of any failure, Spark refers to the lineage graph to apply the same operations to perform the tasks.
 
+	There are two types of failures – Worker or driver failure. 
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-The basic semantics of fault tolerance in Apache Spark is, all the Spark RDDs are immutable. It remembers the dependencies between every RDD involved in the operations, through the lineage graph created in the DAG, and in the event of any failure, Spark refers to the lineage graph to apply the same operations to perform the tasks.
-
-
-There are two types of failures – Worker or driver failure. In case if the worker fails, the executors in that worker node will be killed, along with the data in their memory. Using the lineage graph, those tasks will be accomplished in any other worker nodes. The data is also replicated to other worker nodes to achieve fault tolerance. There are two cases:
-
-1.Data received and replicated – Data is received from the source, and replicated across worker nodes. In the case of any failure, the data replication will help achieve fault tolerance.
-
-2.Data received but not yet replicated – Data is received from the source but buffered for replication. In the case of any failure, the data needs to be retrieved from the source.
-
-For stream inputs based on receivers, the fault tolerance is based on the type of receiver:
-
-<li style=”list-style-type: none”>
-Reliable receiver – Once the data is received and replicated, an acknowledgment is sent to the source. In case if the receiver fails, the source will not receive acknowledgment for the received data. When the receiver is restarted, the source will resend the data to achieve fault tolerance.
-Unreliable receiver – The received data will not be acknowledged to the source. In this case of any failure, the source will not know if the data has been received or not, and it will nor resend the data, so there is data loss.
-To overcome this data loss scenario, Write Ahead Logging (WAL) has been introduced in Apache Spark 1.2. With WAL enabled, the intention of the operation is first noted down in a log file, such that if the driver fails and is restarted, the noted operations in that log file can be applied to the data. For sources that read streaming data, like Kafka or Flume, receivers will be receiving the data, and those will be stored in the executor’s memory. With WAL enabled, these received data will also be stored in the log files.
-
-WAL can be enabled by performing the below:
-
-Setting the checkpoint directory, by using streamingContext.checkpoint(path)
-Enabling the WAL logging, by setting spark.stream.receiver.WriteAheadLog.enable to True."
 97	"What is the role of Spark Driver in spark applications?
 
+	In easy terms, the driver in Spark creates SparkContext, connected to a given Spark Master.
+	It conjointly delivers the RDD graphs to Master, wherever the standalone cluster manager runs.
+	It splits a Spark application into tasks and schedules them to run on executors.
+	A driver is where the task scheduler lives and spawns tasks across workers.
+	A driver coordinates workers and overall execution of tasks.
+	Whenever a client runs the application code, the driver programs instantiates Spark Context, 
+	converts the transformations and actions into logical DAG of execution.
+	This logical DAG is then converted into a physical execution plan, which is then broken down into smaller physical execution units.
+	The driver then interacts with the cluster manager to negotiate the resources required to perform the tasks of the application code. 
+	The cluster manager then interacts with each of the worker nodes to understand the number of executors running in each of them."
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-n easy terms, the driver in Spark creates SparkContext, connected to a given Spark Master.It conjointly delivers the RDD graphs to Master, wherever the standalone cluster manager runs.
-It splits a Spark application into tasks and schedules them to run on executors.
-A driver is where the task scheduler lives and spawns tasks across workers.
-A driver coordinates workers and overall execution of tasks.
-Whenever a client runs the application code, the driver programs instantiates Spark Context, converts the transformations and actions into logical DAG of execution. This logical DAG is then converted into a physical execution plan, which is then broken down into smaller physical execution units. The driver then interacts with the cluster manager to negotiate the resources required to perform the tasks of the application code. The cluster manager then interacts with each of the worker nodes to understand the number of executors running in each of them."
+
 98	"Explain Accumulator in Spark.
 
-Accumulator is a shared variable in Apache Spark, used to aggregating information across the cluster.In other words, aggregating information / values from worker nodes back to the driver program. 
+	Accumulator is a shared variable in Apache Spark, used to aggregating information across the cluster.
+	In other words, aggregating information / values from worker nodes back to the driver program. 
 
 
-Why Accumulator :
+	Why Accumulator :
+	When we use a function inside the operation like map(), filter() etc these functions can use the variables which defined outside 
+	these function scope in the driver program.When we submit the task to cluster, each task running on the cluster gets a new copy
+	of these variables and updates from these variable do not propagated back to the driver program.Accumulator lowers this restriction.
 
 
-When we use a function inside the operation like map(), filter() etc these functions can use the variables which defined outside these function scope in the driver program.When we submit the task to cluster, each task running on the cluster gets a new copy of these variables and updates from these variable do not propagated back to the driver program.Accumulator lowers this restriction.
+	Use Case :
 
+	Meaning count the no. of blank lines from the input file, no. of bad packets from network during session, 
+	during Olympic data analysis we have to find age where we said (age != ‘NA’) in SQL query in short finding bad / corrupted records.
 
-Use Case :
+	Example :
 
-Meaning count the no. of blank lines from the input file, no. of bad packets from network during session, during Olympic data analysis we have to find age where we said (age != ‘NA’) in SQL query in short finding bad / corrupted records.
+	scala> val record = spark.read.textFile(""/home/hdadmin/wc-data-blanklines.txt"")
+	val emptylines = sc.accumulator(0)
+	val processdata = record.flatMap(x =>
+							{
+								if(x == """")
+									 emptylines += 1
+								 x.split("" "")
+							 })
 
-Example :
+	scala> processdata.collect           //will show non-empty lines 
+	scala> println(“No. of Empty Lines : ” + emptylines.value)  //show empty lines 
+	
+	Please note that, task(s) on worker nodes can not access the value property of accumulator so for in context of task(s), 
+	accumulator is write-only variable.
+	The value() property of accumulator is available only in the driver program.
+	We can also count the no. of blank lines with the help of transformation/actions but for that, 
+	we need an extra operation but with the help of accumulator, we can count the no. of blank lines (or events in broader terms) as 
+	we load /process our data.
+	//Imp point
 
-scala> val record = spark.read.textFile(""/home/hdadmin/wc-data-blanklines.txt"")
+	Please keep in mind that, for accumulators which are used in action operation, Spark applies each task’s update only once. 
+	Hence we want to reliable result from accumulator, in that case, we must use it inside actions regardless of failure of multiple evaluations.
+	If we use the accumulator in transformation, in that case, this guarantee does not exist. 
+	An accumulator update within transformation can occur more than once."
 
-val emptylines = sc.accumulator(0)
+---------------------------------------------------------------------------------------------------------------------------------------------------
 
-val processdata = record.flatMap(x =>
-					        {
-							if(x == """")
-								 emptylines += 1
-							 x.split("" "")
-						 })
-
-
-scala> processdata.collect           //will show non-empty lines 
-
-scala> println(“No. of Empty Lines : ” + emptylines.value)  //show empty lines 
-
-Please note that, task(s) on worker nodes can not access the value property of accumulator so for in context of task(s), accumulator is write-only variable.
-
-
-The value() property of accumulator is available only in the driver program.
-
-
-We can also count the no. of blank lines with the help of transformation/actions but for that, we need an extra operation but with the help of accumulator, we can count the no. of blank lines (or events in broader terms) as we load /process our data.
-//Imp point
-
-Please keep in mind that, for accumulators which are used in action operation, Spark applies each task’s update only once. Hence we want to reliable result from accumulator, in that case, we must use it inside actions regardless of failure of multiple evaluations .If we use the accumulator in transformation, in that case, this guarantee does not exist. An accumulator update within transformation can occur more than once."
 99	"What is the role of Driver program in Spark Application?
 
-Driver program is responsible for launching various parallel operations on the cluster.
-Driver program contains application’s main() function.
-Driver program access Apache Spark through a SparkContext object which represents a connection to computing cluster (From Spark 2.0 onwards we can access SparkContext object through SparkSession).
-Driver program is responsible for converting user program into the unit of physical execution called task.
-Spark program creates a logical plan called Directed Acyclic graph which is converted to physical execution plan by the driver when driver program runs."
+	Driver program is responsible for launching various parallel operations on the cluster.
+	Driver program contains application’s main() function.
+	Driver program access Apache Spark through a SparkContext object which represents a connection to computing cluster 
+		(From Spark 2.0 onwards we can access SparkContext object through SparkSession).
+	Driver program is responsible for converting user program into the unit of physical execution called task.
+	Spark program creates a logical plan called Directed Acyclic graph which is converted to physical execution plan by the driver 
+	when driver program runs."
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 100	"How to identify that given operation is Transformation/Action in your program?
 
+	In order to identify the operation, one need to look at the return type of an operation.
+	If operation returns a new RDD in that case an operation is ‘Transformation’
+	If operation returns any other type than RDD in that case an operation is ‘Action’"
 
-In order to identify the operation, one need to look at the return type of an operation.
-If operation returns a new RDD in that case an operation is ‘Transformation’
-If operation returns any other type than RDD in that case an operation is ‘Action’"
+---------------------------------------------------------------------------------------------------------------------------------------------------
