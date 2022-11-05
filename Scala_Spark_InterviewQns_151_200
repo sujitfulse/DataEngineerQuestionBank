@@ -1,161 +1,151 @@
-151	"write a program where we can filter all null values and concat an '_' with all non null values ?
-
-
+151	"write a program where we can filter all null values and concat an '_' with all non null values
 
 val newDf =
   df.withColumn(
     ""NEW_COLUMN"",
     concat(
-      when(col(""COL1"").isNotNull, col(""COL1"")),'-')
-);"
-152	"Define the roles of the file system in any framework?
+      when(col(""COL1"").isNotNull, col(""COL1"")),'-') );
+      
+ -------------------------------------------------------------------------------------------------------------------------------------------------------  
+ 
+152, 153	"What are the roles and responsibilities of worker nodes in the Apache Spark cluster? Is Worker Node in Spark is same as Slave Node?
 
-File system manages user data that is how data is read, write and accessed.
-FS is the structure behind how our system stores and organizes data.
-FS stores all the information bout the file (metadata) like file name, the length of the contents of a file, and the location of the file in the folder hierarchy—separate from the contents of the file.
-The main role of FS is to make sure that what/whoever is accessing the data and whatever action is taken the structure remains consistent."
-153	"What are the roles and responsibilities of worker nodes in the Apache Spark cluster? Is Worker Node in Spark is same as Slave Node?
+      Apache Spark follows a master/slave architecture, with one master or driver process and more than one slave or worker processes
+      
+      1. The master is the driver that runs the main() program where the spark context is created. 
+         It then interacts with the cluster manager to schedule the job execution and perform the tasks.
 
+      2. The worker consists of processes that can run in parallel to perform the tasks scheduled by the driver program. 
+         These processes are called executors.
 
-Apache Spark follows a master/slave architecture, with one master or driver process and more than one slave or worker processes
+      Whenever a client runs the application code, the driver programs instantiates Spark Context, converts the transformations and 
+      actions into logical DAG of execution. 
+      This logical DAG is then converted into a physical execution plan, which is then broken down into smaller physical execution units. 
+      The driver then interacts with the cluster manager to negotiate the resources required to perform the tasks of the application code. 
+      The cluster manager then interacts with each of the worker nodes to understand the number of executors running in each of them.
 
-1. The master is the driver that runs the main() program where the spark context is created. It then interacts with the cluster manager to schedule the job execution and perform the tasks.
+      The role of worker nodes/executors:
 
-2. The worker consists of processes that can run in parallel to perform the tasks scheduled by the driver program. These processes are called executors.
+      1. Perform the data processing for the application code
+      2. Read from and write the data to the external sources
+      3. Store the computation results in memory, or disk.
+     
+      Before the execution of tasks, the executors are registered with the driver program through the cluster manager, 
+      so that the driver knows how many numbers of executors are running to perform the scheduled tasks. 
+      The executors then start executing the tasks scheduled by the worker nodes through the cluster manager.
 
-Whenever a client runs the application code, the driver programs instantiates Spark Context, converts the transformations and actions into logical DAG of execution. This logical DAG is then converted into a physical execution plan, which is then broken down into smaller physical execution units. The driver then interacts with the cluster manager to negotiate the resources required to perform the tasks of the application code. The cluster manager then interacts with each of the worker nodes to understand the number of executors running in each of them.
+      Whenever any of the worker nodes fail, the tasks that are required to be performed will be automatically allocated to any other worker nodes"
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-The role of worker nodes/executors:
+    154	How to chain Dataframe transformation in Spark Transform method ?
+    
+  implicit classes or the Dataset#transform method can be used to chain DataFrame transformations in Spark.
+  Though Dataset#transform method is preferred compared to implicit classes.
 
-1. Perform the data processing for the application code
+      Eg:
 
-2. Read from and write the data to the external sources
+      val df = Seq(
+        ""funny"",
+        ""person""
+      ).toDF(""something"")
 
-3. Store the computation results in memory, or disk.
+      def withGreeting(df: DataFrame): DataFrame = {
+        df.withColumn(""greeting"", lit(""hello world""))
+      }
 
-The executors run throughout the lifetime of the Spark application. This is a static allocation of executors. The user can also decide how many numbers of executors are required to run the tasks, depending on the workload. This is a dynamic allocation of executors.
-
-Before the execution of tasks, the executors are registered with the driver program through the cluster manager, so that the driver knows how many numbers of executors are running to perform the scheduled tasks. The executors then start executing the tasks scheduled by the worker nodes through the cluster manager.
-
-Whenever any of the worker nodes fail, the tasks that are required to be performed will be automatically allocated to any other worker nodes"
-154	"How to chain Dataframe transformation in Spark ,,,Transform method ?
-
-
-
-implicit classes or the Dataset#transform method can be used to chain DataFrame transformations in Spark.Though Dataset#transform method is preferred compared to implicit classes.
-
-Eg:
-
-val df = Seq(
-  ""funny"",
-  ""person""
-).toDF(""something""
-
-def withGreeting(df: DataFrame): DataFrame = {
-  df.withColumn(""greeting"", lit(""hello world""))
-}
-
-def withFarewell(df: DataFrame): DataFrame = {
-  df.withColumn(""farewell"", lit(""goodbye""))
-}
-
-
-val weirdDf = df
-  .transform(withGreeting)
-  .transform(withFarewell)
-weirdDf.show()
-+---------+-----------+--------+
-|something|   greeting|farewell|
-+---------+-----------+--------+
-|    funny|hello world| goodbye|
-|   person|hello world| goodbye|
-
-Transform Method with Arguments
+      def withFarewell(df: DataFrame): DataFrame = {
+        df.withColumn(""farewell"", lit(""goodbye""))
+      }
 
 
-def withGreeting(df: DataFrame): DataFrame = {
-  df.withColumn(""greeting"", lit(""hello world""))
-}
-def withCat(name: String)(df: DataFrame): DataFrame = {
-  df.withColumn(""cats"", lit(s""$name meow""))
-}
+      val weirdDf = df
+        .transform(withGreeting)
+        .transform(withFarewell)
+    
+       weirdDf.show()
+      +---------+-----------+--------+
+      |something|   greeting|farewell|
+      +---------+-----------+--------+
+      |    funny|hello world| goodbye|
+      |   person|hello world| goodbye|
+
+      Transform Method with Arguments
+
+      def withGreeting(df: DataFrame): DataFrame = {
+        df.withColumn(""greeting"", lit(""hello world""))
+      }
+      def withCat(name: String)(df: DataFrame): DataFrame = {
+        df.withColumn(""cats"", lit(s""$name meow""))
+      }
+
+      val niceDf = df
+        .transform(withGreeting)
+        .transform(withCat(""puffy""))
 
 
-val niceDf = df
-  .transform(withGreeting)
-  .transform(withCat(""puffy""))
+      Monkey Patching with Implicit Classes :
+      Implicit classes can be used to add methods to existing classes. 
+      The following code adds the same withGreeting() and withFarewell() methods to the DataFrame class itself.
 
+      object BadImplicit {
+        implicit class DataFrameTransforms(df: DataFrame) {
+          def withGreeting(): DataFrame = {
+            df.withColumn(""greeting"", lit(""hello world""))
+          }
+          def withFarewell(): DataFrame = {
+            df.withColumn(""farewell"", lit(""goodbye""))
+          }
+        }
+      }
+      The withGreeting() and withFarewell() methods can be chained and executed as follows.
 
-Monkey Patching with Implicit Classes
-Implicit classes can be used to add methods to existing classes. The following code adds the same withGreeting() and withFarewell() methods to the DataFrame class itself.
+      import BadImplicit._
+      val df = Seq(
+        ""funny"",
+        ""person""
+      ).toDF(""something"")
+      val hiDf = df.withGreeting().withFarewell()"
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+155, 162	difference between traits and abstract class
 
-object BadImplicit {
-  implicit class DataFrameTransforms(df: DataFrame) {
-    def withGreeting(): DataFrame = {
-      df.withColumn(""greeting"", lit(""hello world""))
-    }
-    def withFarewell(): DataFrame = {
-      df.withColumn(""farewell"", lit(""goodbye""))
-    }
-  }
-}
-The withGreeting() and withFarewell() methods can be chained and executed as follows.
+163	difference between map and foreach ? when to use a map and when to use foreach ?
 
-import BadImplicit._
-val df = Seq(
-  ""funny"",
-  ""person""
-).toDF(""something"")
-val hiDf = df.withGreeting().withFarewell()"
+164	what is case class and when we will use a case class ?
 
-155	"How to establish connection between Hive and Spark  ?
-https://acadgild.com/blog/how-to-access-hive-tables-to-spark-sql"
-
-156	https://youtu.be/RCyPU7fbxko
-
-157	https://youtu.be/beo_zWOQnt0
-
-158	https://youtu.be/kNhyvGU3OVY
-
-159	how you used to check failure logs, how you used to check no. of pattitions created for join operation in spark ? -- via gui
-160	what all joins you performed in spark and how you did it
-161	what all actions and transformations you have performed
-162	difference between traits and abstract class
-163	difference between map and foreach ? when to use a map and when to use foreach
-164	what is case class and when we will use a case class ??
 165	if you want to send a file and you want to send it through to executors through spark submit
+
 166	what if partion is deleted from external table and will it give error while a select ?
+
 167	how to improve performance of two big tables in hive ?
-168	which execution engine you used for hive
+
 169	spark scala word count programm
+
 170	What is future class in scala
-171	Difference between fold by and fold by write in scala
-172	Have you worked on multi threading in scala
-173	On what basis you will increase  the mappers in sqoop
-174	 explain spark streaming ?
-175	have you written any code in spark streaming 
-176	) what internally happens when you do spark-submit ?
-177	54 ) dump files will be binary format . which command do you use reading dumps ?
-178	which hive  analytic functions you used in project 
-179	how will you check if data is there or not in 6th partition in RDd
-180	in spark word count while splitting which one do you use ?What happens if you use map instead of flat map there 
-181	how do you debug your spark code 
-182	broadcast variables in spark
-183	5)what is stage n task in spark
-184	in case one task is taking more time how will you handle 
-185	Rank DenseRank
+
+176	what internally happens when you do spark-submit ?
+
+177	 How to read binary files in spark ?
+
+178	List hive  analytic functions you used in project 
+
+179	how will you check if data is there or not in 6th partition in RDD ? 
+
+183 what is stage n task in spark
+
+184	in case one task is taking more time how will you handle --> Specutive execution.
+
+85	Rank vs DenseRank
+
 186	InferSchema method API
+
 187	Broadcast join
+
 188	Map Side Join
+
 189	SMB joins
-190	Large datasets join 
-191	how json reads data I. Spark(do we need to loop or it will take all)
-192	I need to change date format of a column data in DataFrame.
-193	val vs var 
-194	What happens when we change variable declared with val
+
 195	how we do GC in Spark
-196	Groupbykey vs reduce by key
-197	how do you connect to your cluster using data nodes or edge nodes and what is reason of choosing between the both?
-198	have you ever received an error "spaceout" in your datanode? what is it exactly?
-199 how do you allocate buffer memory to your datanode?
-200	how much buffer space have you allocated to your map task and reduce task in your datanode?
+
+196	have you ever received an error "spaceout" in your datanode? what is it exactly?
+
+199 how do you allocate buffer memory to your datanode?	how much buffer space have you allocated to your map task and reduce task in your datanode?
