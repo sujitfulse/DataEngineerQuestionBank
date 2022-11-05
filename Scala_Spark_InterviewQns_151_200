@@ -106,11 +106,85 @@ val newDf =
       ).toDF(""something"")
       val hiDf = df.withGreeting().withFarewell()"
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-155, 162	difference between traits and abstract class
+155, 162	difference between traits and abstract class ?
+
+      Traits
+      Traits are similar to interfaces in Java and are created using trait keyword.
+
+      Abstract Class
+      Abstract Class is similar to abstract classes in Java and are created using abstract keyword.
+
+      1) Multiple inheritance : 	
+      Trait supports multiple inheritance.	
+      Abstract Class supports single inheritance only.
+      2) Instance	
+      Trait can be added to an object instance.	
+      Abstract class cannot be added to an object instance.
+      3) Constructor parameters	
+      Trait cannot have parameters in its constructors.	
+      Abstract class can have parameterised constructor.
+      4) Interoperability	
+      Traits are interoperable with java if they don't have any implementation.	
+      Abstract classes are interoperable with java without any restriction.
+      5) Stackability	
+      Traits are stackable and are dynamically bound.	
+      Abstract classes are not stacable and are statically bound.
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 163	difference between map and foreach ? when to use a map and when to use foreach ?
 
+      map :
+      the map function in the Seq trait returns a value.
+      It is designed to apply a function to every element of a collection extending the Seq trait and return a new collection.
+      def map[B](f: (A) ⇒ B): Seq[B]
+
+      foreach, in the same trait, has the following signature:
+      def foreach(f: (A) ⇒ Unit): Unit
+
+      val l: List[String] = List("a", "b", "c")
+      l.map(e => e.toUpperCase(java.util.Locale.ROOT))
+      l.foreach(e => println(e))
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
 164	what is case class and when we will use a case class ?
+
+    Scala case classes are just regular classes which are immutable by default and decomposable through pattern matching.
+    It uses equal method to compare instance structurally. It does not use new keyword to instantiate object.
+    All the parameters listed in the case class are public and immutable by default.
+    
+    case class className(parameters)  
+    
+    case class CaseClass(a:Int, b:Int)    
+    object MainObject{  
+        def main(args:Array[String]){  
+            var c =  CaseClass(10,10)       // Creating object of case class  
+            println("a = "+c.a)               // Accessing elements of case class  
+            println("b = "+c.b)  
+        }  
+    }  
+
+A case class which has no arguments is declared as case object instead of case class. case object is serializeable by default.
+
+      trait SuperTrait  
+      case class CaseClass1(a:Int,b:Int) extends SuperTrait  
+      case class CaseClass2(a:Int) extends SuperTrait         // Case class  
+      case object CaseObject extends SuperTrait               // Case object  
+      object MainObject{  
+          def main(args:Array[String]){  
+              callCase(CaseClass1(10,10))  
+              callCase(CaseClass2(10))  
+              callCase(CaseObject)  
+          }  
+          def callCase(f:SuperTrait) = f match{  
+              case CaseClass1(f,g)=>println("a = "+f+" b ="+g)  
+              case CaseClass2(f)=>println("a = "+f)  
+              case CaseObject=>println("No Argument")  
+          }  
+      }  
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 165	if you want to send a file and you want to send it through to executors through spark submit
 
