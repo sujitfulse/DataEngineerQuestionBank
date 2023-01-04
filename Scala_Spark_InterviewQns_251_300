@@ -27,3 +27,4 @@
 277 how inheritance works in scala ? 
 278 left anti join vs left semi join
 279 save output file with given custom file name in spark output 
+280 options to set while reading file from hdfs using spark. 
