@@ -16,11 +16,14 @@
 266	Tell me teck stack on big data side you worked on
 267	Tell me the data flow / performance issues you have faced
 268	I have hive table which has 4 columns , I only want business user to see two columns from that table , how can I do that ? (Views)
-269	2:-How to save a data-frame in Hive.
-270	3:-What are the challenges you faced in your last project and how you resolved.
-271	4:-How are you managing the schema in Spark Dataframe.
-272	1. Difference between SparkContext and SparkSession.
-273	2. Can we directly read data from SparkSession? (Need to create a Dataframe or Dataset, and then read the file).
-274	3. What is pushdown predicate?
-275	4. In what scenarios I should use Bucketing in hive? And what are the conditions which should be met, before performing bucketed map joins?
-276	5. Can we control the Parallel tasks running inside a spark job? If yes, how? 
+269	How to save a data-frame in Hive.
+270	What are the challenges you faced in your last project and how you resolved.
+271	How are you managing the schema in Spark Dataframe.
+272	Difference between SparkContext and SparkSession.
+273	Can we directly read data from SparkSession? (Need to create a Dataframe or Dataset, and then read the file).
+274	What is pushdown predicate?
+275	In what scenarios I should use Bucketing in hive? And what are the conditions which should be met, before performing bucketed map joins?
+276	Can we control the Parallel tasks running inside a spark job? If yes, how? 
+277 how inheritance works in scala ? 
+278 left anti join vs left semi join
+279 save output file with given custom file name in spark output 
