@@ -30,5 +30,7 @@
 280 options to set while reading file from hdfs using spark. 
 281 hive , yarn, hbase architecture.
 282 which hive version allows to update data ? 
-  You can update Hive target tables using Update or Merge SQL. 
-  You can update Apache Hive Optimized Row Columnar (ORC) tables when using bulk loading and Hive version 1.2 and higher.
+->  You can update Hive target tables using Update or Merge SQL. 
+    You can update Apache Hive Optimized Row Columnar (ORC) tables when using bulk loading and Hive version 1.2 and higher.
+283 what are inbuild methods in spark to handle malformed data ? 
+-> https://medium.com/@11amitvishwas/how-to-handle-bad-records-corrupt-records-in-apache-spark-392f2991cbb5
