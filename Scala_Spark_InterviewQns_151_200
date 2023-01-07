@@ -186,9 +186,7 @@ A case class which has no arguments is declared as case object instead of case c
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-165	if you want to send a file and you want to send it through to executors through spark submit
-
-166	what if partion is deleted from external table and will it give error while a select ?
+165, 166	what if partion is deleted from external table and will it give error while a select ?
 
 167	how to improve performance of two big tables in hive ?
 
