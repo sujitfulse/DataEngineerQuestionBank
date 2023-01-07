@@ -181,43 +181,116 @@ A case class which has no arguments is declared as case object instead of case c
               case CaseObject=>println("No Argument")  
           }  
       }  
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
+165	what if partion is deleted from external table and will it give error while a select ?
 
+    - To delete data in external table you need to delete files on the filesystem. Data in the external table will remain if you drop table or partition. 
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  
+166 MSCK REPAIR TABLE command
+    -  MSCK REPAIR TABLE command. This will restore all the partitions that are not in the metastore but exist on the file system, 
+    So, with an external table, if you want the data in a partition to be gone when you drop it, 
+    you have to also go and delete it from the filesystem. Otherwise, the data will continue to exist and 
+    there is a good chance that someone will bring the metadata for it back into the metastore.
+    
+   * convert external table into managed one- 
+    ALTER TABLE abc SET TBLPROPERTIES('EXTERNAL'='FALSE');
+    
+   * DELETE DEFAULT PARTITIONS FROM HIVE.
+    ALTER TABLE Table_Name DROP IF EXISTS PARTITION(process_date='__HIVE_DEFAULT_PARTITION__')
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-165, 166	what if partion is deleted from external table and will it give error while a select ?
-
 167	how to improve performance of two big tables in hive ?
+  optimize.bucketmapjoin=true;
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 169	spark scala word count programm
 
+RDD : 
+ val text = sc.textFile("mytextfile.txt") 
+ val counts = text.flatMap(line => line.split(" ") ).map(word => (word,1)).reduceByKey(_+_) counts.collect 
+
+DataFrame :
+val df = sqlContext.read.text("README.md")
+val wordsDF = df.select(split(df("value")," ").alias("words"))
+val wordDF = wordsDF.select(explode(wordsDF("words")).alias("word"))
+val wordCountDF = wordDF.groupBy("word").count
+
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 170	What is future class in scala
+  Futures allows performing many operations in parallel– in an efficient and non-blocking way.
+  A Future is a placeholder object for a value that may not yet exist. 
+  Generally, the value of the Future is supplied concurrently and can subsequently be used. 
+  Composing concurrent tasks in this way tends to result in faster, asynchronous, non-blocking parallel code.
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 176	what internally happens when you do spark-submit ?
 
+https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of-Job-Execution-In-Spark.jpg
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 177	 How to read binary files in spark ?
 
+  assuming you have no delimiter, 
+  an Int in Scala is 4 bytes,
+  Short is 2 byte, 
+  long is 8 bytes. 
+  You should be able to take the bytes and convert them to the classes you want.
+
+   import java.nio.ByteBuffer
+  val result = YourRDD.map(x=>(ByteBuffer.wrap(x.take(4)).getInt,
+             ByteBuffer.wrap(x.drop(4).take(2)).getShort,
+             ByteBuffer.wrap(x.drop(6)).getLong))
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
 178	List hive  analytic functions you used in project 
+==> lead , lag, Rownumber
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 179	how will you check if data is there or not in 6th partition in RDD ? 
+==> using glom() methond
+  val rdd = sc.parallelize(Seq(1,2,3,4,5,6,7,8,9,10))
+  rdd.glom().collect()
 
+  //Result
+  res3: Array[Array[Int]] = Array(Array(1), Array(2), Array(3), Array(4, 5), Array(6), Array(7), Array(8), Array(9, 10))
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 183 what is stage n task in spark
 
+Spark Stages : 
+Whenever there is a shuffling of data over the network, Spark divides the job into multiple stages. 
+Therefore, a stage is created when the shuffling of data takes place.
+These stages can be either processed parallelly or sequentially depending upon the dependencies of these stages between each other. 
+
+There are two types of stages in Spark:
+
+1.ShuffleMapStage in Spark
+2. ResultStage in Spark
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 184	in case one task is taking more time how will you handle --> Specutive execution.
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 85	Rank vs DenseRank
+Rank - same rank to mulple records if tie, but then skips sequence. ( 1,1,3,4)
+DenseRank - same rank to mulple records if tie, but then skips sequence.. dense_rank leaves no gaps in ranking sequence when there are ties.( 1,1,2,3)
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 186	InferSchema method API
 
-187	Broadcast join
-
-188	Map Side Join
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+187,188	Map Side Join
 
 189	SMB joins
 
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
 195	how we do GC in Spark
 
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
 196	have you ever received an error "spaceout" in your datanode? what is it exactly?
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 199 how do you allocate buffer memory to your datanode?	how much buffer space have you allocated to your map task and reduce task in your datanode?
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
