@@ -1,4 +1,4 @@
-201, 206	nulls and spaces in join keys  ? 
+201	nulls and spaces in join keys  ? 
 
       val numbersDf = Seq(
         ("123"),
@@ -35,7 +35,7 @@
       +-------+-------+
       Spark provides a special NULL safe equality operator
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-207	213	What is the more optimal way to store small files (size in kb) .. What will be the schema design to process it quickly?
+202	What is the more optimal way to store small files (size in kb) .. What will be the schema design to process it quickly?
 
     Calculate total size of files to be merged
     Calculate desired partitions by dividing total size of files by block size of Hadoop
@@ -50,50 +50,50 @@
     set hive.merge.mapredfiles=true;
     set hive.merge.smallfiles.avgsize=102400
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-216	"How to check no. Of partitions in dataframe 
+203	"How to check no. Of partitions in dataframe 
     In my experience df.rdd.getNumPartitions is very fast, I never encountered taking this more than a second or so.
     Alternatively, you could also try
     val numPartitions: Long = df.select(org.apache.spark.sql.functions.spark_partition_id()).distinct().count()"
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-217	"Very imp : handling schema changes in spark, schema chaining in spark
+204	handling schema changes in spark, schema chaining in spark
 https://medium.com/data-arena/merging-different-schemas-in-apache-spark-2a9caca2c5ce"
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 
-218	differnece between map and mappartion
+205	differnece between map and mappartion
 map() – Spark map() transformation applies a function to each row in a DataFrame/Dataset and returns the new transformed Dataset.
 mapPartitions() – This is exactly the same as map(); the difference being, Spark mapPartitions() provides a facility to do heavy initializations 
 (for example Database connection) once for each partition instead of doing it on every DataFrame row. 
 This helps the performance of the job when you dealing with heavy-weighted initialization on larger datasets.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-219	Why serializer is better .... What is serializer and deserializer
+206	Why serializer is better .... What is serializer and deserializer
  serialization framework helps you convert objects into a stream of bytes and vice versa in new computing environment. 
  This is very helpful when you try to save objects to disk or send them through networks. Those situations happen in Spark when things are shuffled around.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-220	Why Scala is called functional programming
+207	Why Scala is called functional programming
   Scala is also a functional language in the sense that every function is a value. 
   Scala provides a lightweight syntax for defining anonymous functions, 
   it supports higher-order functions, 
   it allows functions to be nested, and it supports currying.
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-221	What is difference in class and trait
+208	What is difference in class and trait
 Conceptually, a trait is a component of a class, not a class by itself. As such, it typically does not have constructors, and it is not meant to "stand by itself".
 Traits are similar in spirit to interfaces in Java programming language. Unlike a class, Scala traits cannot be instantiated and have no arguments or parameters. 
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-222	Difference in interface in java and traits in scala
+209 Difference in interface in java and traits in scala
 
 Traits in Scala have a lot of similarities with interfaces in Java, but a trait is more powerful than an interface because it allows developers to implement
 members within it. 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-228	How to union two tables with different no. Of columns. 
+210	How to union two tables with different no. Of columns. 
 ==> no you cant. need to have simillar column in both dfs.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-229	what is the predicate pushdown ? what is the limitation ?
+211	what is the predicate pushdown ? what is the limitation ?
 A predicate push down filters the data in the database query, reducing the number of entries retrieved from the database and improving query performance.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-231	 how to optimize spark code ]?
+212	 how to optimize spark code ]?
 
       Data Serialization. ...
       Broadcasting. ...
@@ -112,7 +112,7 @@ A predicate push down filters the data in the database query, reducing the numbe
       # -XX:+UseG1GC
       # -XX:G1HeapRegionSize
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-237	What is Catalyst Optimizer in spark ?
+213	What is Catalyst Optimizer in spark ?
 
   At the core of Spark SQL is the Catalyst optimizer, which leverages advanced programming language features 
   (e.g. Scala’s pattern matching and quasi quotes) in a novel way to build an extensible query optimizer.
@@ -124,21 +124,21 @@ A predicate push down filters the data in the database query, reducing the numbe
   that handle different phases of query execution: 
   analysis, logical optimization, physical planning, and code generation to compile parts of queries to Java bytecode.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-247	how to serilize any object ?
+214	how to serilize any object ?
   To make a Java object serializable we implement the java.io.Serializable interface. 
   The ObjectOutputStream class contains writeObject() method for serializing an Object. 
   class A implements Serializable{ }
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-248	diff b/w overloading and overriding ?
+215	diff b/w overloading and overriding ?
   Overloading : If a class has multiple methods having same name but different in parameters, it is known as Method Overloading. 
   overriding: When the method signature (name and parameters) are the same in the superclass and the child class, it's called overriding
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-249	 diff map partition v/s foreach partition ?
+216	 diff map partition v/s foreach partition ?
 mapPartitions and foreachPartitions are transformations/operations that apply to each partition of the Dataframe as opposed to each element. 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-250	why its been said spark with parquet and orc with hive perform wells ?
+217	why its been said spark with parquet and orc with hive perform wells ?
 
 * Parquet:
 To begin with Apache Spark is optimized for Parquet file format and Hive is optimized for ORC file format. 
@@ -168,3 +168,50 @@ Here since we are talking about time efficiency, Parquet provides better results
 - ability to split files without scanning for markers
 - bound the amount of memory needed for reading or writing
 - metadata stored using Protocol Buffers, which allows addition and removal of fields
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+218 Given a table with following columns:
+School; Class; Student Name; Subject; Marks;
+Sample Data:
+DPS | 9 | Sunil | Maths | 90
+DPS | 9 | Sunil | English | 80
+DPS | 9 | Sunil | Hindi | 87
+DPS | 9 | Sunil | Science | 83
+DPS | 10 | Sam | Science | 76
+DPS | 10 | Sam | Hindi | 76
+DPS | 10 | Sam | Maths | 76
+MVN | 9 | Happy | Maths |99
+MVN | 9 | Happy | English |89
+MVN | 9 | Happy | Hindi | 79
+MVN | 9 | Happy | Science | 78
+
+Find Max marks and corresponding student name for subject 'Maths' for each class
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+219 Write scala code for 
+Given an array of elements, find a pair of numbers which has the maximum sum.
+Sample Array: [ 3, 67, 6, 34, 54, 89, 76 ]
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+220 How many executors will you assign for a 10GB file in HDFS?
+
+1. Find the number of partitions-  The default partition split size is 128MB. So for 10GB, it would be 10240MB/128MB = 80 Partitions
+2. Find the CPU cores for maximum parallelism- For 1 partition 1 core hence, for 80 partitions it would be 80 cores required.
+3. Find the Maximum allowed CPU cores for each executor- As in Hadoop YARN so 5 Cores for each executor. 
+Number of executors = Total Cores/ Executor cores = 80/5 = 16 executors
+4. The amount of memory required for each executor- The default partition size is 128MB so assigning a minimum of 4X memory for each core that is 128X4 = 512MB
+5. Each Executor memory = 512 X 5cores = 2560MB
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+221
+Write a SQL query to find 3rd highest salary employee in each department, In case there are less than 3 emp in a dept then return emp 
+with lowest salary in that Dept
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+222 scala code for 
+1) prime num 
+2) Fibonacci series 
+3) Higher order function lambda function to Sum even numbers from 1 to 100
+4) reverse string without using inbuilt api
+5) Sort array without using sort function
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
