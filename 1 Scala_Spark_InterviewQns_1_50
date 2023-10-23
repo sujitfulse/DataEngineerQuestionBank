@@ -357,10 +357,6 @@ Currying transforms a function that takes multiple parameters into a chain of fu
 
 *example : 
 def strcat(s1: String)(s2: String) = s1 + s2
-OR 
-def strcat(s1: String) = (s2: String) => s1 + s2
-Calling func : strcat("foo")("bar")
-https://www.tutorialspoint.com/scala/currying_functions.htm
 
 *Partially applied Currying funtion : 
 result = f(x)(y)(z)
@@ -369,19 +365,34 @@ f1 = f(x)
 f2 = f1(y)
 result = f2(z)
 
+object Curry 
+{ 
+    def add(a: Int) = (b: Int) => a + b; 
+    def main(args: Array[String]) 
+    { 
+      // first way to call 
+         println(add(20)(20)); 
+    
+     // alternative way to call   
+        val add2 = add(10);
+        println(add2(20)); 
+    } 
+} 
+
 *Advantages of Currying Function in Scala :
 a) One benefit is that Scala currying makes creating anonymous functions easier.
 b) Scala Currying also makes it easier to pass around a function as a first-class object. You can keep applying parameters when you find them.
 ----------------------------------------------------------------------------------------------------------------------------
 
 19	Closure functions in scala and what are their benefits.
-Scala Closures are functions which uses one or more free variables and the return value of this function is dependent of these variable. 
-The free variables are defined outside of the Closure Function and is not included as a parameter of this function. 
-So the difference between a closure function and a normal function is the free variable. 
+
+Difference between a closure function and a normal function is the free variable. 
 A free variable is any kind of variable which is not defined within the function and not passed as the parameter of the function. 
 A free variable is not bound to a function with a valid value.
+Scala Closures are functions which uses one or more free variables and the return value of this function is dependent of these variable. 
 
-A closure function can further be classified into pure and impure functions, depending on the type of the free variable. 
+
+A closure function can further be classified into pure(val variables) and impure functions ( var variables), depending on the type of the free variable. 
 -If we give the free variable a type var then the variable tends to change the value any time throughout the entire code and thus may result in changing the value.
 Thus this closure is a impure function. 
 -On the other-hand if we declare the free variable of the type val then the value of the variable remains constant and thus making the closure function a pure one.
@@ -505,9 +516,9 @@ A. Adaptive Query Execution (AQE) enhancements
 - Unlike more traditional technologies, runtime adaptivity in Spark is crucial as it enables the optimization of execution plans based on the input data. 
 The reason why this is so important in Spark is due to the fact that the data itself affects the efficiency of the application. 
 Good example that demonstrates the importance of the dynamic adaptation of execution plans is broadcasting and data skewness. 
-- Spark 3.0 introduced two major improvements over Adaptive Query Execution that now simplify Spark parameter tuning even further:
-  AQE now combines small partitions together so that users don’t need to worry too much about shuffle partitions since this will now be dynamically adjusted in runtime.
-  AQE automatically breaks down partitions into smaller ones once data skewness is detected
+- Spark 3.0 introduced two major improvements over Adaptive Query Execution :
+ -- AQE now combines small partitions together so that users don’t need to worry too much about shuffle partitions since this will now be dynamically adjusted in runtime.
+ -- AQE automatically breaks down partitions into smaller ones once data skewness is detected
 
 B. Improvements on pandas UDF API
 The new interface allows pandas UDFs to infer the type from the given Python type hints in the Python function definition.
@@ -577,9 +588,7 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
 	C) RDD to DataSet :
        val ds = spark.createDataset(rdd)
 ----------------------------------------------------------------------------------------------------------------------------
-25	what is struct type
-26	is it possible to define array field in struct
-27	what is the datatype of array field in struct
+25	what is struct type ? is it possible to define array field in struct
 
  val arrayStructData = Seq(
       Row("James",List(Row("Java","XX",120),Row("Scala","XA",300))),
@@ -599,26 +608,12 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-28	is it possible to convert a df into rdd
-29	what is output of df.rdd
-
+26	is it possible to convert a df into rdd
 	YES. using  df.rdd
 	ouput is rdd
 ----------------------------------------------------------------------------------------------------------------------------
 
-30	which ide to develop spark code 
-	- eclipse
-----------------------------------------------------------------------------------------------------------------------------
-31	how u deploy the code to production
-        - using cicd pipeline
-----------------------------------------------------------------------------------------------------------------------------
-32	How to use the same spark jar for different variables inputs.
-       -in spark submit. pass --classname parameter
-----------------------------------------------------------------------------------------------------------------------------
-33	how to load the data through spark where few records are updates and few are new ?
-
-----------------------------------------------------------------------------------------------------------------------------
-34	Hive and spark optimizations techniques
+27	Hive and spark optimizations techniques
 	
 	- Spark Code level optimization
 	a) Use DataFrame/Dataset over RDD
@@ -633,7 +628,7 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
 	j) tune default partition number       
 ----------------------------------------------------------------------------------------------------------------------------
 
-35	how to replace null values with some other value or discard the rows with null values in spark
+28	how to replace null values with some other value or discard the rows with null values in spark
 	// replace null with zero 
 	df.na.fill(0)
 	// replace null with empty string 
@@ -647,13 +642,13 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
 	// if selected column are null then drop using 
 	df.na.drop("all", Seq("col1", "col2", "col3"))
 ----------------------------------------------------------------------------------------------------------------------------
-36	how to enforce datatype checks on column level in scala
+29	how to enforce datatype checks on column level in scala
 	val columns = df.schema.fields.filter(x => x.dataType == IntegerType || x.dataType == DoubleType)
 ----------------------------------------------------------------------------------------------------------------------------
-37, 38	Spark architecture, yarn architecture
+30	Spark architecture, yarn architecture
 
 ----------------------------------------------------------------------------------------------------------------------------
-39	what are Serde properties
+31	what are Serde properties
 	- SerDe is short for Serializer/Deserializer. 
 	- Hive uses the SerDe interface for IO. 
 	- The interface handles both serialization and deserialization and also interpreting the results of serialization as individual fields for processing.
@@ -666,7 +661,7 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
 		CSV (Hive 0.14 and later)
 		JsonSerDe (Hive 0.12 and later in hcatalog-core)
 ----------------------------------------------------------------------------------------------------------------------------
-40	Hive context in spark
+32	Hive context in spark
 	Hive comes bundled with the Spark library as HiveContext, which inherits from SQLContext. 
 	Using HiveContext, you can create and find tables in the HiveMetaStore and write queries on it using HiveQL. 
 	Users who do not have an existing Hive deployment can still create a HiveContext.
@@ -680,7 +675,7 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
   sparkSession.sql("Create table yourtable as select * form tempTable")
 ----------------------------------------------------------------------------------------------------------------------------
   
-41,42,43  Higher order function? and its advantages?
+33  Higher order function? and its advantages?
 
    A function is called Higher Order Function if it contains other functions as a parameter or returns a function as an output 
    i.e, the functions that operate with another functions are known as Higher order Functions. 
@@ -692,26 +687,26 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
    c) It is even utilized in minimizing redundant lines of code from a program.
 ----------------------------------------------------------------------------------------------------------------------------
 
-44	Why you used Scala for Spark ?
+34	Why you used Scala for Spark ?
 	- Usually, Python is suitable for smaller projects, and Scala works best for large-scale ones. 
 	- If faster performance is a requirement, Scala is a good bet. Spark is native in Scala, hence making writing Spark jobs in Scala the native way.
         - Scala is static-typed, while Python is a dynamically typed language. Due to its nature, the former is more suitable for projects dealing with high volumes of data.
 ----------------------------------------------------------------------------------------------------------------------------
-45.46,47 How do you do packaging (managing packages) ? How do you add dependencies for your project/application? Why do you need dependencies?
+35  How do you do packaging (managing packages) ? How do you add dependencies for your project/application? Why do you need dependencies?
         - in pom.xml
 	- using depedency tag
 	- so that we can use third party jars 
 ----------------------------------------------------------------------------------------------------------------------------
-48	pom.xml <- will things work if we rename pom.xml
+36	pom.xml <- will things work if we rename pom.xml
 	- NO 
 ----------------------------------------------------------------------------------------------------------------------------
-49	what are minimum mandatory imports that are required for scala application.
+37	what are minimum mandatory imports that are required for scala application.
 	- 
 	import org.apache.spark.SparkContext
 	import org.apache.spark.SparkContext._
 	import org.apache.spark.SparkConf
 ----------------------------------------------------------------------------------------------------------------------------
-50	Explain the Difference between cluster by & distribute by with example ..??
+38	in HIVE, Explain the Difference between cluster by & distribute by with example ..??
       *DISTRIBUTE BY clause is used to distribute the input rows among reducers. 
       - It ensures that all rows for the same key columns are going to the same reducer. 
       - So, if we need to partition the data on some key column, we can use the DISTRIBUTE BY clause in the hive queries. 
