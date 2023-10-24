@@ -713,9 +713,10 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
       - However, the DISTRIBUTE BY clause does not sort the data either at the reducer level or globally. 
       - Also, the same key values might not be placed next to each other in the output dataset.
 
-SELECT SalesYear, Amount
-FROM tbl_Sales 
-DISTRIBUTE BY SalesYear;
+set mapreduce.job.reduces=2;
+select * from transactions distribute by acct; // not sorted data  
+select * from hivesql.transactions CLUSTER BY acct; // sorted at reducer level. its shortcut to distribute by acct sort by acct.
+
 
 	* CLUSTER BY
 	- CLUSTER BY clause is a combination of DISTRIBUTE BY and SORT BY clauses together.
