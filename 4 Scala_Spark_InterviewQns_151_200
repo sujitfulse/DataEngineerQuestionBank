@@ -1,14 +1,10 @@
 151	"write a program where we can filter all null values and concat an '_' with all non null values
 
-val newDf =
-  df.withColumn(
-    ""NEW_COLUMN"",
-    concat(
-      when(col(""COL1"").isNotNull, col(""COL1"")),'-') );
+val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, col(""COL1"")),'-'));
       
  -------------------------------------------------------------------------------------------------------------------------------------------------------  
  
-152, 153	"What are the roles and responsibilities of worker nodes in the Apache Spark cluster? Is Worker Node in Spark is same as Slave Node?
+152	What are the roles and responsibilities of worker nodes in the Apache Spark cluster? Is Worker Node in Spark is same as Slave Node?
 
       Apache Spark follows a master/slave architecture, with one master or driver process and more than one slave or worker processes
       
@@ -37,17 +33,14 @@ val newDf =
       Whenever any of the worker nodes fail, the tasks that are required to be performed will be automatically allocated to any other worker nodes"
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-    154	How to chain Dataframe transformation in Spark Transform method ?
+153	How to chain Dataframe transformation in Spark Transform method ?
     
   implicit classes or the Dataset#transform method can be used to chain DataFrame transformations in Spark.
   Though Dataset#transform method is preferred compared to implicit classes.
 
       Eg:
 
-      val df = Seq(
-        ""funny"",
-        ""person""
-      ).toDF(""something"")
+      val df = Seq("funny","person").toDF("something")
 
       def withGreeting(df: DataFrame): DataFrame = {
         df.withColumn(""greeting"", lit(""hello world""))
@@ -70,7 +63,7 @@ val newDf =
       |   person|hello world| goodbye|
 
       Transform Method with Arguments
-
+-----------------------------
       def withGreeting(df: DataFrame): DataFrame = {
         df.withColumn(""greeting"", lit(""hello world""))
       }
@@ -81,7 +74,7 @@ val newDf =
       val niceDf = df
         .transform(withGreeting)
         .transform(withCat(""puffy""))
-
+---------------------------
 
       Monkey Patching with Implicit Classes :
       Implicit classes can be used to add methods to existing classes. 
@@ -100,13 +93,10 @@ val newDf =
       The withGreeting() and withFarewell() methods can be chained and executed as follows.
 
       import BadImplicit._
-      val df = Seq(
-        ""funny"",
-        ""person""
-      ).toDF(""something"")
+      val df = Seq("funny","person").toDF(""something"")
       val hiDf = df.withGreeting().withFarewell()"
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-155, 162	difference between traits and abstract class ?
+154	difference between traits and abstract class ?
 
       Traits
       Traits are similar to interfaces in Java and are created using trait keyword.
