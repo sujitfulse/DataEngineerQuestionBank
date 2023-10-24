@@ -121,7 +121,7 @@ val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, co
       Abstract classes are not stacable and are statically bound.
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-163	difference between map and foreach ? when to use a map and when to use foreach ?
+155	difference between map and foreach ? when to use a map and when to use foreach ?
 
       map :
       the map function in the Seq trait returns a value.
@@ -136,7 +136,7 @@ val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, co
       l.foreach(e => println(e))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-164	what is case class and when we will use a case class ?
+156	what is case class and when we will use a case class ?
 
     Scala case classes are just regular classes which are immutable by default and decomposable through pattern matching.
     It uses equal method to compare instance structurally. It does not use new keyword to instantiate object.
@@ -173,12 +173,12 @@ A case class which has no arguments is declared as case object instead of case c
       }  
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-165	what if partion is deleted from external table and will it give error while a select ?
+157	HIVE : what if partition is deleted from external table and will it give error while a select ?
 
     - To delete data in external table you need to delete files on the filesystem. Data in the external table will remain if you drop table or partition. 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
   
-166 MSCK REPAIR TABLE command
+158  MSCK REPAIR TABLE command
     -  MSCK REPAIR TABLE command. This will restore all the partitions that are not in the metastore but exist on the file system, 
     So, with an external table, if you want the data in a partition to be gone when you drop it, 
     you have to also go and delete it from the filesystem. Otherwise, the data will continue to exist and 
@@ -192,11 +192,11 @@ A case class which has no arguments is declared as case object instead of case c
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-167	how to improve performance of two big tables in hive ?
+159	how to improve performance of two big tables in hive ?
   optimize.bucketmapjoin=true;
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-169	spark scala word count programm
+160	spark scala word count programm
 
 RDD : 
  val text = sc.textFile("mytextfile.txt") 
