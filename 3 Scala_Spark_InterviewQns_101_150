@@ -21,9 +21,7 @@
    * Snappy"
 -----------------------------------------------------------------------------------------------------------------------------------------------------
    
-103	to 136 - Duplicate questions removed 
-
-137	" Explain Spark streaming
+103	 Explain Spark streaming
 
    Spark Streaming
    A data stream defines as a data arriving continuously in the form of an unbounded sequence. 
@@ -44,7 +42,7 @@
    
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
 
-138	"What is DStream in Apache Spark Streaming?
+104	"What is DStream in Apache Spark Streaming?
 
 
     A Discretized Stream (DStream), the basic abstraction in Spark Streaming, is a continuous sequence of RDDs representing a continuous stream of data. 
@@ -59,7 +57,7 @@
     
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
     
- 139	"Explain different transformations in DStream in Apache Spark Streaming
+ 105	"Explain different transformations in DStream in Apache Spark Streaming
 
 
     1-map(func) — Return a new DStream by passing each element of the source DStream through a function func.
@@ -92,7 +90,7 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-140	"What is a DataSet? What are its advantages over DataFrame and RDD?
+106	"What is a DataSet? What are its advantages over DataFrame and RDD?
 
     Ans. In Apache Spark, Datasets are an extension of DataFrame API. It offers object-oriented programming interface. 
     Through Spark SQL, it takes advantage of Spark’s Catalyst optimizer by exposing e data fields to a query planner.
@@ -123,7 +121,7 @@
  
  -----------------------------------------------------------------------------------------------------------------------------------------------------  
 
-141	"On what all basis can you differentiate RDD, DataFrame, and DataSet?
+107	"On what all basis can you differentiate RDD, DataFrame, and DataSet?
 
    Ans. 
    DataFrame: 
@@ -149,7 +147,7 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
 
-142, 143	Explain Catalyst framework.
+108	Explain Catalyst framework.
 
    The Catalyst is a framework which represents and manipulate a DataFrame graph. 
    Data flow graph is a tree of relational operator and expressions. The three main features of catalyst are:
@@ -165,7 +163,7 @@
    Catalyst optimizer makes use of standard features of Scala programming like pattern matching."
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
 
-144	"Does Apache Spark provide checkpointing?
+109	Does Apache Spark provide checkpointing?
 
    Yes, Apache Spark provides checkpointing.
 
@@ -180,25 +178,25 @@
    In this, the RDD is persisted to local storage in the executor."
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-145	"What is Hive on Spark?
+110	"What is Hive on Spark?
   Hive contains significant support for Apache Spark, wherein Hive execution is configured to Spark:
 
   hive> set spark.home=/location/to/sparkHome;
   hive> set hive.execution.engine=spark;"
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-146	"Is it possible to use Apache Spark for accessing and analyzing data stored in Cassandra databases?
+111	"Is it possible to use Apache Spark for accessing and analyzing data stored in Cassandra databases?
   Answer: Yes, it is possible to use Apache Spark for accessing as well as analyzing data stored in Cassandra databases using the 
   Spark Cassandra Connector. It needs to be added to the Spark project during which a Spark executor talks to a local Cassandra node 
   and will query only local data.
   Connecting Cassandra with Apache Spark allows making queries faster by means of reducing the usage of the network for sending data between 
   Spark executors and Cassandra nodes."
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-147,148 What is the difference between reducing () and take() function?
+112 What is the difference between reducing () and take() function?
   Answer: 
   Reduce() function is an action that is applied repeatedly until the one value is left in the last.
   take() function is an action that takes into consideration all the values from an RDD to the local node.
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-149 Can we trigger automated clean-ups in Spark?
+113 Can we trigger automated clean-ups in Spark?
    Answer: Yes, we can trigger automated clean-ups in Spark to handle the accumulated metadata. 
    It can be done by setting the parameters, namely, “spark.cleaner.ttl.” 
    
@@ -206,7 +204,7 @@
    Answer: Another method than “Spark.clener.ttl” to trigger automated clean-ups in Spark is by dividing the long-running jobs into 
    different batches and writing the intermediary results on the disk."
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-150	What is the role of Akka in Spark?
+114	What is the role of Akka in Spark?
    Answer: Akka in Spark helps in the scheduling process. It helps the workers and masters to send and receive messages for 
    workers for tasks and master requests for registering."
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
