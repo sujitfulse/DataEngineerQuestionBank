@@ -172,19 +172,68 @@ Here since we are talking about time efficiency, Parquet provides better results
 218 Given a table with following columns:
 School; Class; Student Name; Subject; Marks;
 Sample Data:
-DPS | 9 | Sunil | Maths | 90
-DPS | 9 | Sunil | English | 80
-DPS | 9 | Sunil | Hindi | 87
-DPS | 9 | Sunil | Science | 83
-DPS | 10 | Sam | Science | 76
-DPS | 10 | Sam | Hindi | 76
-DPS | 10 | Sam | Maths | 76
-MVN | 9 | Happy | Maths |99
-MVN | 9 | Happy | English |89
-MVN | 9 | Happy | Hindi | 79
-MVN | 9 | Happy | Science | 78
++------+-----+------------+-------+-----+
+|School|Class|Student Name|Subject|Marks|
++------+-----+------------+-------+-----+
+|DPS   |9    |Sunil       |Maths  |90   |
+|DPS   |9    |Sunil       |English|80   |
+|DPS   |9    |Sunil       |Hindi  |87   |
+|DPS   |9    |Sunil       |Science|83   |
+|DPS   |10   |Sam         |Science|76   |
+|DPS   |10   |Sam         |Hindi  |76   |
+|DPS   |10   |Sam         |Maths  |76   |
+|MVN   |9    |Happy       |Maths  |99   |
+|MVN   |9    |Happy       |English|89   |
+|MVN   |9    |Happy       |Hindi  |79   |
+|MVN   |9    |Happy       |Science|78   |
++------+-----+------------+-------+-----+
 
-Find Max marks and corresponding student name for subject 'Maths' for each class
+Find Max marks and corresponding student name for subject 'Maths' for each class ?
+
+==>
+
+val classData = Seq(
+("DPS","9","Sunil","Maths","90"),
+("DPS","9","Sunil","English","80"),
+("DPS","9","Sunil","Hindi","87"),
+("DPS","9","Sunil","Science","83"),
+("DPS","10","Sam","Science","76"),
+("DPS","10","Sam","Hindi","76"),
+("DPS","10","Sam","Maths","76"),
+("MVN","9","Happy","Maths","99"),
+("MVN","9","Happy","English","89"),
+("MVN","9","Happy","Hindi","79"),
+("MVN","9","Happy","Science","78")
+).toDF("School","Class","Student Name","Subject","Marks")
+
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.functions._
+
+val classDataFiltered = classData.withColumn("math_rank", rank.over(Window.partitionBy(col("class"),col("Subject")).orderBy(col("marks").desc)))
+scala> classDataFiltered.show(false)
++------+-----+------------+-------+-----+---------+
+|School|Class|Student Name|Subject|Marks|math_rank|
++------+-----+------------+-------+-----+---------+
+|DPS   |10   |Sam         |Hindi  |76   |1        |
+|DPS   |9    |Sunil       |Hindi  |87   |1        |
+|MVN   |9    |Happy       |Hindi  |79   |2        |
+|DPS   |10   |Sam         |Science|76   |1        |
+|DPS   |10   |Sam         |Maths  |76   |1        |
+|MVN   |9    |Happy       |Maths  |99   |1        |
+|DPS   |9    |Sunil       |Maths  |90   |2        |
+|MVN   |9    |Happy       |English|89   |1        |
+|DPS   |9    |Sunil       |English|80   |2        |
+|DPS   |9    |Sunil       |Science|83   |1        |
+|MVN   |9    |Happy       |Science|78   |2        |
++------+-----+------------+-------+-----+---------+
+
+scala> classDataFiltered.where(" Subject == 'Maths' and math_rank==1").show(false)
++------+-----+------------+-------+-----+---------+
+|School|Class|Student Name|Subject|Marks|math_rank|
++------+-----+------------+-------+-----+---------+
+|DPS   |10   |Sam         |Maths  |76   |1        |
+|MVN   |9    |Happy       |Maths  |99   |1        |
++------+-----+------------+-------+-----+---------+
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -203,8 +252,71 @@ Number of executors = Total Cores/ Executor cores = 80/5 = 16 executors
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 221
-Write a SQL query to find 3rd highest salary employee in each department, In case there are less than 3 emp in a dept then return emp 
-with lowest salary in that Dept
+Write a SQL query to find 3rd highest salary employee in each department, 
+In case there are less than 3 emp in a dept then return emp with lowest salary in that Dept
+
++----+-------+------+
+|dept|ename  |salary|
++----+-------+------+
+|comp|Sunil  |10000 |
+|comp|Anil   |8000  |
+|comp|Swapnil|25000 |
+|IT  |Ganesh |8300  |
+|IT  |Mahesh |7600  |
+|IT  |Jayesh |9000  |
+|IT  |Dinesh |11000 |
+|Mech|santa  |5000  |
+|Mech|banta  |6000  |
+|HR  |Neha   |60    |
++----+-------+------+
+
+==> 
+
+val empSalaryData = Seq(
+("comp","Sunil",10000),
+("comp","Anil",8000),
+("comp","Swapnil",25000),
+("IT","Ganesh",8300),
+("IT","Mahesh",7600),
+("IT","Jayesh",9000),
+("IT","Dinesh",11000),
+("Mech","santa",5000),
+("Mech","banta",6000),
+("HR","Neha",60)
+).toDF("dept","ename","salary")
+
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.functions._
+
+val empSalaryDataRanked = empSalaryData.withColumn("salary_rank", rank.over(Window.partitionBy(col("dept")).orderBy(col("salary").desc))).
+withColumn("total_emp", count(col("dept")).over(Window.partitionBy(col("dept"))))
+
+empSalaryDataRanked.show(false)
++----+-------+------+-----------+---------+
+|dept|ename  |salary|salary_rank|total_emp|
++----+-------+------+-----------+---------+
+|HR  |Neha   |60    |1          |1        |
+|IT  |Dinesh |11000 |1          |4        |
+|IT  |Jayesh |9000  |2          |4        |
+|IT  |Ganesh |8300  |3          |4        |
+|IT  |Mahesh |7600  |4          |4        |
+|Mech|banta  |6000  |1          |2        |
+|Mech|santa  |5000  |2          |2        |
+|comp|Swapnil|25000 |1          |3        |
+|comp|Sunil  |10000 |2          |3        |
+|comp|Anil   |8000  |3          |3        |
++----+-------+------+-----------+---------+
+
+empSalaryDataRanked.where(" (total_emp>=3 and salary_rank=3)  or (total_emp < 3 and salary_rank=total_emp) ").show(false)
++----+------+------+-----------+---------+
+|dept|ename |salary|salary_rank|total_emp|
++----+------+------+-----------+---------+
+|HR  |Neha  |60    |1          |1        |
+|IT  |Ganesh|8300  |3          |4        |
+|Mech|santa |5000  |2          |2        |
+|comp|Anil  |8000  |3          |3        |
++----+------+------+-----------+---------+
+
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 222 scala code for 
