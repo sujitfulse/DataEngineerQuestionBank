@@ -316,7 +316,34 @@ empSalaryDataRanked.where(" (total_emp>=3 and salary_rank=3)  or (total_emp < 3 
 |Mech|santa |5000  |2          |2        |
 |comp|Anil  |8000  |3          |3        |
 +----+------+------+-----------+---------+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+221 We have a static collection of data in which first row is always a number of records in a collection, On second row u have a name,age,city. 
+You have to remove duplicates with respect to name and age 
+In a such a way that city value should get replaced and print data. 
+[5,Sunil,28,pune,anil,32,latur,Sunil,28,nanded,Jayesh,28,nashik,Mahesh,30,Nashik]
 
+import scala.collection.mutable.HashMap 
+object HelloWorld {
+	def main(args: Array[String]): Unit = {
+	  
+	  val dataList: List[String] = List("5","Sunil","28","pune","anil","32","latur", 
+	  "Sunil","28","nanded","Jayesh","28","nashik","Mahesh","30","Nashik");
+
+	 var hashMap = HashMap[String, String]()
+		for ( i <- 1 to (dataList.length -1) by 3){
+		  hashMap = hashMap + ( (dataList(i) +","+dataList(i+1) )->dataList(i+2))   
+		}
+
+		 hashMap.foreach{case (key, value) => println (key + " -> " + value)}
+	}
+}
+
+// output 
+
+Jayesh,28 -> nashik
+anil,32 -> latur
+Sunil,28 -> nanded
+Mahesh,30 -> Nashik
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 222 scala code for 
