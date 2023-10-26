@@ -1,21 +1,31 @@
 1	What do you mean by a data lake?
-2	what are data warehousing concepts
-3	what is type 2 dimensions
-4	what is a data warehouse
-5	diff b/w database and data warehouse
-6	facts and dimension
-7	https://www.geeksforgeeks.org/difference-between-fact-table-and-dimension-table/
-8	https://www.guru99.com/fact-table-vs-dimension-table.html
-9	types of facts
-10	https://www.guru99.com/star-snowflake-data-warehousing.html
-11	do you know data modeling 
-12	 SCD types
-13	http://www.disoln.org/2013/12/Design-Approach-to-Handle-Late-Arriving-Dimensions-and-Late-Arriving-Facts.html?m=0
-14	 have you implemented any SCD ?
-15	 what is SCD2 ?
-16	 what are data mart, data warehouse, data lake and data vault. How are these different ?
-17	 what are star and snoflake schemas ? what schema is it if there are two fact tables ?
-18	 what is fact less table ?
-19	 Do you have facts and dimention tables in your big data lake ?
-20	 Any idea on SCD4, SCD5 ? 
-21	 which form of normalization you used in the data ? 
+
+2 explain data modeling 
+
+3	what are data warehousing concepts ?
+
+4	what is type 2 dimensions ?
+
+5	what is a data warehouse ? 
+
+6	diff b/w database and data warehouse ? 
+
+7	facts and dimension ?
+https://www.geeksforgeeks.org/difference-between-fact-table-and-dimension-table/
+https://www.guru99.com/fact-table-vs-dimension-table.html
+
+8	types of facts
+	https://www.guru99.com/star-snowflake-data-warehousing.html
+
+9	 what is fact less table ?
+
+10	 SCD types
+  http://www.disoln.org/2013/12/Design-Approach-to-Handle-Late-Arriving-Dimensions-and-Late-Arriving-Facts.html?m=0
+
+11	 have you implemented any SCD ?
+
+12	 what are data mart, data warehouse, data lake and data vault. How are these different ?
+
+13	 what are star and snoflake schemas ? what schema is it if there are two fact tables ?
+
+14	 what is normalization ? which form of normalization you used in the data ? 
