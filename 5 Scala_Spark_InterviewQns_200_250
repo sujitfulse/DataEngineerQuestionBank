@@ -104,8 +104,34 @@ scala> classDataFiltered.where(" Subject == 'Maths' and math_rank==1").show(fals
 ----------------------------------------------------------------------------------------------------------------------------------------------------------
 
 203 Write scala code for 
-Given an array of elements, find a pair of numbers which has the maximum sum.
-Sample Array: [ 3, 67, 6, 34, 54, 89, 76 ]
+Given an array of elements, find a pair of numbers which has the maximum sum. OR  Print all pairs with given sum
+
+A Initialize an empty hash set.
+B Traverse through the array.
+C For each element in the array, check if the difference between the sum and the current element exists in the hash set. If it exists, print the pair.
+D Add the current element to the hash set.
+
+import java.util.*;
+
+public class Main {	
+	public static void printPairs(int[] arr, int n, int sum) {
+		Set<Integer> s = new HashSet<>();
+		for (int i = 0; i < n; i++) {
+			int temp = sum - arr[i];
+			if (s.contains(temp)) {
+				System.out.println("(" + temp + ", " + arr[i] + ")");
+			}
+			s.add(arr[i]);
+		}
+	}
+	public static void main(String[] args) {
+		int[] arr = {1, 5, 7, -1, 5};
+		int sum = 6;
+		int n = arr.length;
+		printPairs(arr, n, sum);
+	}
+}
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 221
 Write a SQL query to find 3rd highest salary employee in each department, 
@@ -210,3 +236,4 @@ Mahesh,30 -> Nashik
 5) Sort array without using sort function
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+223) 
