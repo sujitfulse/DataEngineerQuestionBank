@@ -1,31 +1,62 @@
 1	What do you mean by a data lake?
+==>	A data lake is a centralized repository designed to store, process, and secure large amounts of structured, semistructured, and unstructured data. 
+        It can store data in its native format and process any variety of it, ignoring size limits.
 
-2 explain data modeling 
+2       explain data modeling 
+==>     Data modelling is the process of conceptualizing and visualising how data will be gathered, stored, and used within business operations.
+       Some of the benefits of data modeling include:
+	A Improved understanding of data
+	B Improved data quality
+	C Improved collaboration
+	D Increased efficiency
 
-3	what are data warehousing concepts ?
+3	what is a data warehouse ?  what are data warehousing concepts ?
+==>
+	Used for analytical purposes. Optimized for aggregation and retrieval of large data sets.
+	Data warehouses store data from multiple databases, which makes it easier to analyze.
+	A data warehouse is an analytical database that layers on top of transactional databases to allow for analytics.	
 
-4	what is type 2 dimensions ?
+4	diff b/w datelake and data warehouse ? 
+==>     Data Lake ==> Data lake holds data of all structure types, including raw and unprocessed data. A kind of central strore. 
+        Data Warehouse= > data warehouse stores data that has been treated and transformed with a specific purpose in mind,
+                       which can then be used to source analytic or operational reporting.
 
-5	what is a data warehouse ? 
+5	facts and dimension ?
+==>	
+	Facts ==> 
+	A fact is a quantitative piece of information - such as a sale or a download.
+	Facts are trasacational numberic type of values. Big tables compared to fact tables.
+	A fact table has two types of columns: fact columns and FK to dimenstional tables
 
-6	diff b/w database and data warehouse ? 
+	Dimension ==> 
+	Descriptive characteristics in the companion table to the fact table.
+	Gathering of background data about a company.
+	Each dimension table has attributes that provide information about the specifics of the dimension.
+	Each dimension in a dimension table contains a primary key column that uniquely identifies it.
 
-7	facts and dimension ?
-https://www.geeksforgeeks.org/difference-between-fact-table-and-dimension-table/
-https://www.guru99.com/fact-table-vs-dimension-table.html
+6	Types of facts
+==>
+	Additive ==> Measurements in a fact table that can be summed up across all dimensions. e.g. storewise, daywise, product wise,
+	Non - Additive => Facts that cannot be summed up across any dimension key. Note: % and ratio columns, , phone calls, orders, and sales.
+	Semi-Aditive => Measurements in a fact table that can be summed up across only a few dimensions keys. e.g bank balance can not be sumed over time.
+	Factless =>  A fact table without any measures is called the factless fact table. It contains only keys and  acts as a bridge between dimension keys
 
-8	types of facts
-	https://www.guru99.com/star-snowflake-data-warehousing.html
+7	 SCD types ? Slowly Chaninging Dimensions
+==> 
+	Type 0 – No changes allowed. Fixed Dimension. Dimension never changes. e.g. account opening contry
+	Type 1 – Overwrite. Update record directly, there is no record of historical values, only current state
+	Type 2 – Add new Row, Row Versioning. Track changes as version records with current flag & active dates and other metadata
+	Type 3 – Previous Value column. Track change to a specific attribute, add a column to show the previous value, which is updated as further changes occur
+	Type 4 – History Table. Shosw current value in dimension table but track all changes in separate table
+	Type 6 – Hybrid SCD. Utilise techniques from SCD Types 1, 2 and 3 to track change
 
-9	 what is fact less table ?
+8        Explain Differnt keys in DBs.
 
-10	 SCD types
-  http://www.disoln.org/2013/12/Design-Approach-to-Handle-Late-Arriving-Dimensions-and-Late-Arriving-Facts.html?m=0
-
-11	 have you implemented any SCD ?
 
 12	 what are data mart, data warehouse, data lake and data vault. How are these different ?
 
 13	 what are star and snoflake schemas ? what schema is it if there are two fact tables ?
 
 14	 what is normalization ? which form of normalization you used in the data ? 
+
+
