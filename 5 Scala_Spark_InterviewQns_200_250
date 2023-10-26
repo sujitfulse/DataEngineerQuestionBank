@@ -228,9 +228,79 @@ Sunil,28 -> nanded
 Mahesh,30 -> Nashik
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-222 scala code for 
+222  code for 
 1) prime num 
+
+class gfg {
+    static void prime_N(int N)
+    {
+        // Declaring the variables
+        int x, y, flg;
+        // Using for loop for traversing all
+        for (x = 1; x <= N; x++) {
+            // Omit 0 and 1 as they are  neither prime nor composite
+            if (x == 1 || x == 0) {
+                continue; 
+            }
+ 
+            // Using flag variable to check if x is prime or not
+            flg = 1;
+ 
+            for (y = 2; y <= x / 2; ++y) {
+                if (x % y == 0) {
+                    flg = 0;
+                    break;
+                }
+            }
+ 
+            // If flag is 1 then x is prime but
+            // if flag is 0 then x is not prime
+            if (flg == 1)
+                System.out.print(x + " ");
+        }
+    }
+ 
+    // The Driver code
+    public static void main(String[] args)
+    {
+        int N = 45;
+        prime_N(N);
+    }
+}
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
 2) Fibonacci series 
+// Java program for the above approach
+
+class GFG {
+	// Function to print N Fibonacci Number
+	static void Fibonacci(int N)
+	{
+		int num1 = 0, num2 = 1;
+		int counter = 0;
+		// Iterate till counter is N
+		while (counter < N) {
+			// Print the number
+			System.out.print(num1 + " ");
+			// Swap
+			int num3 = num2 + num1;
+			num1 = num2;
+			num2 = num3;
+			counter = counter + 1;
+		}
+	}
+
+	// Driver Code
+	public static void main(String args[])
+	{
+		// Given Number N
+		int N = 10;
+		// Function Call
+		Fibonacci(N);
+	}
+}
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 3) Higher order function lambda function to Sum even numbers from 1 to 100
 4) reverse string without using inbuilt api
 5) Sort array without using sort function
