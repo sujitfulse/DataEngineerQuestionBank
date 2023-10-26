@@ -362,3 +362,7 @@ we have defined a global variable and can use it inside the function also.
 c) we can have those variables that are available even when the function task is finished.
 https://www.educba.com/scala-closure/
 -----------------------------------------------------------------------------------------------------------------------------------------------------
+
+172 higher order function with examples
+173 Nested functions 
+174 Partially applied functions
