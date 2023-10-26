@@ -209,18 +209,18 @@ val wordDF = wordsDF.select(explode(wordsDF("words")).alias("word"))
 val wordCountDF = wordDF.groupBy("word").count
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-170	What is future class in scala
+161	What is future class in scala
   Futures allows performing many operations in parallel– in an efficient and non-blocking way.
   A Future is a placeholder object for a value that may not yet exist. 
   Generally, the value of the Future is supplied concurrently and can subsequently be used. 
   Composing concurrent tasks in this way tends to result in faster, asynchronous, non-blocking parallel code.
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-176	what internally happens when you do spark-submit ?
+162	what internally happens when you do spark-submit ?
 
 https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of-Job-Execution-In-Spark.jpg
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-177	 How to read binary files in spark ?
+163	 How to read binary files in spark ?
 
   assuming you have no delimiter, 
   an Int in Scala is 4 bytes,
@@ -234,11 +234,11 @@ https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of
              ByteBuffer.wrap(x.drop(6)).getLong))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-178	List hive  analytic functions you used in project 
+164	List hive  analytic functions you used in project 
 ==> lead , lag, Rownumber
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-179	how will you check if data is there or not in 6th partition in RDD ? 
+165	how will you check if data is there or not in 6th partition in RDD ? 
 ==> using glom() methond
   val rdd = sc.parallelize(Seq(1,2,3,4,5,6,7,8,9,10))
   rdd.glom().collect()
@@ -246,7 +246,7 @@ https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of
   //Result
   res3: Array[Array[Int]] = Array(Array(1), Array(2), Array(3), Array(4, 5), Array(6), Array(7), Array(8), Array(9, 10))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-183 what is stage n task in spark
+166 what is stage n task in spark
 
 Spark Stages : 
 Whenever there is a shuffling of data over the network, Spark divides the job into multiple stages. 
@@ -258,28 +258,11 @@ There are two types of stages in Spark:
 1.ShuffleMapStage in Spark
 2. ResultStage in Spark
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-184	in case one task is taking more time how will you handle --> Specutive execution.
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-85	Rank vs DenseRank
+167	Rank vs DenseRank
 Rank - same rank to mulple records if tie, but then skips sequence. ( 1,1,3,4)
 DenseRank - same rank to mulple records if tie, but then skips sequence.. dense_rank leaves no gaps in ranking sequence when there are ties.( 1,1,2,3)
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-186	InferSchema method API ? 
-
-- By setting inferSchema=true, Spark will automatically go through the csv file and infer the schema of each column.
-This requires an extra pass over the file which will result in reading a file with inferSchema set to true being slower. 
-But in return the dataframe will most likely have a correct schema given its input.
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-187,188	Map Side Join
--> 
- if you need to join a large table (fact) with relatively small tables (dimensions) i.e. to perform a star-schema join you can avoid sending all data 
- of the large table over the network. This type of join is called map-side join in Hadoop community.
- In other distributed systems, it is often called replicated or broadcast join.
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-189	SMB joins
+168	SMB joins
 
 Shuffle phase
 Data from both datasets are read and shuffled. After the shuffle operation, records with the same keys from both datasets will end up in the same partition 
@@ -295,13 +278,87 @@ as soon as a key mismatch is encountered. So a join attempt is not performed on 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-195	how we do GC in Spark
+169	how we do GC in Spark
 JVM garbage collection is problematic with large churn RDD stored by the program. To make room for new objects, Java removes the older one; it traces all the
 old objects and finds the unused one. But the key point is that cost of garbage collection in Spark is proportional to a number of Java objects. Thus, it is
 better to use a data structure in Spark with lesser objects. 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-196	have you ever received an error "no-space-left-on-device" in your datanode? what is it exactly?
-By default Spark uses the /tmp directory to store intermediate data. If you actually do have space left on some device --
-you can alter this by creating the file SPARK_HOME/conf/spark-defaults.conf and adding the line.
-Here SPARK_HOME is wherever you root directory for the spark install is.
-spark.local.dir                     SOME/DIR/WHERE/YOU/HAVE/SPACE
+
+170	What is currying function in Scala ? 
+
+Currying transforms a function that takes multiple parameters into a chain of functions, each taking a single parameter.
+
+*example : 
+def strcat(s1: String)(s2: String) = s1 + s2
+
+*Partially applied Currying funtion : 
+result = f(x)(y)(z)
+can be called as 
+f1 = f(x)
+f2 = f1(y)
+result = f2(z)
+
+object Curry 
+{ 
+    def add(a: Int) = (b: Int) => a + b; 
+    def main(args: Array[String]) 
+    { 
+      // first way to call 
+         println(add(20)(20)); 
+    
+     // alternative way to call   
+        val add2 = add(10);
+        println(add2(20)); 
+    } 
+} 
+
+*Advantages of Currying Function in Scala :
+a) One benefit is that Scala currying makes creating anonymous functions easier.
+b) Scala Currying also makes it easier to pass around a function as a first-class object. You can keep applying parameters when you find them.
+----------------------------------------------------------------------------------------------------------------------------
+
+171	Closure functions in scala and what are their benefits.
+
+Difference between a closure function and a normal function is the free variable. 
+A free variable is any kind of variable which is not defined within the function and not passed as the parameter of the function. 
+A free variable is not bound to a function with a valid value.
+Scala Closures are functions which uses one or more free variables and the return value of this function is dependent of these variable. 
+
+
+A closure function can further be classified into pure(val variables) and impure functions ( var variables), depending on the type of the free variable. 
+-If we give the free variable a type var then the variable tends to change the value any time throughout the entire code and thus may result in changing the value.
+Thus this closure is a impure function. 
+-On the other-hand if we declare the free variable of the type val then the value of the variable remains constant and thus making the closure function a pure one.
+// Addition of two numbers with
+// Scala closure
+
+// Creating object
+object GFG
+{
+	// Main method
+	def main(args: Array[String])
+	{
+		println( "Final_Sum(1) value = " + sum(1))
+		println( "Final_Sum(2) value = " + sum(2))
+		println( "Final_Sum(3) value = " + sum(3))
+	}
+		
+	var a = 4
+	
+	// define closure function
+	val sum = (b:Int) => b + a
+}
+
+Output : 
+Final_Sum(1) value = 5
+Final_Sum(2) value = 6
+Final_Sum(3) value = 7
+https://www.geeksforgeeks.org/scala-closures/#:~:text=Scala%20Closures%20are%20functions%20which,a%20parameter%20of%20this%20function.
+
+*The benefit of Using Closures Functions
+a) A major benefit of having closure function is the concept of data encapsulation plus data persistence. 
+b) Since the variables defined have a scope and if they are defined inside a function they will have a local scope, but with the help of closure function,
+we have defined a global variable and can use it inside the function also.
+c) we can have those variables that are available even when the function task is finished.
+https://www.educba.com/scala-closure/
+-----------------------------------------------------------------------------------------------------------------------------------------------------
