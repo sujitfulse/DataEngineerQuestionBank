@@ -1,15 +1,68 @@
-1 What is the articetcure of HBASE ? 	
+1 Explain HBase architecure and role of each component ? 	
+==> 
+  Major componenets are : 
+a) MasterServer (HMaster)
+b) Region server 
+c) Region
+d) Mem-store
+e) HFile
+f) WAL
+g) Zookeeper
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+2) Explian HMaster ? 
+  It is Master server in HBase It acts like monitoring agent to monitor all Region. Master runs on NameNode.
 
-2	WAL in hbase
+  Roles performed by HMaster :
+  - HMaster assigns regions to region servers.
+  - HMaster has the features like controlling load balancing and failover to handle the load over nodes present in the cluster.
+  - HMaster takes responsibility for Metadata operations.
+
+ HMaster Interface are primarily Metadata oriented methods: Table (create,delete,enable, disable), ColumnFamily (add Column, modify Column) Region (move, assign)
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+3) explain Regions, Memstore, HFile
+
+ - Regions: Regions are the basic building elements of HBase cluster that consists of the distribution of tables and are comprised of Column families. 
+  It contains multiple stores, one for each column family. It consists of mainly two components, which are Memstore and Hfile.
+
+- Memstore: Memstore for each store for each region for the table. It sorts data before flushing into HFiles. Write and read performance will increase because of sorting
+
+- HFile: HFiles for each store for each region for the table
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+4) How read and write happend in HBase ?
+
+The Read and Write operations from Client into Hfile -
+
+Step 1) Client wants to write data and in turn first communicate with Regions server and then regions
+Step 2) Regions contacting memstore for storing associated with the column family
+Step 3) First data stores into Memstore, where the data is sorted and after that it flushes into HFile.
+Step 4) Client wants to read data from Regions
+Step 5) In turn Client can have direct access to Mem store, and it can request for data.
+Step 6) Client approaches HFiles to get the data. The data are fetched and retrieved by the Client.
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+5) use of WAL in hbase ? 
+  If HBase goes down, the data that was not yet flushed from the MemStore to the HFile can be recovered by replaying the WAL, taken care by Hbase framework.
+  Memstore stores data in RAM where WAL stores same data on disk. In case of failure Memstores are constructed from WAL
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 3 purpose of pagefilter in hbase
+- It terminates scanning once the number of filter-passed rows is > the given page size.
+-Note that this filter cannot guarantee that the number of results returned to a client are <= page size. This is because the filter is applied separately on 
+different region servers
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 4	tell me what type of hbase issues you get ?
-
-5	what will you do if more WAL'S are created ?
+==> regions too busy exception. region stuck in spitting etc. 
+-----------------------------------------------------------------------------------------------------------------------------------------------------
 
 6	what is companion and difference between major n minor compactions 
-7	how often you run major compaction 
-8 what is hotspotting in hbase
-9 what is column family in hbase 
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+7	how often you run major compaction => once in a day.
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
 10	number of column families limit for one table
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
