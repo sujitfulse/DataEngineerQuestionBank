@@ -9,7 +9,7 @@ e) HFile
 f) WAL
 g) Zookeeper
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-2) Explian HMaster ? 
+2) Explain HMaster ? 
   It is Master server in HBase It acts like monitoring agent to monitor all Region. Master runs on NameNode.
 
   Roles performed by HMaster :
@@ -45,24 +45,33 @@ Step 6) Client approaches HFiles to get the data. The data are fetched and retri
   Memstore stores data in RAM where WAL stores same data on disk. In case of failure Memstores are constructed from WAL
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-3 purpose of pagefilter in hbase
+6) purpose of pagefilter in hbase
 - It terminates scanning once the number of filter-passed rows is > the given page size.
 -Note that this filter cannot guarantee that the number of results returned to a client are <= page size. This is because the filter is applied separately on 
 different region servers
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-4	tell me what type of hbase issues you get ?
+7)	tell me what type of hbase issues you get ?
 ==> regions too busy exception. region stuck in spitting etc. 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-6	what is companion and difference between major n minor compactions 
+8)	what is companion and difference between major n minor compactions 
 
+Number of files: Too many files negatively impact performance, due to file metadata and seek costs associated with each file.
+Amount of data: Too much data means less performance.
+
+-- minor compaction - runs frequectly and clubs all small HFiles into bigger one. 
+-- Major Compaction - runs after long duration ( weekly/monthly once) and combines files ( minor compacted) into larger one. Deletes actual data if marked as deleted
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
-7	how often you run major compaction => once in a day.
+9)	how often you run major compaction 
+=> once in a month.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 10	number of column families limit for one table
+There is a limit of the number of column families in HBase. There is one MemStore (it's a write cache which stores new data before writing it into Hfiles) per Column Family. When one is full, they all flush.
+
+The more column families you add the more MemStores will be created and Memstore flush will be more frequent. It will degrade the performance.
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
