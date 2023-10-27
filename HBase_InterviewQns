@@ -1,20 +1,15 @@
-1	purpose of pagefilter in hbase
+1 What is the articetcure of HBASE ? 	
+
 2	WAL in hbase
-3	how to use joins in hbase(I don’t think hbase support joins, we need to depend on mapreduce?)
-4	can you run hbase and mapreduce on same cluster, if yes how
-5	Hbase architecture and working
-6	tell me what type of hbase issues you get ?
-7	what will you do if more WAL'S are created ?
-8	what happens when you switch on hbase balancer ?
-9	If region server is down and client reported an error to you ? how do you fix with out restarting region server ?
-10	have you worked on hbase replication
-11	what is companion and difference between major n minor compactions 
-12	how often you run major compaction 
-13	)what is hotspotting in hbase
-14	)what is column family in hbase 
-15	can you create a table without mentioning column family 
-16	number of column families limit for one table
-17	What is the articetcure of HBASE ? 
-18	 If a region server goes down then how we'll be able to read data which that server had.
-19	how load balancer works in hbase ? 
-20	 whether we can avoid left/full outer join while merging snapshot with hostory data ? 
+
+3 purpose of pagefilter in hbase
+
+4	tell me what type of hbase issues you get ?
+
+5	what will you do if more WAL'S are created ?
+
+6	what is companion and difference between major n minor compactions 
+7	how often you run major compaction 
+8 what is hotspotting in hbase
+9 what is column family in hbase 
+10	number of column families limit for one table
