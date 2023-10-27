@@ -1,25 +1,29 @@
 1	What do you mean by a data lake?
 ==>	A data lake is a centralized repository designed to store, process, and secure large amounts of structured, semistructured, and unstructured data. 
         It can store data in its native format and process any variety of it, ignoring size limits.
-
-2       explain data modeling 
-==>     Data modelling is the process of conceptualizing and visualising how data will be gathered, stored, and used within business operations.
-       Some of the benefits of data modeling include:
+------------------------------------------------------------------------------------------------------------------------------------------------------
+2 explain data modeling 
+==> Data modelling is the process of conceptualizing and visualising how data will be gathered, stored, and used within business operations.
+   Some of the benefits of data modeling include:
 	A Improved understanding of data
 	B Improved data quality
 	C Improved collaboration
 	D Increased efficiency
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 3	what is a data warehouse ?  what are data warehousing concepts ?
 ==>
 	Used for analytical purposes. Optimized for aggregation and retrieval of large data sets.
 	Data warehouses store data from multiple databases, which makes it easier to analyze.
 	A data warehouse is an analytical database that layers on top of transactional databases to allow for analytics.	
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 4	diff b/w datelake and data warehouse ? 
-==>     Data Lake ==> Data lake holds data of all structure types, including raw and unprocessed data. A kind of central strore. 
-        Data Warehouse= > data warehouse stores data that has been treated and transformed with a specific purpose in mind,
+==>
+	Data Lake ==> Data lake holds data of all structure types, including raw and unprocessed data. A kind of central strore. 
+	Data Warehouse= > data warehouse stores data that has been treated and transformed with a specific purpose in mind,
                        which can then be used to source analytic or operational reporting.
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 5	facts and dimension ?
 ==>	
@@ -33,6 +37,7 @@
 	Gathering of background data about a company.
 	Each dimension table has attributes that provide information about the specifics of the dimension.
 	Each dimension in a dimension table contains a primary key column that uniquely identifies it.
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 6	Types of facts
 ==>
@@ -40,6 +45,7 @@
 	Non - Additive => Facts that cannot be summed up across any dimension key. Note: % and ratio columns, , phone calls, orders, and sales.
 	Semi-Aditive => Measurements in a fact table that can be summed up across only a few dimensions keys. e.g bank balance can not be sumed over time.
 	Factless =>  A fact table without any measures is called the factless fact table. It contains only keys and  acts as a bridge between dimension keys
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 7	 SCD types ? Slowly Chaninging Dimensions
 ==> 
@@ -48,7 +54,8 @@
 	Type 2 – Add new Row, Row Versioning. Track changes as version records with current flag & active dates and other metadata
 	Type 3 – Previous Value column. Track change to a specific attribute, add a column to show the previous value, which is updated as further changes occur
 	Type 4 – History Table. Shosw current value in dimension table but track all changes in separate table
-	Type 6 – Hybrid SCD. Utilise techniques from SCD Types 1, 2 and 3 to track change
+	Type 5 – Hybrid SCD. Utilise techniques from SCD Types 1, 2 and 3 to track change
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 8        Explain Differnt keys in DBs.
 ==> 
@@ -63,6 +70,7 @@
 	e) Artificial Key/Surrogate key/synthetic PK => when PK is complex then new simiplied key is generated as AK. e.g. sequnce no etc. 
 	https://www.geeksforgeeks.org/surrogate-key-in-dbms/
 	https://www.geeksforgeeks.org/types-of-keys-in-relational-model-candidate-super-primary-alternate-and-foreign/
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 9	 what are data mart, data vault. How are these different ?
 ==> 	
@@ -70,18 +78,38 @@
 	data vault => it is data modeling technique. represented using Hubs(business logic), links(relation betwn Hubs), and satellites(metainfo for hubs and links)
 		Data vault modeling is a database modeling method that is designed to provide long-term historical storage of data.
 		used for huge, complex , historical big data.
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 10	 what are star and snoflake schemas ?
 ==>	star schema=> fact tables and dimension tables are present in a star schema. Simple one, where fact table comes in center and one level of dimention tables.
 	snowflake schema => Dimension tables,  sub-dimension tables, and fact tables are all included in a snowflake schema. Multi table join required which slows perf.
-	https://www.simplilearn.com/star-schema-vs-snowflake-schema-article#:~:text=In%20a%20star%20schema%2C%20relationships,tables%2C%20represented%20by%20multiple%20joins.
+https://www.simplilearn.com/star-schema-vs-snowflake-schema-article#:~:text=In%20a%20star%20schema%2C%20relationships,tables%2C%20represented%20by%20multiple%20joins.
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 11       what schema is it if there are two fact tables ? 
 ==>	Star Schema has only one fact table.
 	we can use galaxy schema where two star schema will be used which are connected throuh common dimension table.
 https://community.qlik.com/t5/QlikView-App-Dev/How-many-fact-tables-will-be-there-in-star-schema/td-p/702956#:~:text=Star%20schema%20contains%20only%20one,tables%20into%201%20fact%20table.
+------------------------------------------------------------------------------------------------------------------------------------------------------
 
 12	what is normalization ? which form of normalization you used in the data ? 
 ==> 	Normalization is the process of organizing data in a database. to make the database more flexible by eliminating redundancy and inconsistent dependency.
-
-
+	https://www.simplilearn.com/tutorials/sql-tutorial/what-is-normalization-in-sql
+	1NF -  Single cell cannot hold multiple values. It must hold only a single-valued attribute. can store multiple values in single row. e.g. multi mob no.
+		split such rows into multiple row.
+	2NF -  The table should not possess partial dependency. all non-key attributes are fully functional dependent on the primary key. 
+		< teacherid,subjectName,age> https://www.javatpoint.com/dbms-boyce-codd-normal-form
+		Single Column Primary Key that does not functionally dependant on any subset of candidate key relation. paritition table. 
+		e.g. empid, countrycode, country and we have only 5 country but 1 million employees. then split the tables into 2. (empid,countrycode) and (countrycode,country)
+	3NF -  Has no transitive functional dependencies. https://www.javatpoint.com/dbms-third-normal-form. 
+		if table has (empid,empname, pincode,city,state) then city and state can be fetched using pincode. so split this in two tables
+		( empid,empname, pincode) ( pincode , city, state)
+	BCNF - this is 3.5NF this is more stricter than 3NF. e.g. 
+		if table has (empid,empname, pincode,city,state) then city and state can be fetched using pincode. so split this in 3 tables.
+		( empid,empname) ( pincode,city,state) (empid,pincode) https://www.javatpoint.com/dbms-boyce-codd-normal-form
+	4NF - If it is in BCNF and has no multi-valued dependency. e.g. if user is saying in more than 2 cities then 
+		if table has (empid,empname, pincode,city,state) then city and state can be fetched using pincode. so split this in 3 tables.
+		( empid,empname) ( pincode,city,state) (empid,pincode). here 3rd table may have (empid,pincode) duplicate entries 
+		https://www.javatpoint.com/dbms-boyce-codd-normal-form . 
+	5NF - 5NF is satisfied when all the tables are broken into as many tables as possible in order to avoid redundancy. 
+		https://www.javatpoint.com/dbms-fifth-normal-form
