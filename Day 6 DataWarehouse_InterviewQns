@@ -126,3 +126,10 @@ https://community.qlik.com/t5/QlikView-App-Dev/How-many-fact-tables-will-be-ther
 	Surrounding this were dimension tables like Products, Stores, Time, and Customers. This structure allowed for efficient querying and reporting of 
 	sales metrics across various dimensions.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
+15 	What is the ACID property in a database?
+
+The full form of ACID is atomicity, consistency, isolation, and durability.
+• Atomicity refers that if any aspect of a transaction fails, the whole transaction fails and the database state remains unchanged.
+• Consistency means that the data meets all validity guidelines. 
+• Concurrency management is the primary objective of isolation.
+• Durability ensures that once a transaction is committed, it will occur regardless of what happens in between such as a power outage, fire, or some other kind of disturbance.
