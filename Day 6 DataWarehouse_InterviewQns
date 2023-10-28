@@ -113,3 +113,16 @@ https://community.qlik.com/t5/QlikView-App-Dev/How-many-fact-tables-will-be-ther
 		https://www.javatpoint.com/dbms-boyce-codd-normal-form . 
 	5NF - 5NF is satisfied when all the tables are broken into as many tables as possible in order to avoid redundancy. 
 		https://www.javatpoint.com/dbms-fifth-normal-form
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+13	How do you ensure data consistency and integrity in a data warehousing environment? 
+==> 
+	implemented data validation checks, used constraints like primary and foreign keys, and ensure that ETL processes have error-handling mechanisms. 
+		Regular audits and data reconciliation processes are also set up to ensure data accuracy and consistency.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+14 	 Describe a situation where you had to design a star schema for a data warehousing project. 
+==>      For a retail sales data warehousing project, I designed a star schema with a central fact table containing sales transactions. 
+	Surrounding this were dimension tables like Products, Stores, Time, and Customers. This structure allowed for efficient querying and reporting of 
+	sales metrics across various dimensions.
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
