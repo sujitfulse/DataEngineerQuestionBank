@@ -339,3 +339,53 @@ object calculate {
 	}
 }
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+223) Caculate factorial , concat words, is number prime, fibonacchi using tail recursion
+
+object calculate {
+  
+    // factorial 1*2*3...*n 
+  def factorialTailRecursion(n : Int) : BigInt =  { 
+    def factorialTailRecursionAux(n : Int,acc : BigInt):BigInt = { 
+        if(n<=1) acc  else  factorialTailRecursionAux(n-1,n * acc)
+    }
+    factorialTailRecursionAux(n,1)
+}
+
+ // print string n times using tail recursion 
+ def concatString(word: String,cnt:Int ):String = {
+    def concatStringAuxTailRec(word: String,newWord:String,count:Int ):String = {
+      if (count == 0) newWord 
+      else concatStringAuxTailRec(word ,word.concat(newWord), count-1 )
+    }
+   concatStringAuxTailRec(word,"",cnt)
+ }
+  
+  // check if num is prime using tail recursion 
+   def isPrime(num: Int):Boolean = {
+    def isPrimeTailRec(tempNum:Int,count:Int,isBoolean:Boolean):Boolean = {
+      if(count<=2) isBoolean 
+      else isPrimeTailRec(tempNum,count -1,(tempNum %(count -1) != 0) &&  isBoolean)   
+    }
+     isPrimeTailRec(num,num/2,true)
+   }
+  
+  //fibonacchi using tail recursion 1,1,2,3,5,8,14,21
+  
+     def fibonacchiRecu(n: Int):Int = {
+    def fibonacchiTainRecu(i:Int,last:Int,lastToLast:Int):Int = 
+      if(n <= i) last
+      else fibonacchiTainRecu(i+1,last+lastToLast, last)
+    
+      if(n <= 2) 1
+      else  fibonacchiTainRecu(2,1, 1)
+   }
+
+	def main(args: Array[String]): Unit = {
+    println(factorialTailRecursion(10))
+    println(concatString("sujit",5)) 
+    println(isPrime(7))
+    println(isPrime(8))
+     println(fibonacchiRecu(8))
+   
+	}
+}
