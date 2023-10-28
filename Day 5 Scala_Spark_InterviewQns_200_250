@@ -299,6 +299,8 @@ class GFG {
 		Fibonacci(N);
 	}
 }
+
+scala :  def fibonacci(n :Int) : Int =   if (n<=2) 1 else fibonacci(n-1)+fibonacci(n-2)
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 3) Higher order function lambda function to Sum even numbers from 1 to 100
@@ -309,13 +311,21 @@ class GFG {
 223) Calculate Factorial -
 
 object calculate {
+  
   // factorial 1*2*3...*n 
-  def factorial(n : Int) : Int = {
-	    if(n==1) 1 
-	    else n * factorial(n-1)
-	  }
-def main(args: Array[String]): Unit = {
-	    println(factorial(5))
+  def factorial(n : Int) : Int =  if(n==1) 1  else n * factorial(n-1)
+
+  def fibonacci(n :Int) : Int =   if (n<=2) 1 else fibonacci(n-1)+fibonacci(n-2)
+  // 1,1,2,3,5,8,13,21
+
+  def primeNo(n:Int):Int = {
+    val test_range = n/2;
+    test_range
+  }
+  
+	def main(args: Array[String]): Unit = {
+    println(factorial(5))
+     println(fibonacci(8)) // returns fibonacci of 5. means 5th number in series
 	}
 }
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
