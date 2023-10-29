@@ -401,5 +401,18 @@ object calculate {
 	}
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+Write higher order function in scala to find if number is even or not ? 
+==> 
+object calculate {
+   
+	def main(args: Array[String]): Unit = { 
+	  def isEven( f: (Int => Boolean), value:Int): Boolean = { f(value)  }
+	  val myfunc: (Int => Boolean) = ( x => (x % 2) == 0)  
+	  println( isEven(myfunc,10))  
+	  //println( isEven( x => (x % 2) == 0,10))
+	   }
+}
+---------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 
