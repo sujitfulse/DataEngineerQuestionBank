@@ -413,6 +413,14 @@ object calculate {
 	   }
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+Scala higher order function to calculate sum of even number from list 
+==>
+object calculate {
+	def main(args: Array[String]): Unit = {
+	  val list = List(1,2,3,4)
+	  val evenSum = list.filter(x=>x%2==0).foldLeft(0)(_ + _)
+	  println(evenSum)
+	}
+}
 
-
-
+---------------------------------------------------------------------------------------------------------------------------------------------------
