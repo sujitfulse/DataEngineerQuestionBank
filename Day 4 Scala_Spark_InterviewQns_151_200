@@ -173,27 +173,7 @@ A case class which has no arguments is declared as case object instead of case c
       }  
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-157	HIVE : what if partition is deleted from external table and will it give error while a select ?
-
-    - To delete data in external table you need to delete files on the filesystem. Data in the external table will remain if you drop table or partition. 
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-  
-158  MSCK REPAIR TABLE command
-    -  MSCK REPAIR TABLE command. This will restore all the partitions that are not in the metastore but exist on the file system, 
-    So, with an external table, if you want the data in a partition to be gone when you drop it, 
-    you have to also go and delete it from the filesystem. Otherwise, the data will continue to exist and 
-    there is a good chance that someone will bring the metadata for it back into the metastore.
-    
-   * convert external table into managed one- 
-    ALTER TABLE abc SET TBLPROPERTIES('EXTERNAL'='FALSE');
-    
-   * DELETE DEFAULT PARTITIONS FROM HIVE.
-    ALTER TABLE Table_Name DROP IF EXISTS PARTITION(process_date='__HIVE_DEFAULT_PARTITION__')
-
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-159	how to improve performance of two big tables in hive ?
-  optimize.bucketmapjoin=true;
+moved
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 160	spark scala word count programm
@@ -234,8 +214,7 @@ https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of
              ByteBuffer.wrap(x.drop(6)).getLong))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-164	List hive  analytic functions you used in project 
-==> lead , lag, Rownumber
+moved
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 165	how will you check if data is there or not in 6th partition in RDD ? 
