@@ -1,3 +1,82 @@
+20 Explain  avro file in spark
+a) Apache Avro is an open-source, row-based, data serialization and data exchange framework for Hadoop projects, originally developed by databricks .
+it is mostly used in Apache Spark especially for Kafka-based data pipelines. When Avro data is stored in a file, its schema is stored with it, 
+b) so that files may be processed later by any program.
+c) It serializes data in a compact binary format and schema is in JSON format that defines the field names and data types.
+d) It is similar to Thrift and Protocol Buffers, but does not require the code generation as it’s data always accompanied by a schema that 
+permits full processing of that data without code generation. This is one of the great advantages compared with other serialization systems.
+
+*Apache Avro Advantages
+a) Supports complex data structures like Arrays, Map, Array of map and map of array elements.
+b) A compact, binary serialization format which provides fast while transferring data.
+c) row-based data serialization system.
+d) Support multi-languages, meaning data written by one language can be read by different languages. Simple integration with dynamic languages.
+e) Code generation is not required to read or write data files.
+
+*<dependency>
+    <groupId>org.apache.spark</groupId>
+    <artifactId>spark-avro_2.11</artifactId>
+    <version>2.4.0</version>
+</dependency>
+
+* Reading Avro Partition Data
+val personDF= spark.read.format("avro").load("person.avro")
+personDF.write.format("avro").save("person.avro")
+
+
+spark.sqlContext.sql("CREATE TEMPORARY VIEW PERSON USING avro OPTIONS (path \"person.avro\")")
+spark.sqlContext.sql("SELECT * FROM PERSON").show()
+
+
+*Reading Avro Partition Data
+spark.read
+      .format("avro")
+      .load("person_partition.avro")
+      .where(col("dob_year") === 2010)
+      .show()
+
+*Writing Avro Partition Data
+df.write
+  .partitionBy("dob_year","dob_month")
+  .format("avro")
+  .save("person_partition.avro")
+  
+  
+----------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+  
+  130	why its been said spark with parquet and orc with hive perform wells ?
+
+* Parquet:
+To begin with Apache Spark is optimized for Parquet file format and Hive is optimized for ORC file format. 
+This is the reason parquet is the default file format for Apache Spark.
+
+Below are the features of Parquet which makes it a better choice for Spark 
+(which is a multi-purpose tool as opposed to Hive which is used mostly for data warehousing).
+
+a) Parquet is built keeping complex data structures in mind, so you can store nested data structures.
+b) Parquet provides a lot of room for schema evolution whereas ORC does not.
+    - All the metadata is written at the end of the parquet file which allows you to write in a single pass. 
+    - This is a huge advantage when dealing with large data files.
+    - Parquet gives you the flexibility to keep encoding on a per-column basis. 
+      So depending on the type and the data that is associated with the column in your table, you can choose a suitable compression scheme. 
+      This enables more compression which results in better read performance due to reduced latency caused due to reduced disk I/O and network I/O.
+Here since we are talking about time efficiency, Parquet provides better results than ORC.
+
+*ORC
+- a single file as the output of each task, which reduces the NameNode's load
+- light-weight indexes stored within the file
+- skip row groups that don't pass predicate filtering
+- seek to a given row
+- block-mode compression based on data type
+- run-length encoding for integer columns
+- dictionary encoding for string columns
+- concurrent reads of the same file using separate RecordReaders
+- ability to split files without scanning for markers
+- bound the amount of memory needed for reading or writing
+- metadata stored using Protocol Buffers, which allows addition and removal of fields
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 1	DDL functions of hive
 2	Partition & Bucketing
 3	Why manage table in our project 1
