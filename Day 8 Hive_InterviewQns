@@ -85,30 +85,15 @@ Hive context in spark
   hive> set hive.execution.engine=spark;"
 1	DDL functions of hive
 2	Partition & Bucketing
-3	Why manage table in our project 1
+3	Why manage table ?
 4	Types of hive tables and where u used this table in ur project.
-5	What are the hive Process you are doing in Your Project Explain
-6	What are the Requirements for Hive table Creation and How You are Creating in Your Project
-7	How to automate that Hive Process and requirements for the automation
-8	Explain the requirements in Details
-9	What type Of tables you are using in your project
-10	If You are Using Partition and Bucketing in your Project
+
 11	What is your Default partition using in your project
 12	Is it Possible to Delete and Update in Hive Table. Have You used in Your Project
-13	"If the Given data Looks like
-12,34,56
-23,56,86
-45,67,56,87
-56,77,66
-Only One Row having One Extra Column how do you Process it"
 14	How you will insert values to the hive table from one table using case condition
 15	Syntax of map side join and why we go for map side join
 16	What is the max size of map side join small table
-17	On sale directory if you create internal and external table, if u delete external table can u see Internal table details
 18	What is hive metastore , where it is saved in prod cluster?
-19	Hive external tables use
-20	How to utilize hive buckets in spark?
-21	How to join 2 files in hive without loading it in hive tables
 22	write a hive query to join 3 tables, Where the second largest table should go to memory With optimization
 23	External table create
 24	Load data to external table
@@ -120,7 +105,6 @@ Only One Row having One Extra Column how do you Process it"
 30	how to use explode in hive
 31	about trim function in hive
 32	hive performance tuning
-33	Diff b/w hdfs and hive
 34	what different kind of tables we can create in hive
 35	Hive and spark optimizations
 36	can we define foreign and primary key in hive tables
