@@ -311,33 +311,4 @@ A predicate push down filters the data in the database query, reducing the numbe
 mapPartitions and foreachPartitions are transformations/operations that apply to each partition of the Dataframe as opposed to each element. 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-130	why its been said spark with parquet and orc with hive perform wells ?
-
-* Parquet:
-To begin with Apache Spark is optimized for Parquet file format and Hive is optimized for ORC file format. 
-This is the reason parquet is the default file format for Apache Spark.
-
-Below are the features of Parquet which makes it a better choice for Spark 
-(which is a multi-purpose tool as opposed to Hive which is used mostly for data warehousing).
-
-a) Parquet is built keeping complex data structures in mind, so you can store nested data structures.
-b) Parquet provides a lot of room for schema evolution whereas ORC does not.
-    - All the metadata is written at the end of the parquet file which allows you to write in a single pass. 
-    - This is a huge advantage when dealing with large data files.
-    - Parquet gives you the flexibility to keep encoding on a per-column basis. 
-      So depending on the type and the data that is associated with the column in your table, you can choose a suitable compression scheme. 
-      This enables more compression which results in better read performance due to reduced latency caused due to reduced disk I/O and network I/O.
-Here since we are talking about time efficiency, Parquet provides better results than ORC.
-
-*ORC
-- a single file as the output of each task, which reduces the NameNode's load
-- light-weight indexes stored within the file
-- skip row groups that don't pass predicate filtering
-- seek to a given row
-- block-mode compression based on data type
-- run-length encoding for integer columns
-- dictionary encoding for string columns
-- concurrent reads of the same file using separate RecordReaders
-- ability to split files without scanning for markers
-- bound the amount of memory needed for reading or writing
-- metadata stored using Protocol Buffers, which allows addition and removal of fields
+130 moved
