@@ -178,11 +178,7 @@
    In this, the RDD is persisted to local storage in the executor."
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-110	"What is Hive on Spark?
-  Hive contains significant support for Apache Spark, wherein Hive execution is configured to Spark:
-
-  hive> set spark.home=/location/to/sparkHome;
-  hive> set hive.execution.engine=spark;"
+moved
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
 111	"Is it possible to use Apache Spark for accessing and analyzing data stored in Cassandra databases?
   Answer: Yes, it is possible to use Apache Spark for accessing as well as analyzing data stored in Cassandra databases using the 
