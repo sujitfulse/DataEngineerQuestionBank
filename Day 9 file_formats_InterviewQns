@@ -1,4 +1,4 @@
-20 Explain  avro file in spark
+1 Explain  avro file in spark
 a) Apache Avro is an open-source, row-based, data serialization and data exchange framework for Hadoop projects, originally developed by databricks .
 it is mostly used in Apache Spark especially for Kafka-based data pipelines. When Avro data is stored in a file, its schema is stored with it, 
 b) so that files may be processed later by any program.
@@ -22,29 +22,22 @@ e) Code generation is not required to read or write data files.
 * Reading Avro Partition Data
 val personDF= spark.read.format("avro").load("person.avro")
 personDF.write.format("avro").save("person.avro")
-
-
 spark.sqlContext.sql("CREATE TEMPORARY VIEW PERSON USING avro OPTIONS (path \"person.avro\")")
 spark.sqlContext.sql("SELECT * FROM PERSON").show()
-
-
 *Reading Avro Partition Data
 spark.read
       .format("avro")
       .load("person_partition.avro")
       .where(col("dob_year") === 2010)
       .show()
-
 *Writing Avro Partition Data
 df.write
   .partitionBy("dob_year","dob_month")
   .format("avro")
   .save("person_partition.avro")
   
-  
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-  
-  130	why its been said spark with parquet and orc with hive perform wells ?
+  2	why its been said spark with parquet and orc with hive perform wells ?
 
 * Parquet:
 To begin with Apache Spark is optimized for Parquet file format and Hive is optimized for ORC file format. 
@@ -75,20 +68,15 @@ Here since we are talking about time efficiency, Parquet provides better results
 - bound the amount of memory needed for reading or writing
 - metadata stored using Protocol Buffers, which allows addition and removal of fields
 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-1	https://blog.clairvoyantsoft.com/big-data-file-formats-3fb659903271
-
-2	"List the advantage of Parquet file in Apache Spark.
+3	 Advantage of Parquet file in Apache Spark.
    Columnar storage limits IO operations.
    Columnar storage can fetch specific columns that you need to access.
    Columnar storage consumes less space.
    Columnar storage gives better-summarized data and follows type-specific encoding.
    Parquet has higher execution speed compared to other standard file formats like Avro,JSON etc and it also consumes less disk space in compare to AVRO and JSON."
-   
-3	Difference between avro and parquet format
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------    
+4	read/write in which operation parquet is fast ==> Read operation and ORC is best for faster writes.
 
-4	how schema will be stored in avro file 
-
-5	Why bucketing is faster than partitiong??
-
-6	read/write in which operation parquet is fast
+----------------------------------------------------------------------------------------------------------------------------------------------------------------- 
