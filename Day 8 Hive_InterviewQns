@@ -1,14 +1,15 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-38	in HIVE, Explain the Difference between cluster by & distribute by with example ..??
-      *DISTRIBUTE BY clause is used to distribute the input rows among reducers. 
+1	in HIVE, Explain the Difference between cluster by & distribute by with example ..??
+   
+	*DISTRIBUTE BY clause is used to distribute the input rows among reducers. 
       - It ensures that all rows for the same key columns are going to the same reducer. 
       - So, if we need to partition the data on some key column, we can use the DISTRIBUTE BY clause in the hive queries. 
       - However, the DISTRIBUTE BY clause does not sort the data either at the reducer level or globally. 
       - Also, the same key values might not be placed next to each other in the output dataset.
 
-set mapreduce.job.reduces=2;
-select * from transactions distribute by acct; // not sorted data  
-select * from hivesql.transactions CLUSTER BY acct; // sorted at reducer level. its shortcut to distribute by acct sort by acct.
+	set mapreduce.job.reduces=2;
+	select * from transactions DISTRIBUTE BY acct; // not sorted data  
+	select * from transactions CLUSTER BY acct; // sorted at reducer level. its shortcut to distribute by acct sort by acct.
 
 
 	* CLUSTER BY
@@ -23,8 +24,7 @@ select * from hivesql.transactions CLUSTER BY acct; // sorted at reducer level. 
 https://sqlrelease.com/sort-by-order-by-distribute-by-and-cluster-by-in-hive
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-31	what are Serde properties
+2	what are Serde properties
 	- SerDe is short for Serializer/Deserializer. 
 	- Hive uses the SerDe interface for IO. 
 	- The interface handles both serialization and deserialization and also interpreting the results of serialization as individual fields for processing.
@@ -37,8 +37,9 @@ https://sqlrelease.com/sort-by-order-by-distribute-by-and-cluster-by-in-hive
 		CSV (Hive 0.14 and later)
 		JsonSerDe (Hive 0.12 and later in hcatalog-core)
 		
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 		
-Hive context in spark
+3 ) Hive context in spark
 	Hive comes bundled with the Spark library as HiveContext, which inherits from SQLContext. 
 	Using HiveContext, you can create and find tables in the HiveMetaStore and write queries on it using HiveQL. 
 	Users who do not have an existing Hive deployment can still create a HiveContext.
@@ -52,12 +53,11 @@ Hive context in spark
   sparkSession.sql("Create table yourtable as select * form tempTable")
   
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
- 157	HIVE : what if partition is deleted from external table and will it give error while a select ?
-
+ 4	HIVE : what if partition is deleted from external table and will it give error while a select ?
     - To delete data in external table you need to delete files on the filesystem. Data in the external table will remain if you drop table or partition. 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
   
-158  MSCK REPAIR TABLE command
+5 MSCK REPAIR TABLE command
     -  MSCK REPAIR TABLE command. This will restore all the partitions that are not in the metastore but exist on the file system, 
     So, with an external table, if you want the data in a partition to be gone when you drop it, 
     you have to also go and delete it from the filesystem. Otherwise, the data will continue to exist and 
@@ -70,23 +70,28 @@ Hive context in spark
     ALTER TABLE Table_Name DROP IF EXISTS PARTITION(process_date='__HIVE_DEFAULT_PARTITION__')
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-159	how to improve performance of two big tables in hive ?
-  optimize.bucketmapjoin=true;
--------------------------------------------------------------------------------------------------------------------------------------------------------  
-  164	List hive  analytic functions you used in project 
-==> lead , lag, Rownumber
+6 What is default partition in hive
+	The HIVE_DEFAULT_PARTITION in hive is represented by a NULL value of the partitioned column. That means, if we have a NULL value for a partition column 
+	and loading this record to a partitioned table, then hive_default_partition will get create for that record.
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-110	"What is Hive on Spark?
-  Hive contains significant support for Apache Spark, wherein Hive execution is configured to Spark:
+7 how to improve performance of two big tables in hive ?
+  optimize.bucketmapjoin=true;
+-------------------------------------------------------------------------------------------------------------------------------------------------------  
+8  List hive  analytic functions you used in project 
+==> lead , lag, Rownumber
 
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+9	"What is Hive on Spark?
+  Hive contains significant support for Apache Spark, wherein Hive execution is configured to Spark:
   hive> set spark.home=/location/to/sparkHome;
   hive> set hive.execution.engine=spark;"
-1	DDL functions of hive
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 2	Partition & Bucketing
-3	Why manage table ?
-4	Types of hive tables and where u used this table in ur project.
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 11	What is your Default partition using in your project
 12	Is it Possible to Delete and Update in Hive Table. Have You used in Your Project
