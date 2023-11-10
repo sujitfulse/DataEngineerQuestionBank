@@ -176,7 +176,7 @@ LOCATION ‘ /hive/data/weatherext’;
 SELECT p.id,p.productname,colors.colorselection FROM default.products P
 LATERAL VIEW EXPLODE(p.productcoloroptions) colors as colorselection;
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-32	hive performance tuning
+19	hive performance tuning
 ==> 
 a) Use the Hive execution engine as TEZ. //set hive.execution.engine=tez;
 b) Use Hive Cost Based Optimizer (CBO) // set hive.cbo.enable=true;
@@ -185,29 +185,32 @@ d) use vectorication ==> read and process 1024 rows in one batch instead of proc
 e) Use Map Side JOIN Option ==> Select /*+ MAPJOIN(small_table) */ large_table.col1 from large_table join small_table on large_table.col1 = small_table.col1;
 f) Use STREAMTABLE option ==> /*+ STREAMTABLE(‘huge_table’) */  it will make ‘huge_table’ to be streamed rather than coming into memory.
 g) Select columns which are needed
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
+-------------------------------------------------------------------------------------------------------------------------------------------------------- 
+20	can we define foreign and primary key in hive tables ?
+==> Hive tables do not support primary key foreign key 'relationships'.
+--------------------------------------------------------------------------------------------------------------------------------------------------------- 
+21	how can we do the data quality check in spark and hive
+==> 
+Sample data comparison between source and target ==>
+Null checks on primary key columns
+Null checks on date columns
+Count comparison for the categorical columns
+Data Type check of the columns and their corresponding data types mentioned in the dict
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+22	What is vectorization and how does it improves performance?
+set hive.vectorized.execution.enabled = true;
+Vectorized query execution streamlines operations by processing a block of 1024 rows at a time. 
+Within the block, each column is stored as a vector (an array of a primitive data type). 
+Simple operations like arithmetic and comparisons are done by quickly iterating through the vectors in a tight loop, with no or very few function calls 
+or conditional branches inside the loop.
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+23	hive indexing : https://acadgild.com/blog/indexing-in-hive
+ these are pointers to particular column name of a table.
+Create INDEX < INDEX_NAME> ON TABLE < TABLE_NAME(column names)>
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+24	query to find out number of duplicate records in hive table 
 
-36	can we define foreign and primary key in hive tables
-37	how can we do the data quality check in spark and hive
-38	What is vectorization and how does it improves performance?
-39	Can we use analytic functions on RDD? (i don't exactly know what he meant)
-40	"skew join : 
-https://medium.com/expedia-group-tech/skew-join-optimization-in-hive-b66a1f4cc6ba
-"
-41	"hive optimization : 
-https://acadgild.com/blog/hive-optimization-techniques-with-examples
 
-"
-42	hive indexing : https://acadgild.com/blog/indexing-in-hive
-43	Explain the Difference between group by, order by, cluster by & distribute by with example ..??
-44	What if you have deleted the data of manage table created  on top of HDFS location ??  Will the data be available or not??
-45	Why bucketing is preferred even though the nested partition can optimize the problem…
-46	https://analyticshut.com/hive-collect-set-vs-collect-list/
-47	Optimization techniques in hive and optimization techniques you have implemented in project ??
-48	On which column you did partition in hive in your project ??
-49	Lets say you have created partition for Hyderabad but you loaded Chennai data , what are the validation we have to done in this case to make sure that there won't be any errors
-50	gave a hive table and asked to write output for inner,outer joins 
-51	query to find out number of duplicate records in hive table 
 52	how to update records in hive 
 53	difference between cluster by and distributed by in hive
 54	Hive table partition deleted
