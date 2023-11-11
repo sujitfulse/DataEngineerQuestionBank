@@ -1,3 +1,5 @@
+<Spark Architecture and features theory question>
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
 51	"Why Apache Spark?
 
 	1. Hadoop MapReduce can only allow for batch processing.
@@ -792,3 +794,27 @@
 	If operation returns any other type than RDD in that case an operation is ‘Action’"
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+113 Can we trigger automated clean-ups in Spark?
+   Answer: Yes, we can trigger automated clean-ups in Spark to handle the accumulated metadata. 
+   It can be done by setting the parameters, namely, “spark.cleaner.ttl.” 
+   
+   Question: What is another method than “Spark.cleaner.ttl” to trigger automated clean-ups in Spark?
+   Answer: Another method than “Spark.clener.ttl” to trigger automated clean-ups in Spark is by dividing the long-running jobs into 
+   different batches and writing the intermediary results on the disk."
+-----------------------------------------------------------------------------------------------------------------------------------------------------  
+114	What is the role of Akka in Spark?
+   Answer: Akka in Spark helps in the scheduling process. It helps the workers and masters to send and receive messages for 
+   workers for tasks and master requests for registering."
+-----------------------------------------------------------------------------------------------------------------------------------------------------  
+115	What is Catalyst Optimizer in spark ?
+
+  At the core of Spark SQL is the Catalyst optimizer, which leverages advanced programming language features 
+  (e.g. Scala’s pattern matching and quasi quotes) in a novel way to build an extensible query optimizer.
+  Catalyst is based on functional programming constructs in Scala and designed with these key two purposes:
+    -Easily add new optimization techniques and features to Spark SQL
+    -Enable external developers to extend the optimizer (e.g. adding data source specific rules, support for new data types, etc.)
+  Catalyst contains a general library for representing trees and applying rules to manipulate them. 
+  On top of this framework, it has libraries specific to relational query processing (e.g., expressions, logical query plans), and several sets of rules 
+  that handle different phases of query execution: 
+  analysis, logical optimization, physical planning, and code generation to compile parts of queries to Java bytecode.
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
