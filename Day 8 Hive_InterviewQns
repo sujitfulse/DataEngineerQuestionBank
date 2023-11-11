@@ -198,36 +198,44 @@ https://sqlrelease.com/sort-by-order-by-distribute-by-and-cluster-by-in-hive
 	Data Type check of the columns and their corresponding data types mentioned in the dict
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 22	What is vectorization and how does it improves performance?
-	set hive.vectorized.execution.enabled = true;
+==>	set hive.vectorized.execution.enabled = true;
 	Vectorized query execution streamlines operations by processing a block of 1024 rows at a time. 
 	Within the block, each column is stored as a vector (an array of a primitive data type). 
 	Simple operations like arithmetic and comparisons are done by quickly iterating through the vectors in a tight loop, with no or very few function calls 
 	or conditional branches inside the loop.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 23	hive indexing : https://acadgild.com/blog/indexing-in-hive
-	 these are pointers to particular column name of a table.
+==>	 these are pointers to particular column name of a table.
 	Create INDEX < INDEX_NAME> ON TABLE < TABLE_NAME(column names)>
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 24	query to find out number of duplicate records in hive table 
-
+==> 
+	select [every column], count(*)
+	from mytable
+	group by [every column]
+	having count(*) > 1;
+	OR
+	SELECT keypart1, keypart2,
+	* row_number() over( partition by keypart1, keypart2 )  count *
+	FROM srcTable
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-25	Suppose we put string values in int table, what's the result?
-
+25	Suppose we insert string values in int table, what's the result?
+==> 	cast(str_column as int) returns null for String.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 26	From which hive version ACID implemented in hive ==> 0.14.0
-
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-27	how can we retrieve deleted metadata of external table.
-
----------------------------------------------------------------------------------------------------------------------------------------------------------
-28	Hive :  Scenario: Imagine we have 2 tables A and B.
+27	Hive :  Scenario: Imagine we have 2 tables A and B.
 	B is the master table and A is the table which receives the updates of certain information
 	so i want to update table B using the latest updated columns based up on the id how do we achieve that and what is the exact query we use?
-
+==>
+	hive.support.concurrency   true (default is false)
+	hive.exec.dynamic.partition.mode    nonstrict (default is strict)
+	// and then normal update command
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
-29	What is use of Row-index and in which scenarios have you used it in hive?
-
----------------------------------------------------------------------------------------------------------------------------------------------------------
-30	what is Ntile?
-
+28	what is Ntile?
+==>	Its analytical function in hive.
+	It divides an ordered dataset into number of buckets and assigns an appropriate bucket number to each row. 
+	It can be used to divide rows into equal sets and assign a number to each row.
+	If we have 4 records the records will be split into 2 bucket as 2 is passed to ntile function . 
+	So two records will have value as 1,1 and the other two 2,2.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
