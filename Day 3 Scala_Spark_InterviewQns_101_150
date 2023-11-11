@@ -1,40 +1,39 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-110	 diff map partition v/s foreach partition ?
+101	 diff map partition v/s foreach partition ?
 mapPartitions and foreachPartitions are transformations/operations that apply to each partition of the Dataframe as opposed to each element. 
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-112 What is the difference between reducing () and take() function?
+102 What is the difference between reducing () and take() function?
   Answer: 
   Reduce() function is an action that is applied repeatedly until the one value is left in the last.
   take() function is an action that takes into consideration all the values from an RDD to the local node.
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
 
-116	"How to check no. Of partitions in dataframe 
+103	"How to check no. Of partitions in dataframe 
     In my experience df.rdd.getNumPartitions is very fast, I never encountered taking this more than a second or so.
     Alternatively, you could also try
     val numPartitions: Long = df.select(org.apache.spark.sql.functions.spark_partition_id()).distinct().count()"
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-117	handling schema changes in spark, schema chaining in spark
+104	handling schema changes in spark, schema chaining in spark
 https://medium.com/data-arena/merging-different-schemas-in-apache-spark-2a9caca2c5ce"
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-118	differnece between map and mappartion
+105	differnece between map and mappartion
 map() – Spark map() transformation applies a function to each row in a DataFrame/Dataset and returns the new transformed Dataset.
 mapPartitions() – This is exactly the same as map(); the difference being, Spark mapPartitions() provides a facility to do heavy initializations 
 (for example Database connection) once for each partition instead of doing it on every DataFrame row. 
 This helps the performance of the job when you dealing with heavy-weighted initialization on larger datasets.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-119	Why serializer is better .... What is serializer and deserializer
+106	Why serializer is better .... What is serializer and deserializer
  serialization framework helps you convert objects into a stream of bytes and vice versa in new computing environment. 
  This is very helpful when you try to save objects to disk or send them through networks. Those situations happen in Spark when things are shuffled around.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-120	How to union two tables with different no. Of columns. 
+107	How to union two tables with different no. Of columns. 
 ==> no you cant. need to have simillar column in both dfs.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-121	what is the predicate pushdown ? what is the limitation ?
+108	what is the predicate pushdown ? what is the limitation ?
 A predicate push down filters the data in the database query, reducing the number of entries retrieved from the database and improving query performance.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-122	 how to optimize spark code ?
+109	 how to optimize spark code ?
 
       Data Serialization. ...
       Broadcasting. ...
