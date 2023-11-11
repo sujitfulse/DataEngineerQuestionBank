@@ -1,0 +1,234 @@
+< Scala Lang Interview questions>
+----------------------------------------------------------------------------------------------------------------------------
+
+151	How the folder structure is constructed in ur project in Eclipse IDE
+src/main/java ==> java code 
+src/test/java ==> test cases
+Maven Depdencies ==> all jars
+pom.xml
+----------------------------------------------------------------------------------------------------------------------------
+
+152	Fold vs Left fold vs right fold difference in Scala
+
+foldLeft starts on the left side—the first item—and iterates to the right; FoldLeft is a iterative solution.
+foldRight starts on the right side—the last item—and iterates to the left. FoldRight: is a recursive solution 
+fold goes in no particular order.
+
+val numList = List(1, 2, 3, 4, 5)
+
+val r1 = numList.par.fold(0)((acc, value) => {
+  println("adding accumulator=" + acc + ", value=" + value + " => " + (acc + value))
+  acc + value
+})
+println("fold(): " + r1)
+println("#######################")
+
+/*
+ * You can see from the output that,
+ * fold process the elements of parallel collection in parallel
+ * So it is parallel not linear operation.
+ * 
+ * adding accumulator=0, value=4 => 4
+ * adding accumulator=0, value=3 => 3
+ * adding accumulator=0, value=1 => 1
+ * adding accumulator=0, value=5 => 5
+ * adding accumulator=4, value=5 => 9
+ * adding accumulator=0, value=2 => 2
+ * adding accumulator=3, value=9 => 12
+ * adding accumulator=1, value=2 => 3
+ * adding accumulator=3, value=12 => 15
+ * fold(): 15
+ */
+
+val r2 = numList.par.foldLeft(0)((acc, value) => {
+  println("adding accumulator=" + acc + ", value=" + value + " => " + (acc + value))
+  acc + value
+})
+println("foldLeft(): " + r2)
+println("#######################")
+/*
+ * You can see that foldLeft
+ * picks elements from left to right.
+ * It means foldLeft does sequence operation
+ * 
+ * adding accumulator=0, value=1 => 1
+ * adding accumulator=1, value=2 => 3
+ * adding accumulator=3, value=3 => 6
+ * adding accumulator=6, value=4 => 10
+ * adding accumulator=10, value=5 => 15
+ * foldLeft(): 15
+ * #######################
+ */
+
+// --> Note in foldRight second arguments is accumulated one.
+val r3 = numList.par.foldRight(0)((value, acc) => {
+ println("adding value=" + value + ", acc=" + acc + " => " + (value + acc))
+  acc + value
+})
+println("foldRight(): " + r3)
+println("#######################")
+
+/*
+ * You can see that foldRight
+ * picks elements from right to left.
+ * It means foldRight does sequence operation.
+ * 
+ * adding value=5, acc=0 => 5
+ * adding value=4, acc=5 => 9
+ * adding value=3, acc=9 => 12
+ * adding value=2, acc=12 => 14
+ * adding value=1, acc=14 => 15
+ * foldRight(): 15
+ * #######################
+ */
+ ----------------------------------------------------------------------------------------------------------------------------
+
+ 153  Higher order function? and its advantages?
+
+   A function is called Higher Order Function if it contains other functions as a parameter or returns a function as an output 
+   i.e, the functions that operate with another functions are known as Higher order Functions. 
+   
+   a) it is beneficial in producing function composition where, functions might be formed from another functions. 
+   The function composition is the method of composing where a function shows the utilization of two composed functions.
+   b) It is also constructive in creating lambda functions or anonymous functions. 
+   The anonymous functions are the functions which does not has name, though perform like a function.
+   c) It is even utilized in minimizing redundant lines of code from a program.
+----------------------------------------------------------------------------------------------------------------------------
+154	Why Scala is called functional programming
+  Scala is also a functional language in the sense that every function is a value. 
+  Scala provides a lightweight syntax for defining anonymous functions, 
+  it supports higher-order functions, 
+  it allows functions to be nested, and it supports currying.
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+155	What is difference in class and trait
+Conceptually, a trait is a component of a class, not a class by itself. As such, it typically does not have constructors, and it is not meant to "stand by itself".
+Traits are similar in spirit to interfaces in Java programming language. Unlike a class, Scala traits cannot be instantiated and have no arguments or parameters. 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+156 Difference in interface in java and traits in scala
+
+Traits in Scala have a lot of similarities with interfaces in Java, but a trait is more powerful than an interface because it allows developers to implement
+members within it. 
+----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+157	how to serilize any object ?
+  To make a Java object serializable we implement the java.io.Serializable interface. 
+  The ObjectOutputStream class contains writeObject() method for serializing an Object. 
+  class A implements Serializable{ }
+----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+158	diff b/w overloading and overriding ?
+  Overloading : If a class has multiple methods having same name but different in parameters, it is known as Method Overloading. 
+  overriding: When the method signature (name and parameters) are the same in the superclass and the child class, it's called overriding
+----------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+159	What is currying function in Scala ? 
+
+Currying transforms a function that takes multiple parameters into a chain of functions, each taking a single parameter.
+
+*example : 
+def strcat(s1: String)(s2: String) = s1 + s2
+
+*Partially applied Currying funtion : 
+result = f(x)(y)(z)
+can be called as 
+f1 = f(x)
+f2 = f1(y)
+result = f2(z)
+
+object Curry 
+{ 
+    def add(a: Int) = (b: Int) => a + b; 
+    def main(args: Array[String]) 
+    { 
+      // first way to call 
+         println(add(20)(20)); 
+    
+     // alternative way to call   
+        val add2 = add(10);
+        println(add2(20)); 
+    } 
+} 
+
+*Advantages of Currying Function in Scala :
+a) One benefit is that Scala currying makes creating anonymous functions easier.
+b) Scala Currying also makes it easier to pass around a function as a first-class object. You can keep applying parameters when you find them.
+----------------------------------------------------------------------------------------------------------------------------
+
+160	Closure functions in scala and what are their benefits.
+
+Difference between a closure function and a normal function is the free variable. 
+A free variable is any kind of variable which is not defined within the function and not passed as the parameter of the function. 
+A free variable is not bound to a function with a valid value.
+Scala Closures are functions which uses one or more free variables and the return value of this function is dependent of these variable. 
+
+
+A closure function can further be classified into pure(val variables) and impure functions ( var variables), depending on the type of the free variable. 
+-If we give the free variable a type var then the variable tends to change the value any time throughout the entire code and thus may result in changing the value.
+Thus this closure is a impure function. 
+-On the other-hand if we declare the free variable of the type val then the value of the variable remains constant and thus making the closure function a pure one.
+// Addition of two numbers with
+// Scala closure
+
+// Creating object
+object GFG
+{
+	// Main method
+	def main(args: Array[String])
+	{
+		println( "Final_Sum(1) value = " + sum(1))
+		println( "Final_Sum(2) value = " + sum(2))
+		println( "Final_Sum(3) value = " + sum(3))
+	}
+		
+	var a = 4
+	
+	// define closure function
+	val sum = (b:Int) => b + a
+}
+
+Output : 
+Final_Sum(1) value = 5
+Final_Sum(2) value = 6
+Final_Sum(3) value = 7
+https://www.geeksforgeeks.org/scala-closures/#:~:text=Scala%20Closures%20are%20functions%20which,a%20parameter%20of%20this%20function.
+
+*The benefit of Using Closures Functions
+a) A major benefit of having closure function is the concept of data encapsulation plus data persistence. 
+b) Since the variables defined have a scope and if they are defined inside a function they will have a local scope, but with the help of closure function,
+we have defined a global variable and can use it inside the function also.
+c) we can have those variables that are available even when the function task is finished.
+https://www.educba.com/scala-closure/
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+161 higher order function with examples
+162 Nested functions 
+163 Partially applied functions
+164	difference between traits and abstract class ?
+
+      Traits
+      Traits are similar to interfaces in Java and are created using trait keyword.
+
+      Abstract Class
+      Abstract Class is similar to abstract classes in Java and are created using abstract keyword.
+
+      1) Multiple inheritance : 	
+      Trait supports multiple inheritance.	
+      Abstract Class supports single inheritance only.
+      2) Instance	
+      Trait can be added to an object instance.	
+      Abstract class cannot be added to an object instance.
+      3) Constructor parameters	
+      Trait cannot have parameters in its constructors.	
+      Abstract class can have parameterised constructor.
+      4) Interoperability	
+      Traits are interoperable with java if they don't have any implementation.	
+      Abstract classes are interoperable with java without any restriction.
+      5) Stackability	
+      Traits are stackable and are dynamically bound.	
+      Abstract classes are not stacable and are statically bound.
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+165	What is future class in scala
+  Futures allows performing many operations in parallel– in an efficient and non-blocking way.
+  A Future is a placeholder object for a value that may not yet exist. 
+  Generally, the value of the Future is supplied concurrently and can subsequently be used. 
+  Composing concurrent tasks in this way tends to result in faster, asynchronous, non-blocking parallel code.
