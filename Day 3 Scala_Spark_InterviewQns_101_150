@@ -52,13 +52,12 @@ A predicate push down filters the data in the database query, reducing the numbe
       # -XX:+UseG1GC
       # -XX:G1HeapRegionSize
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-151	"write a program where we can filter all null values and concat an '_' with all non null values
+110 	"write a program where we can filter all null values and concat an '_' with all non null values
 
-val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, col(""COL1"")),'-'));
-      
- -------------------------------------------------------------------------------------------------------------------------------------------------------  
+  val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, col(""COL1"")),'-'));
+------------------------------------------------------------------------------------------------------------------------------------------------------------  
  
-152	What are the roles and responsibilities of worker nodes in the Apache Spark cluster? Is Worker Node in Spark is same as Slave Node?
+111	What are the roles and responsibilities of worker nodes in the Apache Spark cluster? Is Worker Node in Spark is same as Slave Node?
 
       Apache Spark follows a master/slave architecture, with one master or driver process and more than one slave or worker processes
       
@@ -87,7 +86,7 @@ val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, co
       Whenever any of the worker nodes fail, the tasks that are required to be performed will be automatically allocated to any other worker nodes"
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-153	How to chain Dataframe transformation in Spark Transform method ?
+112	How to chain Dataframe transformation in Spark Transform method ?
     
   implicit classes or the Dataset#transform method can be used to chain DataFrame transformations in Spark.
   Though Dataset#transform method is preferred compared to implicit classes.
@@ -150,32 +149,7 @@ val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, co
       val df = Seq("funny","person").toDF(""something"")
       val hiDf = df.withGreeting().withFarewell()"
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-154	difference between traits and abstract class ?
-
-      Traits
-      Traits are similar to interfaces in Java and are created using trait keyword.
-
-      Abstract Class
-      Abstract Class is similar to abstract classes in Java and are created using abstract keyword.
-
-      1) Multiple inheritance : 	
-      Trait supports multiple inheritance.	
-      Abstract Class supports single inheritance only.
-      2) Instance	
-      Trait can be added to an object instance.	
-      Abstract class cannot be added to an object instance.
-      3) Constructor parameters	
-      Trait cannot have parameters in its constructors.	
-      Abstract class can have parameterised constructor.
-      4) Interoperability	
-      Traits are interoperable with java if they don't have any implementation.	
-      Abstract classes are interoperable with java without any restriction.
-      5) Stackability	
-      Traits are stackable and are dynamically bound.	
-      Abstract classes are not stacable and are statically bound.
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-155	difference between map and foreach ? when to use a map and when to use foreach ?
+113	difference between map and foreach ? when to use a map and when to use foreach ?
 
       map :
       the map function in the Seq trait returns a value.
@@ -190,7 +164,7 @@ val newDf =   df.withColumn("NEW_COLUMN",concat(when(col(""COL1"").isNotNull, co
       l.foreach(e => println(e))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-156	what is case class and when we will use a case class ?
+114	what is case class and when we will use a case class ?
 
     Scala case classes are just regular classes which are immutable by default and decomposable through pattern matching.
     It uses equal method to compare instance structurally. It does not use new keyword to instantiate object.
@@ -227,10 +201,7 @@ A case class which has no arguments is declared as case object instead of case c
       }  
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-moved
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-160	spark scala word count programm
+115	spark scala word count programm
 
 RDD : 
  val text = sc.textFile("mytextfile.txt") 
@@ -243,18 +214,11 @@ val wordDF = wordsDF.select(explode(wordsDF("words")).alias("word"))
 val wordCountDF = wordDF.groupBy("word").count
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-161	What is future class in scala
-  Futures allows performing many operations in parallel– in an efficient and non-blocking way.
-  A Future is a placeholder object for a value that may not yet exist. 
-  Generally, the value of the Future is supplied concurrently and can subsequently be used. 
-  Composing concurrent tasks in this way tends to result in faster, asynchronous, non-blocking parallel code.
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-162	what internally happens when you do spark-submit ?
+116	what internally happens when you do spark-submit ?
 
 https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of-Job-Execution-In-Spark.jpg
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-163	 How to read binary files in spark ?
+117	 How to read binary files in spark ?
 
   assuming you have no delimiter, 
   an Int in Scala is 4 bytes,
@@ -267,11 +231,7 @@ https://techvidvan.com/tutorials/wp-content/uploads/sites/2/2019/11/Internals-of
              ByteBuffer.wrap(x.drop(4).take(2)).getShort,
              ByteBuffer.wrap(x.drop(6)).getLong))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-moved
-------------------------------------------------------------------------------------------------------------------------------------------------------- 
-
-165	how will you check if data is there or not in 6th partition in RDD ? 
+118	how will you check if data is there or not in 6th partition in RDD ? 
 ==> using glom() methond
   val rdd = sc.parallelize(Seq(1,2,3,4,5,6,7,8,9,10))
   rdd.glom().collect()
@@ -279,7 +239,7 @@ moved
   //Result
   res3: Array[Array[Int]] = Array(Array(1), Array(2), Array(3), Array(4, 5), Array(6), Array(7), Array(8), Array(9, 10))
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-166 what is stage n task in spark
+119 what is stage n task in spark
 
 Spark Stages : 
 Whenever there is a shuffling of data over the network, Spark divides the job into multiple stages. 
@@ -291,11 +251,11 @@ There are two types of stages in Spark:
 1.ShuffleMapStage in Spark
 2. ResultStage in Spark
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-167	Rank vs DenseRank
+120	Rank vs DenseRank
 Rank - same rank to mulple records if tie, but then skips sequence. ( 1,1,3,4)
 DenseRank - same rank to mulple records if tie, but then skips sequence.. dense_rank leaves no gaps in ranking sequence when there are ties.( 1,1,2,3)
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-168	SMB joins
+121	SMB joins
 
 Shuffle phase
 Data from both datasets are read and shuffled. After the shuffle operation, records with the same keys from both datasets will end up in the same partition 
@@ -311,7 +271,7 @@ as soon as a key mismatch is encountered. So a join attempt is not performed on 
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
-169	how we do GC in Spark
+122	how we do GC in Spark
 JVM garbage collection is problematic with large churn RDD stored by the program. To make room for new objects, Java removes the older one; it traces all the
 old objects and finds the unused one. But the key point is that cost of garbage collection in Spark is proportional to a number of Java objects. Thus, it is
 better to use a data structure in Spark with lesser objects. 
