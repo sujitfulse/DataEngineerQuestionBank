@@ -454,3 +454,23 @@ Whereas for the same situation is handled in Spark version 2.x by creating multi
 	import org.apache.spark.SparkContext._
 	import org.apache.spark.SparkConf
 ----------------------------------------------------------------------------------------------------------------------------
+29   How Spark allocates memory to container/executors ? 
+
+*divided into the following four blocks:-
+
+1) Reserved Memory (300MB) : Spark’s internal object. 
+2) USer Memory (40%): UDF , Data structurs in UDF, spark internal medatadata. RDD MapParititons if RDD is used 
+3) Spark Memory (60%):
+	3.1) Storage Memory : Spark cache data, such as RDD cache, Memory eviction happens in LRU.
+	3.2) Executor Momory: store temporary data in the calculation process of Shuffle, Join, Sort, Aggregation, etc. Hash table for hash join. Spills to disk 
+
+*example :
+1 GB 
+0) memory overhead = max(Executor Memory * 0.1, 384 MB) =max(1000MB * 0.1, 384 MB) = max(100MB, 384 MB) = 384MB
+
+1) Reserved Memory = 300MB
+2) User Memory (40%) => 1000mb - 384MB -300MB = 316MB %40 = 126.4 MB
+3) Spark Memory (60%) =>1000mb - 384MB -300MB = 316MB %60 = 189.6 MB
+	3.1) Storage Memory 50%: 189.6 MB 50% = 94.8MB
+	3.2) Executor Momory 50MB% = 94.8MB
+----------------------------------------------------------------------------------------------------------------------------
