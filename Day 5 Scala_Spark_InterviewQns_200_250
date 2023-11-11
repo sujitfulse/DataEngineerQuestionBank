@@ -101,40 +101,8 @@ scala> classDataFiltered.where(" Subject == 'Maths' and math_rank==1").show(fals
 |MVN   |9    |Happy       |Maths  |99   |1        |
 +------+-----+------------+-------+-----+---------+
 
-----------------------------------------------------------------------------------------------------------------------------------------------------------
-
-203 Write scala code for 
-Given an array of elements, find a pair of numbers which has the maximum sum. OR  Print all pairs with given sum
-
-A Initialize an empty hash set.
-B Traverse through the array.
-C For each element in the array, check if the difference between the sum and the current element exists in the hash set. If it exists, print the pair.
-D Add the current element to the hash set.
-
-import java.util.*;
-
-public class Main {	
-	public static void printPairs(int[] arr, int n, int sum) {
-		Set<Integer> s = new HashSet<>();
-		for (int i = 0; i < n; i++) {
-			int temp = sum - arr[i];
-			if (s.contains(temp)) {
-				System.out.println("(" + temp + ", " + arr[i] + ")");
-			}
-			s.add(arr[i]);
-		}
-	}
-	public static void main(String[] args) {
-		int[] arr = {1, 5, 7, -1, 5};
-		int sum = 6;
-		int n = arr.length;
-		printPairs(arr, n, sum);
-	}
-}
-
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
-221
-Write a SQL query to find 3rd highest salary employee in each department, 
+203 Write a SQL query to find 3rd highest salary employee in each department, 
 In case there are less than 3 emp in a dept then return emp with lowest salary in that Dept
 
 +----+-------+------+
@@ -199,7 +167,7 @@ empSalaryDataRanked.where(" (total_emp>=3 and salary_rank=3)  or (total_emp < 3 
 |comp|Anil  |8000  |3          |3        |
 +----+------+------+-----------+---------+
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-221 We have a static collection of data in which first row is always a number of records in a collection, On second row u have a name,age,city. 
+204 We have a static collection of data in which first row is always a number of records in a collection, On second row u have a name,age,city. 
 You have to remove duplicates with respect to name and age 
 In a such a way that city value should get replaced and print data. 
 [5,Sunil,28,pune,anil,32,latur,Sunil,28,nanded,Jayesh,28,nashik,Mahesh,30,Nashik]
@@ -228,7 +196,7 @@ Sunil,28 -> nanded
 Mahesh,30 -> Nashik
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-222  code for 
+205  code for 
 1) prime num 
 
 class gfg {
@@ -269,7 +237,7 @@ class gfg {
 }
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-2) Fibonacci series 
+206 Fibonacci series 
 // Java program for the above approach
 
 class GFG {
@@ -308,7 +276,7 @@ scala :  def fibonacci(n :Int) : Int =   if (n<=2) 1 else fibonacci(n-1)+fibonac
 5) Sort array without using sort function
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-223) Calculate Factorial, Fibonacci, Prime no -
+207) Calculate Factorial, Fibonacci, Prime no -
 
 object calculate {
   
@@ -339,7 +307,7 @@ object calculate {
 	}
 }
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-223) Caculate factorial , concat words, is number prime, fibonacchi using tail recursion
+208) Caculate factorial , concat words, is number prime, fibonacchi using tail recursion
 
 object calculate {
   
@@ -390,7 +358,7 @@ object calculate {
 	}
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-implement String concate code using scala function type.
+209 implement String concate code using scala function type.
 
 object calculate {
 	def main(args: Array[String]): Unit = { 
@@ -401,7 +369,7 @@ object calculate {
 	}
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-Write higher order function in scala to find if number is even or not ? 
+210 Write higher order function in scala to find if number is even or not ? 
 ==> 
 object calculate {
    
@@ -413,7 +381,7 @@ object calculate {
 	   }
 }
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-Scala higher order function to calculate sum of even number from list 
+211 Scala higher order function to calculate sum of even number from list 
 ==>
 object calculate {
 	def main(args: Array[String]): Unit = {
@@ -424,3 +392,32 @@ object calculate {
 }
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
+
+212 Write scala code for 
+Given an array of elements, find a pair of numbers which has the maximum sum. OR  Print all pairs with given sum
+
+A Initialize an empty hash set.
+B Traverse through the array.
+C For each element in the array, check if the difference between the sum and the current element exists in the hash set. If it exists, print the pair.
+D Add the current element to the hash set.
+
+import java.util.*;
+
+public class Main {	
+	public static void printPairs(int[] arr, int n, int sum) {
+		Set<Integer> s = new HashSet<>();
+		for (int i = 0; i < n; i++) {
+			int temp = sum - arr[i];
+			if (s.contains(temp)) {
+				System.out.println("(" + temp + ", " + arr[i] + ")");
+			}
+			s.add(arr[i]);
+		}
+	}
+	public static void main(String[] args) {
+		int[] arr = {1, 5, 7, -1, 5};
+		int sum = 6;
+		int n = arr.length;
+		printPairs(arr, n, sum);
+	}
+}
