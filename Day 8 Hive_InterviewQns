@@ -76,7 +76,7 @@ https://sqlrelease.com/sort-by-order-by-distribute-by-and-cluster-by-in-hive
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 7 how to improve performance of two big tables in hive ?
-  optimize.bucketmapjoin=true;
+  	optimize.bucketmapjoin=true;
 -------------------------------------------------------------------------------------------------------------------------------------------------------  
 8  List hive  analytic functions you used in project 
 ==> lead , lag, Rownumber
@@ -90,61 +90,61 @@ https://sqlrelease.com/sort-by-order-by-distribute-by-and-cluster-by-in-hive
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 10 	Partition & Bucketing
 
-Partition ==> 
-You can have one or more Partition columns
-
-CREATE TABLE zipcodes(
-RecordNumber int,
-Country string,
-City string,
-Zipcode int)
-* PARTITIONED BY(state string) *
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ',';
-
-/user/hive/warehouse/zipcodes/state=MH
-/user/hive/warehouse/zipcodes/state=GJ
-
-LOAD DATA [LOCAL] INPATH '<location>' [OVERWRITE] INTO TABLE <table_name> partition(state = 'MH');
-
-*Enable the dynamic partition by using the following commands: -
-*hive> set hive.exec.dynamic.partition=true;    
-*hive> set hive.exec.dynamic.partition.mode=nonstrict;  
-// strict ==> static. Insert input data files individually into a partition table is Static Partition
-// nonstrict ==> dynamic. Write data into multiple partitions
+	Partition ==> 
+	You can have one or more Partition columns
+	
+	CREATE TABLE zipcodes(
+	RecordNumber int,
+	Country string,
+	City string,
+	Zipcode int)
+	* PARTITIONED BY(state string) *
+	ROW FORMAT DELIMITED
+	FIELDS TERMINATED BY ',';
+	
+	/user/hive/warehouse/zipcodes/state=MH
+	/user/hive/warehouse/zipcodes/state=GJ
+	
+	LOAD DATA [LOCAL] INPATH '<location>' [OVERWRITE] INTO TABLE <table_name> partition(state = 'MH');
+	
+	*Enable the dynamic partition by using the following commands: -
+	*hive> set hive.exec.dynamic.partition=true;    
+	*hive> set hive.exec.dynamic.partition.mode=nonstrict;  
+	// strict ==> static. Insert input data files individually into a partition table is Static Partition
+	// nonstrict ==> dynamic. Write data into multiple partitions
 --------------------------------------------------------------
-Bucketing ==>
-You can have only one Bucketing column
-
-CREATE TABLE zipcodes(
-RecordNumber int,
-Country string,
-City string,
-Zipcode int)
-PARTITIONED BY(state string)
-* CLUSTERED BY Zipcode INTO 10 BUCKETS *
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ',';
-
+		Bucketing ==>
+		You can have only one Bucketing column
+		
+		CREATE TABLE zipcodes(
+		RecordNumber int,
+		Country string,
+		City string,
+		Zipcode int)
+		PARTITIONED BY(state string)
+		* CLUSTERED BY Zipcode INTO 10 BUCKETS *
+		ROW FORMAT DELIMITED
+		FIELDS TERMINATED BY ',';
+	
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 11	How you will insert values to the hive table from one table using case condition
 
-CREATE TABLE new_test 
-    row format delimited 
-    fields terminated by '|' 
-    STORED AS RCFile 
-AS select * from source where col=1
-
-select col1, col2, 
-	case when col1 = "Female" then "Data Received" end col3
-		from table_name limit 100;
+	CREATE TABLE new_test 
+	    row format delimited 
+	    fields terminated by '|' 
+	    STORED AS RCFile 
+	AS select * from source where col=1
+	
+	select col1, col2, 
+		case when col1 = "Female" then "Data Received" end col3
+			from table_name limit 100;
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 12	Syntax of map side join and why we go for map side join
 
-set hive.auto.convert.join=true;
-OR
-set hive.ignore.mapjoin.hint=false;
-select /*+ MAPJOIN(a) */ a.* from passwords a, passwords2 b where a.col0=b.col0 ;
+	set hive.auto.convert.join=true;
+	OR
+	set hive.ignore.mapjoin.hint=false;
+	select /*+ MAPJOIN(a) */ a.* from passwords a, passwords2 b where a.col0=b.col0 ;
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
 13	What is the max size of map side join small table => is lesser than 25 MB in size.
@@ -153,80 +153,81 @@ select /*+ MAPJOIN(a) */ a.* from passwords a, passwords2 b where a.col0=b.col0 
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 15	write a hive query to join 3 tables, Where the second largest table should go to memory With optimization
 
-  SELECT /*+ MAPJOIN(b,c,d,e) */  a.val, b.val, c.val, d.val, e.val 
- FROM 
-a JOIN b ON (a.key = b.key1) 
-JOIN c ON (c.key = b.key1) 
-join d on (d.key = c.key) 
-join e on (e.key = d.key)
+	  SELECT /*+ MAPJOIN(b,c,d,e) */  a.val, b.val, c.val, d.val, e.val 
+	 FROM 
+	a JOIN b ON (a.key = b.key1) 
+	JOIN c ON (c.key = b.key1) 
+	join d on (d.key = c.key) 
+	join e on (e.key = d.key)
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 16	Load data to external table
 
-INSERT INTO TABLE <table_name> VALUES (<add values as per column entity>);
-LOAD DATA [LOCAL] INPATH '<location>' [OVERWRITE] INTO TABLE <table_name>;
-OR
-CREATE EXTERNAL TABLE weatherext ( wban INT, date STRING)
-ROW FORMAT DELIMITED
-FIELDS TERMINATED BY ‘,’
-LOCATION ‘ /hive/data/weatherext’;
+	INSERT INTO TABLE <table_name> VALUES (<add values as per column entity>);
+	LOAD DATA [LOCAL] INPATH '<location>' [OVERWRITE] INTO TABLE <table_name>;
+	OR
+	CREATE EXTERNAL TABLE weatherext ( wban INT, date STRING)
+	ROW FORMAT DELIMITED
+	FIELDS TERMINATED BY ‘,’
+	LOCATION ‘ /hive/data/weatherext’;
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 17	does hive support OLTP operations? ==> NO
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 18	how to use explode in hive
-SELECT p.id,p.productname,colors.colorselection FROM default.products P
-LATERAL VIEW EXPLODE(p.productcoloroptions) colors as colorselection;
+	SELECT p.id,p.productname,colors.colorselection FROM default.products P
+	LATERAL VIEW EXPLODE(p.productcoloroptions) colors as colorselection;
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 19	hive performance tuning
 ==> 
-a) Use the Hive execution engine as TEZ. //set hive.execution.engine=tez;
-b) Use Hive Cost Based Optimizer (CBO) // set hive.cbo.enable=true;
-c) Parallel execution at a Mapper & Reducer level ==> set hive.vectorized.execution.enabled=true; set hive.exec.parallel=true; 
-d) use vectorication ==> read and process 1024 rows in one batch instead of processing 1 row at a time.
-e) Use Map Side JOIN Option ==> Select /*+ MAPJOIN(small_table) */ large_table.col1 from large_table join small_table on large_table.col1 = small_table.col1;
-f) Use STREAMTABLE option ==> /*+ STREAMTABLE(‘huge_table’) */  it will make ‘huge_table’ to be streamed rather than coming into memory.
-g) Select columns which are needed
+	a) Use the Hive execution engine as TEZ. //set hive.execution.engine=tez;
+	b) Use Hive Cost Based Optimizer (CBO) // set hive.cbo.enable=true;
+	c) Parallel execution at a Mapper & Reducer level ==> set hive.vectorized.execution.enabled=true; set hive.exec.parallel=true; 
+	d) use vectorication ==> read and process 1024 rows in one batch instead of processing 1 row at a time.
+	e) Use Map Side JOIN Option ==> Select /*+ MAPJOIN(small_table) */ large_table.col1 from large_table join small_table on large_table.col1 = small_table.col1;
+	f) Use STREAMTABLE option ==> /*+ STREAMTABLE(‘huge_table’) */  it will make ‘huge_table’ to be streamed rather than coming into memory.
+	g) Select columns which are needed
 -------------------------------------------------------------------------------------------------------------------------------------------------------- 
 20	can we define foreign and primary key in hive tables ?
-==> Hive tables do not support primary key foreign key 'relationships'.
+	==> Hive tables do not support primary key foreign key 'relationships'.
 --------------------------------------------------------------------------------------------------------------------------------------------------------- 
 21	how can we do the data quality check in spark and hive
 ==> 
-Sample data comparison between source and target ==>
-Null checks on primary key columns
-Null checks on date columns
-Count comparison for the categorical columns
-Data Type check of the columns and their corresponding data types mentioned in the dict
+	Sample data comparison between source and target ==>
+	Null checks on primary key columns
+	Null checks on date columns
+	Count comparison for the categorical columns
+	Data Type check of the columns and their corresponding data types mentioned in the dict
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 22	What is vectorization and how does it improves performance?
-set hive.vectorized.execution.enabled = true;
-Vectorized query execution streamlines operations by processing a block of 1024 rows at a time. 
-Within the block, each column is stored as a vector (an array of a primitive data type). 
-Simple operations like arithmetic and comparisons are done by quickly iterating through the vectors in a tight loop, with no or very few function calls 
-or conditional branches inside the loop.
+	set hive.vectorized.execution.enabled = true;
+	Vectorized query execution streamlines operations by processing a block of 1024 rows at a time. 
+	Within the block, each column is stored as a vector (an array of a primitive data type). 
+	Simple operations like arithmetic and comparisons are done by quickly iterating through the vectors in a tight loop, with no or very few function calls 
+	or conditional branches inside the loop.
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 23	hive indexing : https://acadgild.com/blog/indexing-in-hive
- these are pointers to particular column name of a table.
-Create INDEX < INDEX_NAME> ON TABLE < TABLE_NAME(column names)>
+	 these are pointers to particular column name of a table.
+	Create INDEX < INDEX_NAME> ON TABLE < TABLE_NAME(column names)>
 ---------------------------------------------------------------------------------------------------------------------------------------------------------
 24	query to find out number of duplicate records in hive table 
 
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+25	Suppose we put string values in int table, what's the result?
 
-52	how to update records in hive 
-53	difference between cluster by and distributed by in hive
-54	Hive table partition deleted
-55	Suppose we put string values in int table, what's the result?
-56	Broadcast join
-57	Map Side Join
-58	SMB joins
-59	Large datasets join 
-60	If we delete partition in hive, after querying the same, is it visible?
-61	ORC vs Parquet
-62	From which hive version ACID implemented in hive
-63	how can we retrieve deleted metadata of external table.
-64	9. Hive :  Scenario: Imagine we have 2 tables A and B.
-65	B is the master table and A is the table which receives the updates of certain information
-66	so i want to update table B using the latest updated columns based up on the id how do we achieve that and what is the exact query we use?
-67	10.What is use of Row-index and in which scenarios have you used it in hive?
-68	11. what is Ntile?
-69	laterl view explode in hive
-70	broadcast in hive and broadcast in spark
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+26	From which hive version ACID implemented in hive ==> 0.14.0
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+27	how can we retrieve deleted metadata of external table.
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+28	Hive :  Scenario: Imagine we have 2 tables A and B.
+	B is the master table and A is the table which receives the updates of certain information
+	so i want to update table B using the latest updated columns based up on the id how do we achieve that and what is the exact query we use?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+29	What is use of Row-index and in which scenarios have you used it in hive?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+30	what is Ntile?
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
