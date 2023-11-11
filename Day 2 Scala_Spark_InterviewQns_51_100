@@ -56,7 +56,7 @@
 	6. Spark application running in Hadoop clusters is up to 10 times faster on disk than Hadoop MapReduce."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-55,56	"In what modes Spark can run as individual ? "What are the different methods to run Spark over Apache Hadoop?
+55	"In what modes Spark can run as individual ? "What are the different methods to run Spark over Apache Hadoop?
 
 	1. Local mode – There is no resource manager in local mode. This mode is used for test the spark application in test environment 
 	where we do not want to eat the resources and want to run applications faster.
@@ -97,7 +97,7 @@
 	framework-help the application to request for resources"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-57	"What is Apache Mesos ?
+56	"What is Apache Mesos ?
 
 	Spark runs on top of Mesos. Mesos is a cluster manager system that provides efficient resource isolation across distributed applications, 
 	including MPI and Hadoop. Mesos enables fine-grained sharing that allows a Spark job to dynamically take advantage of the ideal resources 
@@ -105,7 +105,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-58	"What is SparkContext in Apache Spark?
+57	"What is SparkContext in Apache Spark?
 
 	A SparkContext is a client of Spark’s execution environment and it acts as the master of the Spark application. 
 	SparkContext sets up internal services and establishes a connection to a Spark execution environment. 
@@ -121,7 +121,7 @@
 	3. One can create Distributed Entities like RDDs."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-59	"What is SparkSession in Apache Spark?
+58	"What is SparkSession in Apache Spark?
 
 	Starting from Apache Spark 2.0, Spark Session is the new entry point for Spark applications.
 	Prior to 2.0, SparkContext was the entry point for spark jobs. RDD was one of the main APIs then, and it was created and manipulated 
@@ -136,7 +136,7 @@
 	Spark Session also includes all the APIs available in different contexts – Spark Context, SQL Context, Streaming Context, Hive Context"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-60	"SparkSession vs SparkContext in Apache Spark.
+59	"SparkSession vs SparkContext in Apache Spark.
 
 	Prior to Spark 2.0.0 sparkContext was used as a channel to access all spark functionality.
 	sparkConf is required to create the spark context object, which stores configuration parameter like appName (to identify your spark driver), 
@@ -147,7 +147,7 @@
 	sparkSession includes all the APIs."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-61	"How to create SparkConf ?
+60	"How to create SparkConf ?
 
 	val conf = new SparkConf().
 	setAppName(“RetailDataAnalysis”).
@@ -158,7 +158,7 @@
 	val sc = new SparkContext(conf)"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-62	"How to create a spark session ?
+61	"How to create a spark session ?
 
 	val spark = SparkSession
 	.builder
@@ -170,23 +170,7 @@
 	spark.conf.set(“spark.executor.memory”, “2g”)"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-63	" What are the abstractions of Apache Spark?
-
-	1. RDD:
-	An RDD refers to Resilient Distributed Datasets. RDDs are Read-only partition collection of records. 
-	It is Spark’s core abstraction and also a fundamental data structure of Spark. It offers to conduct in-memory computations on large clusters. 
-
-	2. DataFrames:
-	It is a Dataset organized into named columns. DataFrames are equivalent to the table in a relational database or data frame in R /Python. In other words, we can say it is a relational table with good optimization technique. It is an immutable distributed collection of data. Allowing higher-level abstraction, it allows developers to impose a structure onto a distributed collection of data,. 
-	
-	3. Spark Streaming:
-	It is a Spark’s core extension, which allows Real-time stream processing From several sources. For example Flume and Kafka. To offer a unified, continuous DataFrame abstraction that can be used for interactive and batch queries these two sources work together. It offers scalable, high-throughput and fault-tolerant processing. For more detailed insights on Spark Streaming. refer link: Spark Streaming Tutorial for Beginners
-
-	4. GraphX
-	It is one more example of specialized data abstraction. It enables developers to analyze social networks. Also, other graphs alongside Excel-like two-dimensional data. For more detailed insights on GaphX."
----------------------------------------------------------------------------------------------------------------------------------------------------	
-
-64	"How can we create RDD in Apache Spark?
+62	"How can we create RDD in Apache Spark?
 
 	Each dataset in RDD is divided into logical partitions, which may be computed on different nodes of the cluster.
 	Including user-defined classes, RDDs may contain any type of Python, Java, or Scala objects.
@@ -227,7 +211,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-65	"Explain the term paired RDD in Apache Spark
+63	"Explain the term paired RDD in Apache Spark
 
 	Paired RDD is a distributed collection of data with the key-value pair. 
 	It is a subset of Resilient Distributed Dataset. So it has all the feature of RDD and some new feature for the key-value pair. 
@@ -248,16 +232,15 @@
 	.mapValues(line=>line.subString(10,30).trim())"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-66	"How is RDD in Spark different from Distributed Storage Management?
+64	"How is RDD in Spark different from Distributed Storage Management?
 
 	RDDs store data in-memory (unless explicitly cached). Distributed Storage stores data in persistent storage.
 	RDDs can re-compute itself in the case of failure or data loss. 
 	If data is lost from the Distributed Storage system it is gone forever"
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-67	"Explain transformation and action in RDD in Apache Spark.
-
-
+65	"Explain transformation and action in RDD in Apache Spark.
+==>
 	Transformations are operations on RDD that create one or more new RDDs. E.g. map, filter, reduceByKey etc. In other words, 
 	transformations are functions that take an RDD as the input and produce one or more RDDs as the output. 
 	There is no change in the input RDD, but it always produces one or more new RDDs by applying the computations they represent.
@@ -268,7 +251,7 @@
 	Simply put, an action evaluates the RDD lineage graph. E.g. collect, reduce, count, foreach etc."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-68	"What are the types of Apache Spark transformation?
+66	"What are the types of Apache Spark transformation?
 
 	there are fundamentally two types of transformations:
 
@@ -283,7 +266,7 @@
 	his Transformation is a result of groupbyKey() and reducebyKey()."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-69	"Explain the RDD properties.
+67	"Explain the RDD properties.
 
 	1. List or Set of partitions.
 	2. List of dependencies on other (parent) RDD
@@ -294,7 +277,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-70	"What is lineage graph in Apache Spark?
+68	"What is lineage graph in Apache Spark?
 
 	When we apply a different transformation on RDD it creates RDD Linage graph. It is a new RDD from already existing RDDs.
 	It is the dependencies graph between the existing and the new RDD formed. 
@@ -305,7 +288,7 @@
 	This is indicates to identify that how many stage are created."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-71	Explain the terms  Spark Partitions and Partitioners.
+69	Explain the terms  Spark Partitions and Partitioners.
 
 	Partition in Spark is similar to split in HDFS. 
 	A partition in Spark is a logical division of data stored on a node in the cluster. 
@@ -334,7 +317,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-72	" By Default, how many partitions are created in RDD in Apache Spark?
+70	" By Default, how many partitions are created in RDD in Apache Spark?
 
 	By Default, Spark creates one Partition for each block of the file (For HDFS)
 	val rdd1 = sc.textFile(""/home/hdadmin/wc-data.txt"")
@@ -344,7 +327,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-73	"What is Spark DataFrames?
+71	"What is Spark DataFrames?
 
 
 	DataFrame consists of two words data and frame, means data has to be fit in some kind of frame.
@@ -359,7 +342,7 @@
 	It is also evaluated lazily (Lazy Evaluation) for better resource utilization."
 ---------------------------------------------------------------------------------------------------------------------------------------------------	
 
-74	"What are benefits of DataFrame in Spark?
+72	"What are benefits of DataFrame in Spark?
 
 	In DataFrames, data is organized in named column.
 	DataFrames empower SQL queries and the DataFrame API.
@@ -370,7 +353,7 @@
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-75	"What is Spark Dataset?
+73	"What is Spark Dataset?
 
 	A Dataset is an immutable collection of objects, those are mapped to a relational schema. 
 	They are strongly-typed in nature. 
@@ -398,14 +381,14 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-76	"What are the advantages of datasets in spark?
+74	"What are the advantages of datasets in spark?
 
 	Static typing feature of Dataset, a developer can catch errors at compile time 
 	Dataset APIs are built on top of the Spark SQL engine, it uses Catalyst to generate an optimized logical and physical query plan providing the 
 	space and speed efficiency."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-77	"What is Directed Acyclic Graph in Apache Spark?
+75	"What is Directed Acyclic Graph in Apache Spark?
 
 	Directed Acyclic Graph is a graph with cycles which are not directed. 
 	DAG is a graph which contains set of all the operations that are applied on RDD. On RDD when any action is called. 
@@ -415,7 +398,7 @@
 	Fault tolerance is achieved in Spark using the Directed Acyclic Graph. The query optimization is possible in Spark by the use of DAG."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-78	"What is the difference between DAG and Lineage?
+76	"What is the difference between DAG and Lineage?
 
 	Lineage graph
 	As we know, that whenever a series of transformations are performed on an RDD, they are not evaluated immediately, 
@@ -431,7 +414,7 @@
 	When we call anAction, the created DAG is submitted to DAG Scheduler which further splits the graph into the stages of the task."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 		
-79	What is the difference between Caching and Persistence in Apache Spark?
+77	What is the difference between Caching and Persistence in Apache Spark?
 
 	Cache is a synonym of Persist with MEMORY_ONLY storage level(i.e) using Cache technique we can save intermediate results 
 	in memory only when needed.
@@ -440,7 +423,7 @@
 	MEMORY, MEMORY_AND_DISK, MEMORY_ONLY_SER, MEMORY_AND_DISK_SER, DISK_ONLY, MEMORY_ONLY_2, MEMORY_AND_DISK_2"
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-80	"What are the limitations of Apache Spark?
+78	"What are the limitations of Apache Spark?
 
 
 	1. No File Management System
@@ -471,7 +454,7 @@
 	The cost of Spark is quite high because Apache Spark requires lots of RAM to run in-memory."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-81	"Different Running Modes of Apache Spark
+79	"Different Running Modes of Apache Spark
 
 
 	We can launch spark application in four modes:
@@ -500,7 +483,7 @@
 	
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-82	" What are the different ways of representing data in Spark?
+80	" What are the different ways of representing data in Spark?
 
 	Different Ways of representing data in Spark are:-
 
@@ -535,7 +518,7 @@
 	Dataset and DataFrame internally does final execution on RDD objects only but the difference
 	is users do not write code to create the RDD collections and have no control as such over RDDs."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-83	"What is write ahead log(journaling) in Spark?
+81	"What is write ahead log(journaling) in Spark?
 
 	There are two types of failures in any Apache Spark job – Either the driver failure or the worker failure.
 
@@ -557,7 +540,7 @@
 	2. Enabling the WAL logging, by setting spark.stream.receiver.WriteAheadLog.enable to True."
 	
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-84	"Explain catalyst query optimizer in Apache Spark.
+82	"Explain catalyst query optimizer in Apache Spark.
 	
 	This optimizer is based on functional programming construct in Scala.
 	Catalyst Optimizer supports both rule-based and cost-based optimization. 
@@ -573,7 +556,7 @@
 	and code generation to compile parts of queries to Java bytecode."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-85	"What are shared variables in Apache Spark?
+83	"What are shared variables in Apache Spark?
 
         Shared variables are nothing but the variables that can be used in parallel operations. 
 	By default, when Apache Spark runs a function in parallel as a set of tasks on different nodes, 
@@ -584,7 +567,7 @@
 	accumulators are variables that are only “added” to, such as counters and sums."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-86	"How does Apache Spark handles accumulated Metadata?
+84	"How does Apache Spark handles accumulated Metadata?
 
 	Metadata accumulates on the driver as consequence of shuffle operations. It becomes particularly tedious during long-running jobs.
 	To deal with the issue of accumulating metadata, there are two options:
@@ -593,12 +576,12 @@
 	The other solution is to simply split long-running jobs into batches and write intermediate results to disk. 
 	This facilitates a fresh environment for every batch and don’t have to worry about metadata build-up."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-87	"what is breeze?
+85	"what is breeze?
 
 	Breeze is a collection of libraries for numerical computing and machine learning."
  ---------------------------------------------------------------------------------------------------------------------------------------------------
  
-88	"What is Apache Spark Machine learning library?
+86	"What is Apache Spark Machine learning library?
 
 	To make machine learning scalable and easy, MLlib is created. 
 	There are machine learning libraries that included an implementation of various machine learning algorithms. 
@@ -608,7 +591,7 @@
 	Some of the benefits of using DataFrames are it includes Spark Data sources, Spark SQL DataFrame queries Tungsten and Catalyst optimizations, 
 	and uniform APIs across languages."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
-89	"List commonly used Machine Learning Algorithm.
+87	"List commonly used Machine Learning Algorithm.
 
 	(1) Supervised Learning Algorithm
 	(2) Unsupervised Learning Algorithm
@@ -627,7 +610,7 @@
 	(10) Gradient Boost and Adaboost"
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-90	"What is the difference between DSM and RDD?
+88	"What is the difference between DSM and RDD?
 
 	On the basis of several features, the difference between RDD and DSM is:
 
@@ -667,7 +650,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-91	"What is lazy evaluation in Spark?
+89	"What is lazy evaluation in Spark?
 
 
 	Lazy evaluation means the execution will not start until anaction is triggered. Transformations are lazy in nature i.e.
@@ -684,8 +667,7 @@
 	The user can organize their spark program into smaller operations. Spark will be managed very efficiently of all the operations by using lazy evaluation"
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-
-92,93 What is Speculative Execution in Apache Spark?
+90 What is Speculative Execution in Apache Spark?
 
 	The Speculative task in Apache Spark is task that runs slower than the rest of the task in the job.
 	It is health check process that verifies the task is speculated, meaning the task that runs slower than the median of successfully 
@@ -701,7 +683,7 @@
 	spark.speculation.quantile >> 0.75 >> The percentage of tasks that has not finished yet at which to start speculation."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-94	"How can data transfer be minimized when working with Apache Spark?
+91	"How can data transfer be minimized when working with Apache Spark?
 
 
 	In Spark, Data Transfer can be reduced by avoiding operation which results in data shuffle.
@@ -713,7 +695,7 @@
 	Accumulator
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-95	"What is action, how it process data in apache spark
+92	"What is action, how it process data in apache spark
 
 	Actions return final result of RDD computations/operation.
 	It triggers execution using lineage graph to load the data into original RDD, and carries out all intermediate transformations and 
@@ -722,7 +704,7 @@
 	For example: First, take, reduce, collect, count, aggregate,min,max,sum are some of the actions in spark."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-96	"How is fault tolerance achieved in Apache Spark?
+93	"How is fault tolerance achieved in Apache Spark?
 
 	The basic semantics of fault tolerance in Apache Spark is, all the Spark RDDs are immutable. 
 	It remembers the dependencies between every RDD involved in the operations, through the lineage graph created in the DAG, 
@@ -731,7 +713,7 @@
 	There are two types of failures – Worker or driver failure. 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-97	"What is the role of Spark Driver in spark applications?
+94	"What is the role of Spark Driver in spark applications?
 
 	In easy terms, the driver in Spark creates SparkContext, connected to a given Spark Master.
 	It conjointly delivers the RDD graphs to Master, wherever the standalone cluster manager runs.
@@ -746,7 +728,7 @@
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
 
-98	"Explain Accumulator in Spark.
+95	"Explain Accumulator in Spark.
 
 	Accumulator is a shared variable in Apache Spark, used to aggregating information across the cluster.
 	In other words, aggregating information / values from worker nodes back to the driver program. 
@@ -792,7 +774,7 @@
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-99	"What is the role of Driver program in Spark Application?
+96	"What is the role of Driver program in Spark Application?
 
 	Driver program is responsible for launching various parallel operations on the cluster.
 	Driver program contains application’s main() function.
@@ -803,7 +785,7 @@
 	when driver program runs."
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 
-100	"How to identify that given operation is Transformation/Action in your program?
+97	"How to identify that given operation is Transformation/Action in your program?
 
 	In order to identify the operation, one need to look at the return type of an operation.
 	If operation returns a new RDD in that case an operation is ‘Transformation’
