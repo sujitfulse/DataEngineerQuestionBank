@@ -5,7 +5,6 @@
   Hence, try to use ReduceByKey to the most. Always try to lower the side of maps as much as possible. T
   ry not to waste more time in Partitioning.Try not to shuffle more. 
   Try to keep away from Skews as well as partitions too.
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 102	"Why we need compression and what are the different compression format supported?
@@ -58,36 +57,20 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
     
  105	"Explain different transformations in DStream in Apache Spark Streaming
-
-
-    1-map(func) — Return a new DStream by passing each element of the source DStream through a function func.
-
-    2-flatMap(func) — Similar to map, but each input item can be mapped to 0 or more output items.
-
-    3-filter(func) — Return a new DStream by selecting only the records of the source DStream on which func returns true.
-
-    4-repartition(numPartitions) — Changes the level of parallelism in this DStream by creating more or fewer partitions.
-
-    5-union(otherStream) — Return a new DStream that contains the union of the elements in the source DStream and
-    otherDStream.
-
-    6-count() — Return a new DStream of single-element RDDs by counting the number of elements in each RDD of the source DStream.
-
-    7-reduce(func)— Return a new DStream of single-element RDDs by aggregating the elements in each RDD of the source DStream using a function func (which takes two arguments and returns one).
-
-    8-countByValue() — When called on a DStream of elements of type K, Return a new DStream of (K, Long) pairs where the value of each key is its frequency in each RDD of the source DStream.
-
-    9-reduceByKey(func, [numTasks])— When called on a DStream of (K, V) pairs, return a new DStream of (K, V) pairs where the values for each key are aggregated using the given reduce function.
-
-    10-join(otherStream, [numTasks]) — When called on two DStreams of (K, V) and (K, W) pairs, return a new DStream of (K, (V, W)) pairs with all pairs of elements for each key.
-
-    11-cogroup(otherStream, [numTasks]) — When called on DStream of (K, V) and (K, W) pairs, return a new DStream of (K, Seq[V], Seq[W]) tuples.
-
-    12-transform(func) — Return a new DStream by applying a RDD-to-RDD function to every RDD of the source DStream.
-
-    13-updateStateByKey(func) — Return a new “state” DStream where the state for each key is updated by applying the given function on the previous state of the key and the new values for the key."
-
-
+==>
+   1-map(func) — Return a new DStream by passing each element of the source DStream through a function func.
+   2-flatMap(func) — Similar to map, but each input item can be mapped to 0 or more output items.
+   3-filter(func) — Return a new DStream by selecting only the records of the source DStream on which func returns true.
+   4-repartition(numPartitions) — Changes the level of parallelism in this DStream by creating more or fewer partitions.
+   5-union(otherStream) — Return a new DStream that contains the union of the elements in the source DStream and otherDStream.
+   6-count() — Return a new DStream of single-element RDDs by counting the number of elements in each RDD of the source DStream.
+   7-reduce(func)— Return a new DStream of single-element RDDs by aggregating the elements in each RDD of the source DStream using a function func (which takes two arguments and returns one).
+   8-countByValue() — When called on a DStream of elements of type K, Return a new DStream of (K, Long) pairs where the value of each key is its frequency in each RDD of the source DStream.
+   9-reduceByKey(func, [numTasks])— When called on a DStream of (K, V) pairs, return a new DStream of (K, V) pairs where the values for each key are aggregated using the given reduce function.
+   10-join(otherStream, [numTasks]) — When called on two DStreams of (K, V) and (K, W) pairs, return a new DStream of (K, (V, W)) pairs with all pairs of elements for each key.
+   11-cogroup(otherStream, [numTasks]) — When called on DStream of (K, V) and (K, W) pairs, return a new DStream of (K, Seq[V], Seq[W]) tuples.
+   12-transform(func) — Return a new DStream by applying a RDD-to-RDD function to every RDD of the source DStream.
+   13-updateStateByKey(func) — Return a new “state” DStream where the state for each key is updated by applying the given function on the previous state of the key and the new values for the key."
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 106	"What is a DataSet? What are its advantages over DataFrame and RDD?
@@ -176,9 +159,9 @@
 
    Local Checkpointing: In this checkpointing, in Spark Streaming or GraphX we truncate the RDD lineage graph in Spark. 
    In this, the RDD is persisted to local storage in the executor."
-
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
-moved
+110	 diff map partition v/s foreach partition ?
+mapPartitions and foreachPartitions are transformations/operations that apply to each partition of the Dataframe as opposed to each element. 
 -----------------------------------------------------------------------------------------------------------------------------------------------------  
 111	"Is it possible to use Apache Spark for accessing and analyzing data stored in Cassandra databases?
   Answer: Yes, it is possible to use Apache Spark for accessing as well as analyzing data stored in Cassandra databases using the 
@@ -203,21 +186,18 @@ moved
 114	What is the role of Akka in Spark?
    Answer: Akka in Spark helps in the scheduling process. It helps the workers and masters to send and receive messages for 
    workers for tasks and master requests for registering."
------------------------------------------------------------------------------------------------------------------------------------------------------------
-115	What is the more optimal way to store small files (size in kb) .. What will be the schema design to process it quickly?
+-----------------------------------------------------------------------------------------------------------------------------------------------------  
+115	What is Catalyst Optimizer in spark ?
 
-    Calculate total size of files to be merged
-    Calculate desired partitions by dividing total size of files by block size of Hadoop
-    Pass the desired partition to coalesce
-    Delete metadata files
-    ( 
-    spark.sql.shuffle.partitions
-    spark.default.parallelism
-    )
-
-    https://letsexplorehadoop.blogspot.com/2017/03/hive-merging-small-files-into-bigger.html
-    set hive.merge.mapredfiles=true;
-    set hive.merge.smallfiles.avgsize=102400
+  At the core of Spark SQL is the Catalyst optimizer, which leverages advanced programming language features 
+  (e.g. Scala’s pattern matching and quasi quotes) in a novel way to build an extensible query optimizer.
+  Catalyst is based on functional programming constructs in Scala and designed with these key two purposes:
+    -Easily add new optimization techniques and features to Spark SQL
+    -Enable external developers to extend the optimizer (e.g. adding data source specific rules, support for new data types, etc.)
+  Catalyst contains a general library for representing trees and applying rules to manipulate them. 
+  On top of this framework, it has libraries specific to relational query processing (e.g., expressions, logical query plans), and several sets of rules 
+  that handle different phases of query execution: 
+  analysis, logical optimization, physical planning, and code generation to compile parts of queries to Java bytecode.
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 116	"How to check no. Of partitions in dataframe 
     In my experience df.rdd.getNumPartitions is very fast, I never encountered taking this more than a second or so.
@@ -239,30 +219,13 @@ This helps the performance of the job when you dealing with heavy-weighted initi
  serialization framework helps you convert objects into a stream of bytes and vice versa in new computing environment. 
  This is very helpful when you try to save objects to disk or send them through networks. Those situations happen in Spark when things are shuffled around.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-120	Why Scala is called functional programming
-  Scala is also a functional language in the sense that every function is a value. 
-  Scala provides a lightweight syntax for defining anonymous functions, 
-  it supports higher-order functions, 
-  it allows functions to be nested, and it supports currying.
-
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-121	What is difference in class and trait
-Conceptually, a trait is a component of a class, not a class by itself. As such, it typically does not have constructors, and it is not meant to "stand by itself".
-Traits are similar in spirit to interfaces in Java programming language. Unlike a class, Scala traits cannot be instantiated and have no arguments or parameters. 
-
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-122 Difference in interface in java and traits in scala
-
-Traits in Scala have a lot of similarities with interfaces in Java, but a trait is more powerful than an interface because it allows developers to implement
-members within it. 
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-123	How to union two tables with different no. Of columns. 
+120	How to union two tables with different no. Of columns. 
 ==> no you cant. need to have simillar column in both dfs.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-124	what is the predicate pushdown ? what is the limitation ?
+121	what is the predicate pushdown ? what is the limitation ?
 A predicate push down filters the data in the database query, reducing the number of entries retrieved from the database and improving query performance.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-125	 how to optimize spark code ]?
+122	 how to optimize spark code ?
 
       Data Serialization. ...
       Broadcasting. ...
@@ -281,30 +244,3 @@ A predicate push down filters the data in the database query, reducing the numbe
       # -XX:+UseG1GC
       # -XX:G1HeapRegionSize
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
-126	What is Catalyst Optimizer in spark ?
-
-  At the core of Spark SQL is the Catalyst optimizer, which leverages advanced programming language features 
-  (e.g. Scala’s pattern matching and quasi quotes) in a novel way to build an extensible query optimizer.
-  Catalyst is based on functional programming constructs in Scala and designed with these key two purposes:
-    -Easily add new optimization techniques and features to Spark SQL
-    -Enable external developers to extend the optimizer (e.g. adding data source specific rules, support for new data types, etc.)
-  Catalyst contains a general library for representing trees and applying rules to manipulate them. 
-  On top of this framework, it has libraries specific to relational query processing (e.g., expressions, logical query plans), and several sets of rules 
-  that handle different phases of query execution: 
-  analysis, logical optimization, physical planning, and code generation to compile parts of queries to Java bytecode.
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-127	how to serilize any object ?
-  To make a Java object serializable we implement the java.io.Serializable interface. 
-  The ObjectOutputStream class contains writeObject() method for serializing an Object. 
-  class A implements Serializable{ }
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-128	diff b/w overloading and overriding ?
-  Overloading : If a class has multiple methods having same name but different in parameters, it is known as Method Overloading. 
-  overriding: When the method signature (name and parameters) are the same in the superclass and the child class, it's called overriding
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-
-129	 diff map partition v/s foreach partition ?
-mapPartitions and foreachPartitions are transformations/operations that apply to each partition of the Dataframe as opposed to each element. 
------------------------------------------------------------------------------------------------------------------------------------------------------------ 
-
-130 moved
