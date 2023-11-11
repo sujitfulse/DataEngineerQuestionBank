@@ -276,37 +276,6 @@ scala :  def fibonacci(n :Int) : Int =   if (n<=2) 1 else fibonacci(n-1)+fibonac
 5) Sort array without using sort function
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-207) Calculate Factorial, Fibonacci, Prime no -
-
-object calculate {
-  
-  // factorial 1*2*3...*n 
-  def factorial(n : Int) : Int =  if(n==1) 1  else n * factorial(n-1)
-  
-    // factorial 1*2*3...*n 
-  def factorialTailRecursion(n : Int) : BigInt =  { 
-    def factorialTailRecursionAux(n : Int,acc : BigInt):BigInt = { 
-        if(n<=1) acc  else  factorialTailRecursionAux(n-1,n * acc)
-    }
-    factorialTailRecursionAux(n,1)
-}
-
-  def fibonacci(n :Int) : Int =   if (n<=2) 1 else fibonacci(n-1)+fibonacci(n-2)
-  // 1,1,2,3,5,8,13,21
-
-  def isprimeNum(n:Int):Boolean = {
-    def isprimeNumUntill(t:Int):Boolean = if( t <= 1)  true   else n%t != 0 && isprimeNumUntill(t-1)
-   isprimeNumUntill(n/2)
-  }
-  
-	def main(args: Array[String]): Unit = {
-    println(factorial(10))
-    println(factorialTailRecursion(5000))
-    println(fibonacci(8)) // returns fibonacci of 5. means 5th number in series
-    println(isprimeNum(7))
-	}
-}
-------------------------------------------------------------------------------------------------------------------------------------------------------------
 208) Caculate factorial , concat words, is number prime, fibonacchi using tail recursion
 
 object calculate {
