@@ -1,6 +1,7 @@
 Tricks : Most the SQL problems are around 
 1) Self join 
 2) window functions
+3) Recursve CTE
 
 
 
