@@ -196,47 +196,6 @@ Sunil,28 -> nanded
 Mahesh,30 -> Nashik
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
-205  code for 
-1) prime num 
-
-class gfg {
-    static void prime_N(int N)
-    {
-        // Declaring the variables
-        int x, y, flg;
-        // Using for loop for traversing all
-        for (x = 1; x <= N; x++) {
-            // Omit 0 and 1 as they are  neither prime nor composite
-            if (x == 1 || x == 0) {
-                continue; 
-            }
- 
-            // Using flag variable to check if x is prime or not
-            flg = 1;
- 
-            for (y = 2; y <= x / 2; ++y) {
-                if (x % y == 0) {
-                    flg = 0;
-                    break;
-                }
-            }
- 
-            // If flag is 1 then x is prime but
-            // if flag is 0 then x is not prime
-            if (flg == 1)
-                System.out.print(x + " ");
-        }
-    }
- 
-    // The Driver code
-    public static void main(String[] args)
-    {
-        int N = 45;
-        prime_N(N);
-    }
-}
-
-------------------------------------------------------------------------------------------------------------------------------------------------------------
 206 Fibonacci series 
 // Java program for the above approach
 
