@@ -200,6 +200,7 @@ https://www.educba.com/scala-closure/
 ==> 
    Paritial Functions will only work for a subset of possible input values
 	- or you want to define a series of functions that only work for a subset of input values, and combine those functions to completely solve a problem.
+// use case  : The function isDefinedAt allows [you] to test dynamically if a value is in the domain of the function.”
 examples : 
 	val divide = new PartialFunction[Int, Int] {
 	  case 1 : 11
