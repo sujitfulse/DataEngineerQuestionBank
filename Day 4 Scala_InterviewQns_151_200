@@ -158,14 +158,12 @@ b) Scala Currying also makes it easier to pass around a function as a first-clas
 
 Difference between a closure function and a normal function is the free variable. 
 A free variable is any kind of variable which is not defined within the function and not passed as the parameter of the function. 
-A free variable is not bound to a function with a valid value.
 Scala Closures are functions which uses one or more free variables and the return value of this function is dependent of these variable. 
 
 
 A closure function can further be classified into pure(val variables) and impure functions ( var variables), depending on the type of the free variable. 
--If we give the free variable a type var then the variable tends to change the value any time throughout the entire code and thus may result in changing the value.
-Thus this closure is a impure function. 
--On the other-hand if we declare the free variable of the type val then the value of the variable remains constant and thus making the closure function a pure one.
+- impure function if var is used to define variable. its value can be changed  
+- Pure function if val is used to define variable. its value cant be changed  
 // Addition of two numbers with
 // Scala closure
 
@@ -180,8 +178,7 @@ object GFG
 		println( "Final_Sum(3) value = " + sum(3))
 	}
 		
-	var a = 4
-	
+	var a = 4	
 	// define closure function
 	val sum = (b:Int) => b + a
 }
@@ -199,11 +196,29 @@ we have defined a global variable and can use it inside the function also.
 c) we can have those variables that are available even when the function task is finished.
 https://www.educba.com/scala-closure/
 -----------------------------------------------------------------------------------------------------------------------------------------------------
-
-161 higher order function with examples
-162 Nested functions 
-163 Partially applied functions
-164	difference between traits and abstract class ?
+161 What are Partial Functions ? & use cases ? 
+==> 
+   Paritial Functions will only work for a subset of possible input values
+	- or you want to define a series of functions that only work for a subset of input values, and combine those functions to completely solve a problem.
+examples : 
+	val divide = new PartialFunction[Int, Int] {
+	  case 1 : 11
+	  case 2 : 22
+	}
+	// divide.isDefinedAt(1) // true // check if funtions 
+	// println(divide(1)) // 11
+	// println(divide(3)) // exception
+a) Lift 
+	val lifted = divide.lift // Options => some[vaue] or None
+b) chain
+	val chain = divide.orElse[Int,Int] { // function body
+	 case 3 : 33
+	 case 4 : 44
+	}
+	// println(divide(1)) // 11
+	// println(divide(3)) // 33
+---------------------------------------------------------------------------------------------------------------------------------------------------
+162	difference between traits and abstract class ?
 
       Traits
       Traits are similar to interfaces in Java and are created using trait keyword.
@@ -227,7 +242,7 @@ https://www.educba.com/scala-closure/
       Traits are stackable and are dynamically bound.	
       Abstract classes are not stacable and are statically bound.
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
-165	What is future class in scala
+163	What is future class in scala
   Futures allows performing many operations in parallel– in an efficient and non-blocking way.
   A Future is a placeholder object for a value that may not yet exist. 
   Generally, the value of the Future is supplied concurrently and can subsequently be used. 
