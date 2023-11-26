@@ -108,8 +108,10 @@ Traits are similar in spirit to interfaces in Java programming language. Unlike 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
 156 Difference in interface in java and traits in scala
 
-Traits in Scala have a lot of similarities with interfaces in Java, but a trait is more powerful than an interface because it allows developers to implement
-members within it. 
+Traits in Scala have a lot of similarities with interfaces in Java, but a trait is more powerful than an interface 
+because it allows developers to implemers members within it. 
+
+Unlike Java interfaces, Scala traits can include code, which effectively gives the ability to do multiple inheritance.
 ----------------------------------------------------------------------------------------------------------------------------------------------------------- 
 157	how to serilize any object ?
   To make a Java object serializable we implement the java.io.Serializable interface. 
@@ -227,6 +229,9 @@ b) chain
       Abstract Class
       Abstract Class is similar to abstract classes in Java and are created using abstract keyword.
 
+      Abstract classes can have constructor parameters as well as type parameters. Traits can have only type parameters. 
+      
+
       1) Multiple inheritance : 	
       Trait supports multiple inheritance.	
       Abstract Class supports single inheritance only.
@@ -273,5 +278,6 @@ When a method takes a Null argument, then we can only pass it a Null reference o
 even if it is null (nullString: String = null for exemple).
 ------------------------------------------------------------------------------------------------------------------------------------------------------- 
 
+166  
 
 
