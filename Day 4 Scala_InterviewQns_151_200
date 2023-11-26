@@ -248,3 +248,30 @@ b) chain
   A Future is a placeholder object for a value that may not yet exist. 
   Generally, the value of the Future is supplied concurrently and can subsequently be used. 
   Composing concurrent tasks in this way tends to result in faster, asynchronous, non-blocking parallel code.
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+164 What is the difference between Nil, Null, None, Nothing ?
+
+Nil = empty list 
+None = absence of element in Option 
+Null = null exists in all JVM languages, including Scala and Clojure. 
+Nothing = is a subtype of every other type (including scala.Null); there exist no instances of this type. 
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+165 Usages of Null / Nothing / Unit
+
+Nothing : You only use Nothing if the method never returns (meaning it cannot complete normally by returning, it could throw an exception).
+Nothing is never instantiated and is there for the benefit of the type system 
+One other use of Nothing is as a return type for methods that never return. 
+It makes sense if you think about it. 
+If a method’s return type is Nothing, and there exists absolutely no instance of Nothing, then such a method must never return.
+
+Unit : Unit is a subtype of scala.AnyVal. There is only one value of type Unit, (), and it is not represented by any object in the 
+underlying runtime system. Unit(Scala) == void (in java )
+
+Null : Null is a trait and its only instance is null. Null might be used as a bottom type for any "value" 
+When a method takes a Null argument, then we can only pass it a Null reference or null directly, but not any other reference,
+even if it is null (nullString: String = null for exemple).
+------------------------------------------------------------------------------------------------------------------------------------------------------- 
+
+
+
