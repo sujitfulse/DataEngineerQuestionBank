@@ -3,10 +3,44 @@ Tricks : Most the SQL problems are around
 2) window functions
 3) Recursve CTE
 
+-----------------------------------------------------------------------------------------------------------------------------
+1) find the employess who has more salary than managers salary ?
+
+-- Online SQL Editor to Run SQL Online.
+-- Use the editor to create new tables, insert data and all other SQL operations.
+/* 
+create table emp_manager
+(emp_id int,
+ emp_name varchar(50),
+ salary int(20),
+ manager_id int(10)
+);
+
+insert into emp_manager values(	1	,'Ankit',	10000	,4	);
+insert into emp_manager values(	2	,'Mohit',	15000	,5	);
+insert into emp_manager values(	3	,'Vikas',	10000	,4	);
+insert into emp_manager values(	4	,'Rohit',	5000	,2	);
+insert into emp_manager values(	5	,'Mudit',	12000	,6	);
+insert into emp_manager values(	6	,'Agam',	12000	,2	);
+insert into emp_manager values(	7	,'Sanjay',	9000	,2	);
+insert into emp_manager values(	8	,'Ashish',	5000	,2	);
 
 
+select * from 
+Emp_manager em1 
+join Emp_manager em2
+on em1.manager_id = em2.emp_id
+and em1.salary > em2.salary;
 
-QNs 1	there are 10 cricke team names ie 10 rows hacing column team name, How many total matches will be played ? write SQL to print team A and Team B for each match 
+// output
+emp_id	emp_name
+1	Ankit	
+2	Mohit	
+3	Vikas	
+
+-----------------------------------------------------------------------------------------------------------------------------
+QNs 1	there are 10 cricke team names ie 10 rows hacing column team name, How many total matches will be played ? w
+rite SQL to print team A and Team B for each match 
 QNs 2	"Tbl1 and tbl2 both having pk column which is PK of the table, where tbl1 having 5 records, table2 having 10 records. 
   tell me min and max records can be returned by inner/left/right and full outer joins 
   "
