@@ -39,6 +39,44 @@ emp_id	emp_name
 3	Vikas	
 
 -----------------------------------------------------------------------------------------------------------------------------
+
+
+create table c1
+(id int
+);
+
+create table c2
+(id int
+);
+
+insert into c1 values(1);
+insert into c1 values(1);
+insert into c1 values(2);
+insert into c1 values(2);
+insert into c1 values(3);
+insert into c1 values(null);
+insert into c1 values(null);
+
+
+insert into c2 values(1);
+insert into c2 values(2);
+insert into c2 values(3);
+insert into c2 values(3);
+insert into c2 values(null);
+insert into c2 values(null);
+insert into c2 values(null);
+
+select c1.*,c2.*
+from c1 
+full OUTER join c2
+on c1.id = c2.id;
+
+inner ==> 6 records 
+left join ==> 6 record + 2 null(own) = 8 record
+right join ==> 6 records + 3 null (owm) = 11 record
+full outer ==> 6 records + 5 null (both) = 11 records 
+-----------------------------------------------------------------------------------------------------------------------------
+
 QNs 1	there are 10 cricke team names ie 10 rows hacing column team name, How many total matches will be played ? w
 rite SQL to print team A and Team B for each match 
 QNs 2	"Tbl1 and tbl2 both having pk column which is PK of the table, where tbl1 having 5 records, table2 having 10 records. 
