@@ -85,7 +85,22 @@ def fib(num:Int)={
 fib(5)
 ----------------------------------------------------------------------------------------------
 6) Sorting without using inbuilt sort function
+----------------------------------------------------------------------------------------------
 7) Sum of array elements 
+
+ 	 // create an array
+        var OurArray = Array(10,20,30,40,50)
+        // create a counter
+        var counter = 0;
+        // create default sum
+        var sum = 0;
+	// create a while loop
+        while(counter<OurArray.size) // check if counter is less than array size
+        {
+            // add element value to sum
+            sum = sum + OurArray(counter)
+            counter = counter + 1
+        }        
 --------------------------------------------------------------------------
 8) Sum of diagonal elements of matrix ==>
 var arr : Array[Array[Int]] = Array.ofDim[Int](3,3)
