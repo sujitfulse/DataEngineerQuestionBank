@@ -12,3 +12,141 @@
 12 sum of odd numbers in array 
 13) scala partitial function, scala function currying, scala higher order function 
 
+--------------Latest coding question---------------------------------------------------------
+
+7.
+Input: 
+Score    Number 
+90    2
+60    3
+70    5
+80    1
+
+Output:
+Score     Total Number 
+90    2
+80    3
+70    8
+60    11
+
+val w =Window.orderBy($"Range".desc)
+val df2=df.withColumn("new",sum("Number").over(w))
+------------------------------------------------------------------------------------------------------------
+10. 
+Input:
+aaaabbbbccdddaaadddee
+Output:
+abcdade
+
+object Main extends App {
+var prefix2 = "aaaaaabaabccccccc" 
+var temp=""
+ var result=""
+ for(c<-prefix2)             
+    {
+     if(!temp.toString().equals(c.toString()))
+      {
+      result=result+c.toString()
+       temp=c.toString();
+      }}
+System.out.println("final result is " +result);
+}
+------------------------------------------------------------------------------------------------------------
+11.
+Input:
+Day,Merchant_name,Amount,Transaction_mode
+------------------------------------------
+2022-07-29,merchent_1,150,CASH
+2022-07-29,merchent_1,500,ONLINE
+2022-07-30,merchent_2,450,ONLINE
+2022-07-30,merchent_1,100,CASH
+2022-07-30,merchent_3,600,CASH
+2022-08-01,merchent_5,200,ONLINE
+2022-08-01,merchent_2,100,ONLINE
+
+Output:
+Merchant,Cash_Amount,Online_Amount
+----------------------------------
+merchent_1,250,500
+merchent_2,0,550
+merchent_3,600,0
+merchent_5,0,200
+
+select merchant, 
+sum(case when payment_mode='CASH' then amount else 0 end) as cash_amount,
+sum(case when payment_mode='ONLINE' then amount else 0 end) as online_amount 
+from payments_data group by merchant
+------------------------------------------------------------------------------------------------------------
+
+13.
+Input - 
++--------+-------+-------+
+| Product|Ammount|Country|
++--------+-------+-------+
+|  banana|   1000|    usa|
+|carrots1|    500|    usa|
+|   beans|   1600|    usa|
+|  orange|   2000|    usa|
+|  orange|   2000|    usa|
+|  banana|    400|  china|
+| carrots|   1200|  china|
+|   beans|   1500|  china|
+|  orange|   4000|  china|
+|  banana|   2000| canada|
+| carrots|   2000| canada|
+|   beans|   2000| mexico|
++--------+-------+-------+
+
+Output -
++--------+------+-----+------+----+                                             
+| Product|canada|china|mexico| usa|
++--------+------+-----+------+----+
+|  orange|  null| 4000|  null|4000|
+|carrots1|  null| null|  null| 500|
+|   beans|  null| 1500|  2000|1600|
+|  banana|  2000|  400|  null|1000|
+| carrots|  2000| 1200|  null|null|
++--------+------+-----+------+----+
+
+SELECT * FROM demo_table  
+PIVOT
+(SUM(Ammount) FOR Country IN (canada,china, 
+mexico, usa)) AS PivotTable;
+------------------------------------------------------------------------------------------------------------
+14.
+Input
++------+-----+
+|acc_no|score|
++------+-----+
+|    A1|  600|
+|    A2|  600|
+|    B1|  700|
+|    B2|  700|
+|    B3|  700|
+|    C1|  800|
+|    C2|  800|
++------+-----+
+
+input2
++-----+-------+
+|score|balance|
++-----+-------+
+|  600|   1000|
+|  700|   6000|
+|  800|   8000|
++-----+-------+
+
+OutPut -
++------+-------+                                                                
+|acc_no|balance|
++------+-------+
+|    A1|  500.0|
+|    A2|  500.0|
+|    B1| 2000.0|
+|    B2| 2000.0|
+|    B3| 2000.0|
+|    C1| 4000.0|
+|    C2| 4000.0|
++------+-------+
+
+15.
