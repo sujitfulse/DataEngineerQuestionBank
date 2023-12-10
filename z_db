@@ -1,11 +1,114 @@
 1) Palindrome - 
-2) Prime no 
-3) Armstrong no 
+def isPalindrome(num:Int):Boolean={
+	var tempNum = num
+	var newNum=0
+	while (tempNum>0){
+		val lastDigit = tempNum % 10
+		newNum = newNum*10 + lastDigit
+		tempNum = tempNum / 10
+	}
+	if(newNum==num) return true
+	else return false
+}
+isPalindrome(121)
+-------------------------------------------------------------------------------------------
+2) Prime no -
+def isPrime(num: Int):Boolean={
+	for (i<-2 to num/2 by 1){
+		if(num%i==0){
+			return false;
+		}
+	}
+	return true;
+}
+----------------------------------------------------------------------------------------------
+3) Armstrong no  => 153 ==> 1^3 + 5^3 + 3^3 = 153. ( sum of pow(digit,no_of_digits) == original number)
+
+def isArmstrong(num:Int):Boolean={
+	var tempNum = num
+	var digits = 0
+// find no of digits into number 
+	while(tempNum>0){
+		tempNum = tempNum/10
+		digits=digits+1
+	}
+
+	var tempNum1= num
+	var sum=0.0
+	while(tempNum1>0){
+		val rem = tempNum1%10
+		sum= sum + pow(rem,digits)
+		tempNum1=tempNum1/10	
+	}
+	if(sum==num) return true
+	else return false
+}
+----------------------------------------------------------------------------------------------
 4) Factorial with recursion without recursion
+
+// without recursion
+def factorial(n: Int): Int = {      
+        var f = 1
+        for(i <- 1 to n)
+        {
+            f = f * i;
+        }
+        return f
+    }
+
+// with recursion
+ def factorial(n: Int): Int =
+    {
+        if (n == 0) 
+            return 1
+        else
+            return n * factorial(n-1)
+    }
+
+----------------------------------------------------------------------------------------------
 5) Fibonneci series 
+def fib(num:Int)={
+	var first_element=0
+	var second_element=1
+	var sum=0
+	if(num==2){print("0,1")}
+	else{
+		print("0,1")
+		for(i<-1 to num-2 by 1){
+			sum = first_element+second_element
+			first_element=second_element
+			second_element=sum
+			print(","+sum)
+		}
+	}
+}
+fib(5)
+----------------------------------------------------------------------------------------------
 6) Sorting without using inbuilt sort function
 7) Sum of array elements 
-8) Sum of diagonal elements of matrix 
+--------------------------------------------------------------------------
+8) Sum of diagonal elements of matrix ==>
+var arr : Array[Array[Int]] = Array.ofDim[Int](3,3)
+arr(0)= Array(1,2,3)
+arr(1)=	Array(5,6,7)
+arr(2)= Array(8,9,10)
+
+for(i<-0 to 2 by 1){
+	for(j<-0 to 2 by 1){
+		print(arr(i)(j)+"\t")
+	}
+	print("\n")
+}
+var sum = 0
+for(i<-0 to 2 by 1){
+	for(j<-0 to 2 by 1){
+		if(i==j){
+			sum=sum+arr(i)(j)
+		}
+	}
+}
+print("Sum=>"+sum)
+---------------------------------------------------------------------------
 9) Given an array find sum of two max elements
 10) Sorting of data  using high order function
 11) binary search 
