@@ -223,15 +223,6 @@ b) chain
 ---------------------------------------------------------------------------------------------------------------------------------------------------
 162	difference between traits and abstract class ?
 
-      Traits
-      Traits are similar to interfaces in Java and are created using trait keyword.
-
-      Abstract Class
-      Abstract Class is similar to abstract classes in Java and are created using abstract keyword.
-
-      Abstract classes can have constructor parameters as well as type parameters. Traits can have only type parameters. 
-      
-
       1) Multiple inheritance : 	
       Trait supports multiple inheritance.	
       Abstract Class supports single inheritance only.
