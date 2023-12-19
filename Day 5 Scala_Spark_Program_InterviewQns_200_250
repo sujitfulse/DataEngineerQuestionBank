@@ -351,3 +351,20 @@ public class Main {
 		printPairs(arr, n, sum);
 	}
 }
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+213 word pair count
+
+hint ==> use posexplode() which returns pos and col.
+
+import org.apache.spark.sql.functions.{lead, lag}
+import org.apache.spark.sql.expressions.Window
+
+val inputData = spark.read.text("/scripts/0757fd73-7650-4f8b-a86b-5c9960f56bf7.txt")
+val inputDataindex = inputData.select($"value",posexplode(split(lower($"value"),"""[\s,.;:!?]"""))).select("value","pos","col")
+val dWindow = Window.partitionBy("value").orderBy("pos")
+val LagLead = inputDataindex.withColumn("prev",lag("col",1).over(dWindow)).withColumn("next",lead("col",1).over(dWindow)).
+select("value","prev","col","next")
+LagLead.groupBy("prev","col").count.orderBy(desc("count")).show(false)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
