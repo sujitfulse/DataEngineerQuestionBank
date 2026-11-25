@@ -1,327 +1,554 @@
-1. DSA / Coding (by subcategory)
+<div align="center">
 
-Each question is listed once, under its closest subcategory. Packages are as stated in your posts.
+# Senior Data Engineer Interview Question Bank
 
-1.1 Arrays and Two Pointers
-Apple/Uber/Google/Meta list · package not stated: Maximum Subarray Sum (Kadane + variations).
-Apple/Uber/Google/Meta list · package not stated: Two Sum variations (hashmap, sorted array, k-sum).
-Apple/Uber/Google/Meta list · package not stated: Trapping Rain Water (stack + two pointer).
-1.2 Strings and Sliding Window
-Google SDE-3 (L4), 4 YOE · 80 LPA: Minimum Window Substring (LeetCode 76).
-Google SDE-3 · 80 LPA: Stream of floats: return the mean of the last n values.
-Google DE · 35–40 LPA: Medium LeetCode on sliding window error processing (online assessment).
-Atlassian Sr SWE · 50 LPA: Given words like ["baby","cat","dada","dog"] and a jumbled string like "ctay", write find(words, word1) that returns the word that can be formed ("cat"), or "-" if none (e.g. "dad").
-DB · package not stated: Convert the string "$123,840/y" into an integer.
-1.3 Hashing and Frequency Counting
-Google DE · 35–40 LPA: Given a GB-scale log file, extract the top 10 users by event frequency with memory optimization and streaming. Follow-up: handle a schema change in the streaming data.
-Atlassian Sr SWE · 50 LPA: Each file has a collectionId. Report the total size of all files and the top N collections by total size. Follow-ups: what changes if a file can belong to multiple collections, and how do you make it correct and efficient in a multithreaded environment?
-1.4 Heaps / Priority Queue and Streaming Data
-Google SDE-3 · 80 LPA: Follow-up to the running mean: drop the k highest of the last n values before taking the mean.
-Apple/Uber/Google/Meta list · package not stated: Find Median from Data Stream.
-Apple/Uber/Google/Meta list · package not stated: Kth Largest Element in a Stream.
-Apple/Uber/Google/Meta list · package not stated: Top K Frequent Elements (heap + bucket sort).
-Apple/Uber/Google/Meta list · package not stated: Merge K Sorted Lists.
-1.5 Linked Lists
-DB · package not stated: Find the middle element of a linked list in one pass.
-1.6 Trees
-Google SDE-3 · 80 LPA: Merge two n-ary trees with key/value nodes. B's value wins on the same key. Matching nodes merge their children, with A's children first and then B's leftovers.
-Apple/Uber/Google/Meta list · package not stated: Serialize and Deserialize a Binary Tree.
-1.7 Graphs
-Google SDE-3 · 80 LPA: Movie graph with ratings, where connected movies are similar. Return the top N similar movies by rating. Follow-up: movies keep getting added while the system runs, so what changes in your code?
-Apple/Uber/Google/Meta list · package not stated: Word Ladder (shortest transformation).
-Apple/Uber/Google/Meta list · package not stated: Detect Cycle in a Directed Graph.
-Apple/Uber/Google/Meta list · package not stated: Clone Graph with random pointers.
-1.8 Matrix / 2D Grid
-Atlassian Sr SWE · 50 LPA: In a 2D character matrix, determine whether a word exists by moving only right or down.
-1.9 Binary Search
-Apple/Uber/Google/Meta list · package not stated: Binary Search on Answer (capacity, days, weights).
-1.10 Dynamic Programming
-Apple/Uber/Google/Meta list · package not stated: Longest Increasing Subsequence (DP + patience sorting).
-Apple/Uber/Google/Meta list · package not stated: Word Break (DP + trie).
-1.11 Stack, Queue and Custom Data Structure Design
-Bloomberg Sr SWE · 51 LPA: Special stack with push, pop and getMin in O(1).
-Bloomberg Sr SWE · 51 LPA: Dynamic phonebook supporting lookup by name, number, prefix and so on.
-Bloomberg Sr SWE · 51 LPA: Transit system with entry(rider, station), exit(rider, station) and getAverageTransitTime(entryStation, exitStation). Cover efficient rider tracking, aggregation of durations and complexity of each method.
-Apple/Uber/Google/Meta list · package not stated: Implement LRU/LFU Cache.
-Apple/Uber/Google/Meta list · package not stated: Design a Scheduler with Task Priorities.
-1.12 Math and Number Problems
-DB · package not stated: Factorial of N, print the first 10 digits, then prove the answer is right.
-1.13 Concurrency, OOP and Java Concepts
-DB · package not stated: A transfer method locks the sender, then the receiver, then moves the money. What is wrong with it?
-DB · package not stated: A scheduler runs different logic per region. Write it without a single if/else.
-DB · package not stated: Given a list of classes, work out which parent class they all come from.
-1.14 Topic Not Stated
-Flipkart DE II, ~3 YOE · CTC not disclosed: Online assessment with a DSA section (topics not stated).
+**Real interview questions grouped by topic, tagged with company and package.**
 
+![Questions](https://img.shields.io/badge/questions-230%2B-blue)
+![Categories](https://img.shields.io/badge/categories-10-green)
+![Companies](https://img.shields.io/badge/companies-14-orange)
+![Status](https://img.shields.io/badge/status-in%20progress-yellow)
 
-2. SQL
-Flipkart DE II · CTC not disclosed: Top N products by revenue in each category.
-Flipkart DE II: Users with no activity in the last N days.
-Flipkart DE II: Optimise a query running on hundreds of millions of rows, covering indexing, partitioning and reading execution plans.
-Google DE · 35–40 LPA: Join and aggregate large tables using window functions (online assessment).
-Google DE · 35–40 LPA: SQL query optimization challenge (Round 1).
-Goldman Sachs DE · 42 LPA: Write SQL using window functions, ranking and aggregations to analyze large datasets.
-Goldman Sachs DE · 40–45 LPA: Complex SQL with window functions, CTEs and deduplication under pressure.
-Goldman Sachs DE · 40–45 LPA: Optimize queries with indexing, partition pruning and join strategies.
-Goldman Sachs DE · 40–45 LPA: Write data validation and reconciliation queries (source vs target).
-Goldman Sachs DE · 40–45 LPA: Detect anomalies in transaction data using pure SQL.
-Goldman Sachs / J.P. Morgan / Morgan Stanley · 39 LPA (Associate) / 40 LPA (Sr Associate) / up to 57 LPA (VP): Write an optimized query to remove duplicates while preserving the latest transaction.
-GS / JPM / MS (same packages): Explain NULL handling, data validation and referential integrity in production datasets.
-GS / JPM / MS (same packages): When should you use partitioning and indexing to optimize large analytical queries?
-GS / JPM / MS (same packages): Table1 has 10 rows and Table2 has 20. What does CROSS JOIN return, and what happens when all 10 rows in Table1 are deleted?
-J.P. Morgan DE · 35 LPA: Identify and remove duplicate records without losing data.
-J.P. Morgan DE · 35 LPA: Second highest salary per department.
-J.P. Morgan DE · 35 LPA: INNER JOIN vs LEFT JOIN with a real-world use case.
-J.P. Morgan DE · 35 LPA: How do indexes work internally, and when do they hurt performance?
-PayPal DE · 33 LPA: Optimize a query that joins multiple billion-row tables in a distributed system.
-Apple Sr DE, 7 YOE · 45+ LPA: SQL + Python round covering billion-row joins, window functions, query optimization under pressure and edge cases in Python.
-Apple DE, 4 YOE · 35–60 LPA: Find the 3rd highest salary, remove duplicate records, and find users with continuous activity for 7 days.
-Apple DE (7+ YOE blueprint) · 40–60 LPA: Nth highest metric with window functions, removing duplicates at scale, and gaps and islands (7-day continuous activity).
-Microsoft / Amazon / Google DE · MS 35+/55+/75+ LPA, Amazon 45+/65+/85+ LPA, Google 40+/60+/80+ LPA (DE-1/DE-2/DE-3):
-Employee names and salaries for the Finance department only.
-A single statement to raise salaries by 10% in the IT department.
-Find duplicate emails in a Person table.
-Second-highest salary without vendor-specific functions.
-Find values that appear at least three times consecutively.
-Generic "any DE interview" list · company not stated:
-Second highest salary.
-NULL handling in SQL joins.
-Customer churn rate over the last 6 months.
-3. Python
-Google DE · 35–40 LPA: Write a function to detect schema anomalies in logs (online assessment).
-Flipkart DE II · CTC not disclosed: Online assessment with a Python section (topics not stated).
-Microsoft / Amazon / Google DE (packages as above):
-Process a very large CSV that doesn't fit in memory, outlining approaches and tradeoffs.
-Profiling and optimization steps for a slow ETL Python script.
-Merge two very large datasets efficiently when pandas isn't feasible.
-Detect and handle missing or corrupted data in a pipeline.
-Group and aggregate a list of dictionaries in pure Python.
-Generic list · company not stated:
-Read a CSV and load it into a DataFrame.
-Handle exceptions with try/except.
-Write a script to validate data quality and detect anomalies.
+</div>
 
-The "15 most asked Python questions for Data Engineers" (company and package not stated):
+> Questions collected from LinkedIn interview posts. Packages are as stated in the posts (LPA = lakhs per annum). "n/s" means not stated. Use the **Done** column to track your prep: replace ⬜ with ✅.
 
-Remove duplicates from a list while preserving order.
-Flatten a nested list without recursion.
-Shallow vs deep copy, with an example.
-Merge two dictionaries without overwriting values for duplicate keys.
-Read a large CSV in chunks without loading it all into memory.
-Parse a large JSON file efficiently.
-Extract the top 10 most frequent error messages from a log file with millions of lines.
-Read and process compressed files (.gz or .zip).
-Convert CSV to Parquet using Pandas.
-Handle missing values in a Pandas DataFrame (fill and drop).
-Merge two DataFrames on multiple keys with an inner join.
-Resample a time series to weekly frequency and sum it.
-Detect and remove outliers using Pandas or NumPy.
-Group by a column and compute multiple aggregates in one statement.
-Implement a retry mechanism for failing API calls in ETL.
-4. Spark / PySpark / Big Data
-Flipkart DE II · CTC not disclosed:
-Deduplicate millions of orders at scale.
-Cache vs Persist.
-Read only newly arrived files from a partitioned path without rescanning everything. (The candidate discussed tracking processed file paths and modification timestamps.)
-Avoid unnecessary shuffles during joins.
-Goldman Sachs DE · 42 LPA:
-Explain HDFS internals, partitioning strategies, and Spark transformations vs actions with examples.
-Explain Spark internals: how shuffles impact performance and how to optimize them.
-Goldman Sachs DE · 40–45 LPA:
-Explain the Spark execution plan (DAG, stages, tasks).
-Repartition vs coalesce, with use cases and the "why".
-Handle data skew and shuffle optimization, with your actual fix.
-Broadcast join vs sort merge join, and when to use which.
-A Spark job runs 5+ hours: how do you optimize it (debugged live)?
-Apple Sr DE · 45+ LPA: Spark deep dive covering data skew, partitioning strategy, broadcast vs shuffle joins, and AQE, caching and Delta optimization.
-Apple DE · 35–60 LPA:
-Optimize Spark jobs for large datasets (partitioning, caching, broadcast joins, shuffle tuning).
-Explain join strategies in Spark and when each causes performance issues.
-Apple DE (7+ YOE blueprint) · 40–60 LPA:
-Partitioning, caching and shuffle tuning strategy.
-When does a Broadcast Join fail, and how do you fix it?
-Why choose Parquet/Iceberg for Apple Music usage data?
-J.P. Morgan DE · 35 LPA:
-How does Spark handle shuffles, and why are they expensive?
-Partitioning vs bucketing in Spark/Hive.
-Optimize a Spark job that runs slowly on large datasets.
-PayPal DE · 33 LPA: Partitioning and bucketing strategies for large-scale transaction datasets.
-Microsoft / Amazon / Google DE (packages as above):
-RDDs vs DataFrames vs Datasets, and when to choose each.
-Lazy evaluation and the DAG execution model, and how they affect job design.
-PySpark performance techniques (shuffle reduction, caching, partitions).
-Detect and mitigate data skew or imbalanced joins.
-Custom transformations with a PySpark UDF vs native Spark SQL functions.
-Generic list · company not stated:
-Join two large DataFrames efficiently in PySpark.
-Top 3 customers by revenue per region.
-Partitioning vs bucketing in PySpark.
-Window functions for ranking sales data.
-Load data from ADLS into a Delta table.
-Process streaming data from Event Hub in Databricks.
-Schema evolution in Delta Lake.
-Goldman Sachs / JPM / Morgan Stanley (39 / 40 / up to 57 LPA):
-A distributed pipeline failed due to task dependencies: how do you identify and resolve the bottleneck?
-A daily batch went from 15 to 45 minutes: how do you investigate?
-5. Data Modeling and Warehousing
-Goldman Sachs DE · 42 LPA: Design a normalized schema for a financial analytics system, discussing keys and relationships.
-Goldman Sachs DE · 42 LPA: Parquet vs Avro: when to choose which.
-Goldman Sachs DE · 40–45 LPA: SCD Type 1 vs 2, implementation with examples (not just definitions).
-Goldman Sachs DE · 40–45 LPA: Design a Medallion Architecture (Bronze → Silver → Gold) under real financial constraints.
-Flipkart DE II · CTC not disclosed: SCD Type 2 for maintaining price history (system design round).
-J.P. Morgan DE · 35 LPA: What is SCD? Type 1 vs Type 2.
-PayPal DE · 33 LPA: Model a warehouse schema for user transactions, refunds and disputes.
-Apple DE · 35–60 LPA:
-Data Lake vs Data Warehouse vs Lakehouse, and which fits Apple-scale data.
-OLAP vs OLTP, and where Apple uses each.
-Data model for analytics on billions of device events per day.
-Implement SCD Type 1, 2 and 3 in large-scale ETL.
-Apple DE (7+ YOE blueprint) · 40–60 LPA: SCD Type 2 on massive datasets without performance lag.
-Generic list · company not stated:
-SCD implementation in a data warehouse.
-Star vs snowflake schema.
-Design a fact table for an e-commerce platform.
-Design a retail data warehouse using Synapse.
-6. ETL and Data Pipeline Design
-Flipkart DE II · CTC not disclosed: Design an end-to-end e-commerce order pipeline, including flash-sale spikes and scaling the application and processing layers.
-Flipkart DE II · CTC not disclosed: 10 million orders in a flash sale: design a pipeline with no lost records and no duplicates. Kafka, Spark Structured Streaming or batch?
-Google DE · 35–40 LPA: ETL pipeline ingesting from an external API into BigQuery, with schema evolution handling and Airflow DAG frequency (daily vs trigger).
-Google DE · 35–40 LPA: Real-time clickstream pipeline covering fault tolerance, deduplication and storing 1B rows efficiently (Pub/Sub, Dataflow, BigQuery, Z-Ordering, Spark).
-Goldman Sachs DE · 42 LPA:
-ETL workflow for ingesting incremental data into a warehouse.
-End-to-end pipeline from ingestion to processing to analytics dashboard.
-Fault tolerance and scalability in a large data processing system.
-Real-time pipeline for fraud detection on millions of financial transactions.
-Goldman Sachs DE · 40–45 LPA:
-Batch vs streaming in financial systems.
-Real-time fraud detection with Kafka + Spark Streaming.
-Handling schema drift and late-arriving data.
-GS / JPM / MS (39 / 40 / up to 57 LPA):
-Design an incremental ETL pipeline where one source column is updated frequently.
-How does Airflow manage DAG scheduling, dependencies, retries and failure recovery?
-Concurrency control in data pipelines, and consistency across three distributed workers.
-PayPal DE · 33 LPA:
-Real-time payment pipeline with exactly-once semantics.
-Late-arriving data in a streaming + batch hybrid architecture.
-Fraud detection using data engineering pipelines.
-Pipeline for daily balances for millions of users.
-Consistency between OLTP systems and analytical stores.
-How CDC works and how you would implement it.
-Real-time tracking and analysis of payment failures.
-J.P. Morgan DE · 35 LPA:
-Near-real-time ETL ingesting from multiple sources.
-ETL vs ELT for cloud data warehouses.
-Late-arriving data.
-Making pipelines fault-tolerant.
-Idempotency and why it matters.
-CAP theorem with a practical example.
-Consistency and reliability in distributed systems.
-Apple Sr DE · 45+ LPA:
-Real-time pipelines for millions of events (Kafka + Spark + Data Lake).
-Failure recovery, SLA breaches, schema evolution.
-"What happens when your pipeline fails at 2 AM?"
-Apple DE · 35–60 LPA:
-End-to-end pipeline for user activity data at millions of events per second.
-Scalable architecture for iPhone usage analytics and App Store metrics.
-Handling schema evolution when upstream teams change event structures.
-Batch vs streaming with an Apple Music or App Store use case.
-Late-arriving and out-of-order events in real-time pipelines.
-Choosing between Kafka, Kinesis and Pub/Sub.
-Apple DE (7+ YOE blueprint) · 40–60 LPA:
-E2E pipeline for 1M+ events/sec (iPhone telemetry).
-Scalable system for App Store analytics.
-Batch vs stream using Apple Music, and when latency beats throughput.
-Generic list · company not stated:
-ETL pipeline using Azure Data Factory.
-Types of ADF triggers.
-Incremental loading in ADF.
-Real-time analytics with Event Hub, Stream Analytics and Synapse.
-Late-arriving data in batch ETL.
-Pipeline handling both batch and streaming.
-End-to-end pipeline from multiple sources through Databricks into Synapse.
-7. Data Quality, Governance, Reliability and Security
-Goldman Sachs DE · 42 LPA: Data governance and security best practices for a global enterprise.
-Goldman Sachs DE · 42 LPA: Data quality monitoring and alerting in production.
-Goldman Sachs DE · 40–45 LPA: Data lineage, RBAC and audit trails.
-Apple DE · 35–60 LPA: Data quality checks for accuracy, freshness and completeness.
-Apple DE · 35–60 LPA: Pipeline reliability, monitoring, alerting and auto-recovery.
-Apple DE (7+ YOE blueprint) · 40–60 LPA: Automating quality gates, and building self-healing pipelines.
-Generic list · company not stated:
-Securing data in Azure Data Lake Storage.
-Access control and secrets with Azure Key Vault.
-Data lineage and governance in Microsoft Purview.
-8. Cloud / Platform-Specific (Azure)
+---
 
-All generic list · company not stated:
+## Table of Contents
 
-Architecture of Azure Databricks and its integration with Delta Lake.
-Optimize query performance in Azure Synapse Analytics.
-Optimize storage and query performance in a Synapse dedicated pool.
+| # | Category | Jump |
+|---|----------|------|
+| 1 | DSA and Coding | [Go](#1-dsa-and-coding) |
+| 2 | SQL | [Go](#2-sql) |
+| 3 | Python | [Go](#3-python) |
+| 4 | Spark and Big Data | [Go](#4-spark-and-big-data) |
+| 5 | Data Modeling and Warehousing | [Go](#5-data-modeling-and-warehousing) |
+| 6 | ETL and Pipeline Design | [Go](#6-etl-and-pipeline-design) |
+| 7 | Data Quality, Governance and Security | [Go](#7-data-quality-governance-and-security) |
+| 8 | Cloud and Azure | [Go](#8-cloud-and-azure) |
+| 9 | System Design | [Go](#9-system-design) |
+| 10 | Behavioral and Leadership | [Go](#10-behavioral-and-leadership) |
 
-(The ADF, Event Hub, Purview, Key Vault and Delta items appear in the sections above.)
+## Companies and Packages at a Glance
 
-9. System Design (Software / Backend)
-Google SDE-3 · 80 LPA: none listed beyond the coding rounds.
-Bloomberg Sr SWE · 51 LPA: Design a Rules Management System where users create, modify and view rules such as A = B + C AND B * C > 1000. Rules have actions and events, and the system evaluates rules on events and triggers actions.
-Atlassian Sr SWE · 50 LPA:
-Potential issues with consistent hashing for music streaming servers.
-Pre-loaded hints vs server-loaded hints.
-Process a file larger than available RAM on a single machine.
-Resources needed to estimate a sports-news bias-detection ML service.
-Backend changes when expanding a production app to multiple countries.
-Design a Rate Limiter, scale it to a credit-based model where unused requests carry over, and make it work in a multithreaded environment.
-Design a Web Scraper: start from seed URLs, scrape nested URLs recursively, return image links mapped to parent URLs, with depth limits, speed and server-load optimization, fault tolerance and retries.
-J.P. Morgan (34 LPA, role not stated): Design a Payment Processing System at 10,000 TPS. What if the DB goes down mid-transaction? What if the same payment request arrives twice due to a network retry?
-DB · package not stated: Spring Boot on Codility, core Java, system design and project fitment rounds (specific questions not stated).
+| Company | Role | Package |
+|---------|------|---------|
+| Google | SDE-3 (L4), 4 YOE | 80 LPA |
+| Google | Data Engineer | 35–40 LPA |
+| Bloomberg | Senior Software Engineer | 51 LPA |
+| Atlassian | Senior Software Engineer | 50 LPA |
+| Apple | Senior Data Engineer, 7 YOE | 45+ LPA |
+| Apple | Data Engineer, 4 YOE | 35–60 LPA |
+| Goldman Sachs | Data Engineer | 40–45 LPA (also 42 LPA) |
+| Goldman Sachs / J.P. Morgan / Morgan Stanley | Associate / Sr Associate / VP | 39 / 40 / up to 57 LPA |
+| J.P. Morgan | Data Engineer | 35 LPA |
+| J.P. Morgan | Payment system round | 34 LPA |
+| PayPal | Data Engineer | 33 LPA |
+| Flipkart | Data Engineer II, ~3 YOE | n/s |
+| Microsoft | DE-1 / DE-2 / DE-3 | 35+ / 55+ / 75+ LPA |
+| Amazon | DE-1 / DE-2 / DE-3 | 45+ / 65+ / 85+ LPA |
+| Google | DE-1 / DE-2 / DE-3 | 40+ / 60+ / 80+ LPA |
+| Deutsche Bank, Uber, Meta | various | n/s |
 
-The "32 most asked" System Design list (Apple, Uber, Google, Meta · package not stated):
+---
 
-Scalable Chat Application (WhatsApp/Slack).
-URL Shortener.
-Distributed Notification System.
-Scaling a Video Streaming platform.
-Payment System (Razorpay/Stripe).
-API Rate Limiter.
-E-commerce Checkout System.
-Ride-Hailing app (Uber/Ola).
-Search Autocomplete System.
-Distributed Cache (like Redis).
-Content Delivery Network.
-Google Docs (collaborative editing).
-Distributed Job Scheduler.
-Social Media Feed.
-File Storage System (Dropbox/Drive).
-Distributed ID Generator.
-10. Behavioral / Leadership / Hiring Manager
-Google SDE-3 · 80 LPA: Googleyness round: resume projects grilled in depth, plus standard STAR questions.
-Google DE · 35–40 LPA:
-Took ownership of a failing project (STAR).
-Conflict with a PM and missed deadlines.
-Deep dive into personal projects.
-Onboarding junior engineers.
-Defining success metrics for data pipelines.
-Motivation for joining Google and cultural fit.
-Bloomberg Sr SWE · 51 LPA:
-Deep dive into resume, ownership and day-to-day responsibilities.
-Technical decision-making scenarios.
-How you prioritize tasks.
-How you handle production incidents.
-How you ensure code quality across the team.
-A conflict with a team member and how you resolved it.
-Initiative outside your core responsibility.
-Managing deadlines and pressure in a release cycle.
-How your work aligns with business outcomes.
-A mistake and what you learned.
-Why Bloomberg?
-Goldman Sachs DE · 42 LPA:
-A project where you improved pipeline performance or reduced cost.
-Working with cross-functional teams (business, product, infra).
-CI/CD for data workflows and Git versioning.
-Communicating technical trade-offs to non-technical stakeholders.
-Goldman Sachs DE · 40–45 LPA:
-Walk through a real production failure (the "2 AM" one).
-Performance vs cost vs reliability, with actual numbers.
-Stakeholder management under pressure.
-Deep dive into your end-to-end pipeline design.
-Designing scalable systems for TB-level data.
-Apple Sr DE · 45+ LPA: Leadership round on handling production pressure, stakeholder conflicts and business impact over coding skills.
+## 1. DSA and Coding
+
+<details open>
+<summary><b>1.1 Arrays and Two Pointers</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Apple / Uber / Google / Meta | n/s | Maximum Subarray Sum (Kadane + variations) | ⬜ |
+| 2 | Apple / Uber / Google / Meta | n/s | Two Sum variations (hashmap, sorted array, k-sum) | ⬜ |
+| 3 | Apple / Uber / Google / Meta | n/s | Trapping Rain Water (stack + two pointer) | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.2 Strings and Sliding Window</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google SDE-3 | 80 LPA | Minimum Window Substring (LeetCode 76) | ⬜ |
+| 2 | Google SDE-3 | 80 LPA | Stream of floats: return the mean of the last n values | ⬜ |
+| 3 | Google DE | 35–40 LPA | Medium LeetCode on sliding window error processing (online assessment) | ⬜ |
+| 4 | Atlassian Sr SWE | 50 LPA | Given words like `["baby","cat","dada","dog"]` and a jumbled string like `ctay`, write `find(words, word1)` that returns the word that can be formed (`cat`), or `-` if none | ⬜ |
+| 5 | Deutsche Bank | n/s | Convert the string `"$123,840/y"` into an integer | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.3 Hashing and Frequency Counting</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google DE | 35–40 LPA | GB-scale log file: extract top 10 users by event frequency with memory optimization and streaming. Follow-up: handle a schema change in the streaming data | ⬜ |
+| 2 | Atlassian Sr SWE | 50 LPA | Each file has a collectionId. Report total size of all files and top N collections by total size. Follow-ups: file in multiple collections; multithreaded correctness and efficiency | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.4 Heaps, Priority Queues and Streaming Data</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google SDE-3 | 80 LPA | Follow-up to running mean: drop the k highest of the last n values before taking the mean | ⬜ |
+| 2 | Apple / Uber / Google / Meta | n/s | Find Median from Data Stream | ⬜ |
+| 3 | Apple / Uber / Google / Meta | n/s | Kth Largest Element in a Stream | ⬜ |
+| 4 | Apple / Uber / Google / Meta | n/s | Top K Frequent Elements (heap + bucket sort) | ⬜ |
+| 5 | Apple / Uber / Google / Meta | n/s | Merge K Sorted Lists | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.5 Linked Lists</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Deutsche Bank | n/s | Find the middle element of a linked list in one pass | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.6 Trees</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google SDE-3 | 80 LPA | Merge two n-ary trees with key/value nodes. B's value wins on the same key. Matching nodes merge children: A's children first, then B's leftovers | ⬜ |
+| 2 | Apple / Uber / Google / Meta | n/s | Serialize and Deserialize a Binary Tree | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.7 Graphs</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google SDE-3 | 80 LPA | Movie graph with ratings; connected movies are similar. Return top N similar movies by rating. Follow-up: movies keep getting added at runtime, what changes? | ⬜ |
+| 2 | Apple / Uber / Google / Meta | n/s | Word Ladder (shortest transformation) | ⬜ |
+| 3 | Apple / Uber / Google / Meta | n/s | Detect Cycle in a Directed Graph | ⬜ |
+| 4 | Apple / Uber / Google / Meta | n/s | Clone Graph with random pointers | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.8 Matrix and 2D Grid</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Atlassian Sr SWE | 50 LPA | In a 2D character matrix, determine whether a word exists by moving only right or down | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.9 Binary Search</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Apple / Uber / Google / Meta | n/s | Binary Search on Answer (capacity, days, weights) | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.10 Dynamic Programming</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Apple / Uber / Google / Meta | n/s | Longest Increasing Subsequence (DP + patience sorting) | ⬜ |
+| 2 | Apple / Uber / Google / Meta | n/s | Word Break (DP + trie) | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.11 Stack, Queue and Custom Data Structure Design</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Bloomberg Sr SWE | 51 LPA | Special stack with `push`, `pop`, `getMin` in O(1) | ⬜ |
+| 2 | Bloomberg Sr SWE | 51 LPA | Dynamic phonebook supporting lookup by name, number, prefix, etc. | ⬜ |
+| 3 | Bloomberg Sr SWE | 51 LPA | Transit system: `entry(rider, station)`, `exit(rider, station)`, `getAverageTransitTime(entry, exit)`. Efficient tracking, aggregation, complexity of each method | ⬜ |
+| 4 | Apple / Uber / Google / Meta | n/s | Implement LRU / LFU Cache | ⬜ |
+| 5 | Apple / Uber / Google / Meta | n/s | Design a Scheduler with Task Priorities | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.12 Math and Number Problems</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Deutsche Bank | n/s | Factorial of N: print the first 10 digits, then prove the answer is right | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.13 Concurrency, OOP and Java</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Deutsche Bank | n/s | A transfer method locks the sender, then the receiver, then moves the money. What is wrong with it? | ⬜ |
+| 2 | Deutsche Bank | n/s | A scheduler runs different logic per region. Write it without a single if/else | ⬜ |
+| 3 | Deutsche Bank | n/s | Given a list of classes, work out which parent class they all come from | ⬜ |
+
+</details>
+
+<details>
+<summary><b>1.14 Topic Not Stated</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Flipkart DE II | n/s | Online assessment with a DSA section (topics not stated) | ⬜ |
+
+</details>
+
+---
+
+## 2. SQL
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Flipkart DE II | n/s | Top N products by revenue in each category | ⬜ |
+| 2 | Flipkart DE II | n/s | Users with no activity in the last N days | ⬜ |
+| 3 | Flipkart DE II | n/s | Optimise a query on hundreds of millions of rows: indexing, partitioning, execution plans | ⬜ |
+| 4 | Google DE | 35–40 LPA | Join and aggregate large tables with window functions (online assessment) | ⬜ |
+| 5 | Google DE | 35–40 LPA | SQL query optimization challenge | ⬜ |
+| 6 | Goldman Sachs DE | 42 LPA | Window functions, ranking and aggregations to analyze large datasets | ⬜ |
+| 7 | Goldman Sachs DE | 40–45 LPA | Window functions, CTEs and deduplication under pressure | ⬜ |
+| 8 | Goldman Sachs DE | 40–45 LPA | Optimize queries: indexing, partition pruning, join strategies | ⬜ |
+| 9 | Goldman Sachs DE | 40–45 LPA | Data validation and reconciliation queries (source vs target) | ⬜ |
+| 10 | Goldman Sachs DE | 40–45 LPA | Detect anomalies in transaction data using pure SQL | ⬜ |
+| 11 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | Optimized query to remove duplicates while preserving the latest transaction | ⬜ |
+| 12 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | NULL handling, data validation and referential integrity in production datasets | ⬜ |
+| 13 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | When to use partitioning and indexing for large analytical queries | ⬜ |
+| 14 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | Table1 has 10 rows, Table2 has 20. What does CROSS JOIN return? What if all 10 rows in Table1 are deleted? | ⬜ |
+| 15 | J.P. Morgan DE | 35 LPA | Identify and remove duplicate records without losing data | ⬜ |
+| 16 | J.P. Morgan DE | 35 LPA | Second highest salary per department | ⬜ |
+| 17 | J.P. Morgan DE | 35 LPA | INNER JOIN vs LEFT JOIN with a real-world use case | ⬜ |
+| 18 | J.P. Morgan DE | 35 LPA | How indexes work internally and when they hurt performance | ⬜ |
+| 19 | PayPal DE | 33 LPA | Optimize a query joining multiple billion-row tables in a distributed system | ⬜ |
+| 20 | Apple Sr DE | 45+ LPA | Billion-row joins, window functions, optimization under pressure, Python edge cases | ⬜ |
+| 21 | Apple DE | 35–60 LPA | 3rd highest salary; remove duplicates; users with 7 days of continuous activity | ⬜ |
+| 22 | Apple DE | 40–60 LPA | Nth highest metric (window functions); dedupe at scale; gaps and islands (7-day activity) | ⬜ |
+| 23 | Microsoft / Amazon / Google DE | MS 35–75, Amazon 45–85, Google 40–80 LPA | Employee names and salaries for the Finance department only | ⬜ |
+| 24 | Microsoft / Amazon / Google DE | same | Single statement to raise salaries 10% in the IT department | ⬜ |
+| 25 | Microsoft / Amazon / Google DE | same | Find duplicate emails in a Person table | ⬜ |
+| 26 | Microsoft / Amazon / Google DE | same | Second-highest salary without vendor-specific functions | ⬜ |
+| 27 | Microsoft / Amazon / Google DE | same | Values that appear at least three times consecutively | ⬜ |
+| 28 | Generic list | n/s | Second highest salary | ⬜ |
+| 29 | Generic list | n/s | NULL handling in SQL joins | ⬜ |
+| 30 | Generic list | n/s | Customer churn rate over the last 6 months | ⬜ |
+
+</details>
+
+---
+
+## 3. Python
+
+<details open>
+<summary><b>Company-specific questions</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google DE | 35–40 LPA | Function to detect schema anomalies in logs (online assessment) | ⬜ |
+| 2 | Flipkart DE II | n/s | Online assessment with a Python section (topics not stated) | ⬜ |
+| 3 | Microsoft / Amazon / Google DE | MS 35–75, Amazon 45–85, Google 40–80 LPA | Process a very large CSV that doesn't fit in memory: approaches and tradeoffs | ⬜ |
+| 4 | Microsoft / Amazon / Google DE | same | Profiling and optimization steps for a slow ETL Python script | ⬜ |
+| 5 | Microsoft / Amazon / Google DE | same | Merge two very large datasets when pandas isn't feasible | ⬜ |
+| 6 | Microsoft / Amazon / Google DE | same | Detect and handle missing or corrupted data in a pipeline | ⬜ |
+| 7 | Microsoft / Amazon / Google DE | same | Group and aggregate a list of dictionaries in pure Python | ⬜ |
+| 8 | Generic list | n/s | Read a CSV and load it into a DataFrame | ⬜ |
+| 9 | Generic list | n/s | Handle exceptions with try/except | ⬜ |
+| 10 | Generic list | n/s | Script to validate data quality and detect anomalies | ⬜ |
+
+</details>
+
+<details>
+<summary><b>15 most asked Python questions for Data Engineers (company n/s)</b></summary>
+
+| # | Question | Done |
+|---|----------|------|
+| 1 | Remove duplicates from a list while preserving order | ⬜ |
+| 2 | Flatten a nested list without recursion | ⬜ |
+| 3 | Shallow vs deep copy, with an example | ⬜ |
+| 4 | Merge two dictionaries without overwriting values for duplicate keys | ⬜ |
+| 5 | Read a large CSV in chunks without loading it all into memory | ⬜ |
+| 6 | Parse a large JSON file efficiently | ⬜ |
+| 7 | Top 10 most frequent error messages from a log file with millions of lines | ⬜ |
+| 8 | Read and process compressed files (.gz or .zip) | ⬜ |
+| 9 | Convert CSV to Parquet using Pandas | ⬜ |
+| 10 | Handle missing values in a DataFrame (fill and drop) | ⬜ |
+| 11 | Merge two DataFrames on multiple keys with an inner join | ⬜ |
+| 12 | Resample a time series to weekly frequency and sum | ⬜ |
+| 13 | Detect and remove outliers using Pandas or NumPy | ⬜ |
+| 14 | Group by a column and compute multiple aggregates in one statement | ⬜ |
+| 15 | Retry mechanism for failing API calls in ETL | ⬜ |
+
+</details>
+
+---
+
+## 4. Spark and Big Data
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Flipkart DE II | n/s | Deduplicate millions of orders at scale | ⬜ |
+| 2 | Flipkart DE II | n/s | Cache vs Persist | ⬜ |
+| 3 | Flipkart DE II | n/s | Read only newly arrived files from a partitioned path without rescanning (tracked processed paths and modification timestamps) | ⬜ |
+| 4 | Flipkart DE II | n/s | Avoid unnecessary shuffles during joins | ⬜ |
+| 5 | Goldman Sachs DE | 42 LPA | HDFS internals, partitioning strategies, Spark transformations vs actions with examples | ⬜ |
+| 6 | Goldman Sachs DE | 42 LPA | Spark internals: how shuffles impact performance and how to optimize them | ⬜ |
+| 7 | Goldman Sachs DE | 40–45 LPA | Spark execution plan (DAG, stages, tasks) | ⬜ |
+| 8 | Goldman Sachs DE | 40–45 LPA | Repartition vs coalesce, with use cases and the why | ⬜ |
+| 9 | Goldman Sachs DE | 40–45 LPA | Handle data skew and shuffle optimization with your actual fix | ⬜ |
+| 10 | Goldman Sachs DE | 40–45 LPA | Broadcast join vs sort merge join: when to use which | ⬜ |
+| 11 | Goldman Sachs DE | 40–45 LPA | Spark job running 5+ hours: how do you optimize it (debugged live) | ⬜ |
+| 12 | Apple Sr DE | 45+ LPA | Data skew, partitioning strategy, broadcast vs shuffle joins, AQE, caching, Delta optimization | ⬜ |
+| 13 | Apple DE | 35–60 LPA | Optimize Spark jobs: partitioning, caching, broadcast joins, shuffle tuning | ⬜ |
+| 14 | Apple DE | 35–60 LPA | Join strategies in Spark and when each causes performance issues | ⬜ |
+| 15 | Apple DE | 40–60 LPA | When does a Broadcast Join fail, and how do you fix it? | ⬜ |
+| 16 | Apple DE | 40–60 LPA | Why choose Parquet / Iceberg for Apple Music usage data? | ⬜ |
+| 17 | J.P. Morgan DE | 35 LPA | How Spark handles shuffles and why they are expensive | ⬜ |
+| 18 | J.P. Morgan DE | 35 LPA | Partitioning vs bucketing in Spark / Hive | ⬜ |
+| 19 | J.P. Morgan DE | 35 LPA | Optimize a Spark job that runs slowly on large datasets | ⬜ |
+| 20 | PayPal DE | 33 LPA | Partitioning and bucketing for large-scale transaction datasets | ⬜ |
+| 21 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | Distributed pipeline failed due to task dependencies: find and resolve the bottleneck | ⬜ |
+| 22 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | Daily batch went from 15 to 45 minutes: how do you investigate? | ⬜ |
+| 23 | Microsoft / Amazon / Google DE | MS 35–75, Amazon 45–85, Google 40–80 LPA | RDDs vs DataFrames vs Datasets: when to choose each | ⬜ |
+| 24 | Microsoft / Amazon / Google DE | same | Lazy evaluation and the DAG execution model; effect on job design | ⬜ |
+| 25 | Microsoft / Amazon / Google DE | same | PySpark performance techniques (shuffle reduction, caching, partitions) | ⬜ |
+| 26 | Microsoft / Amazon / Google DE | same | Detect and mitigate data skew or imbalanced joins | ⬜ |
+| 27 | Microsoft / Amazon / Google DE | same | Custom transformation with a PySpark UDF vs native Spark SQL functions | ⬜ |
+| 28 | Generic list | n/s | Join two large DataFrames efficiently in PySpark | ⬜ |
+| 29 | Generic list | n/s | Top 3 customers by revenue per region | ⬜ |
+| 30 | Generic list | n/s | Partitioning vs bucketing in PySpark | ⬜ |
+| 31 | Generic list | n/s | Window functions for ranking sales data | ⬜ |
+| 32 | Generic list | n/s | Load data from ADLS into a Delta table | ⬜ |
+| 33 | Generic list | n/s | Process streaming data from Event Hub in Databricks | ⬜ |
+| 34 | Generic list | n/s | Schema evolution in Delta Lake | ⬜ |
+
+</details>
+
+---
+
+## 5. Data Modeling and Warehousing
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Goldman Sachs DE | 42 LPA | Normalized schema for a financial analytics system: keys and relationships | ⬜ |
+| 2 | Goldman Sachs DE | 42 LPA | Parquet vs Avro: when to choose which | ⬜ |
+| 3 | Goldman Sachs DE | 40–45 LPA | SCD Type 1 vs 2: implementation with examples, not just definitions | ⬜ |
+| 4 | Goldman Sachs DE | 40–45 LPA | Medallion Architecture (Bronze, Silver, Gold) under real financial constraints | ⬜ |
+| 5 | Flipkart DE II | n/s | SCD Type 2 for maintaining price history | ⬜ |
+| 6 | J.P. Morgan DE | 35 LPA | What is SCD? Type 1 vs Type 2 | ⬜ |
+| 7 | PayPal DE | 33 LPA | Warehouse schema for user transactions, refunds and disputes | ⬜ |
+| 8 | Apple DE | 35–60 LPA | Data Lake vs Data Warehouse vs Lakehouse: which fits Apple-scale data | ⬜ |
+| 9 | Apple DE | 35–60 LPA | OLAP vs OLTP and where Apple uses each | ⬜ |
+| 10 | Apple DE | 35–60 LPA | Data model for analytics on billions of device events per day | ⬜ |
+| 11 | Apple DE | 35–60 LPA | SCD Type 1, 2 and 3 in large-scale ETL | ⬜ |
+| 12 | Apple DE | 40–60 LPA | SCD Type 2 on massive datasets without performance lag | ⬜ |
+| 13 | Generic list | n/s | SCD implementation in a data warehouse | ⬜ |
+| 14 | Generic list | n/s | Star schema vs snowflake schema | ⬜ |
+| 15 | Generic list | n/s | Fact table design for an e-commerce platform | ⬜ |
+| 16 | Generic list | n/s | Retail data warehouse design using Synapse | ⬜ |
+
+</details>
+
+---
+
+## 6. ETL and Pipeline Design
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Flipkart DE II | n/s | End-to-end e-commerce order pipeline, flash-sale spikes, scaling app and processing layers | ⬜ |
+| 2 | Flipkart DE II | n/s | 10M flash-sale orders with no lost records and no duplicates: Kafka, Spark Structured Streaming or batch? | ⬜ |
+| 3 | Google DE | 35–40 LPA | ETL from an external API into BigQuery: schema evolution, Airflow DAG frequency (daily vs trigger) | ⬜ |
+| 4 | Google DE | 35–40 LPA | Real-time clickstream pipeline: fault tolerance, dedup, storing 1B rows (Pub/Sub, Dataflow, BigQuery, Z-Ordering, Spark) | ⬜ |
+| 5 | Goldman Sachs DE | 42 LPA | ETL workflow for incremental data into a warehouse | ⬜ |
+| 6 | Goldman Sachs DE | 42 LPA | End-to-end pipeline: ingestion, processing, analytics dashboard | ⬜ |
+| 7 | Goldman Sachs DE | 42 LPA | Fault tolerance and scalability in a large data processing system | ⬜ |
+| 8 | Goldman Sachs DE | 42 LPA | Real-time fraud detection on millions of financial transactions | ⬜ |
+| 9 | Goldman Sachs DE | 40–45 LPA | Batch vs streaming in financial systems | ⬜ |
+| 10 | Goldman Sachs DE | 40–45 LPA | Real-time fraud detection with Kafka + Spark Streaming | ⬜ |
+| 11 | Goldman Sachs DE | 40–45 LPA | Schema drift and late-arriving data | ⬜ |
+| 12 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | Incremental ETL where one source column is updated frequently | ⬜ |
+| 13 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | How Airflow manages DAG scheduling, dependencies, retries, failure recovery | ⬜ |
+| 14 | GS / JPM / Morgan Stanley | 39 / 40 / up to 57 LPA | Concurrency control in pipelines; consistency across three distributed workers | ⬜ |
+| 15 | PayPal DE | 33 LPA | Real-time payment pipeline with exactly-once semantics | ⬜ |
+| 16 | PayPal DE | 33 LPA | Late-arriving data in a streaming + batch hybrid architecture | ⬜ |
+| 17 | PayPal DE | 33 LPA | Fraud detection using data engineering pipelines | ⬜ |
+| 18 | PayPal DE | 33 LPA | Pipeline for daily balances for millions of users | ⬜ |
+| 19 | PayPal DE | 33 LPA | Consistency between OLTP systems and analytical stores | ⬜ |
+| 20 | PayPal DE | 33 LPA | How CDC works and how you would implement it | ⬜ |
+| 21 | PayPal DE | 33 LPA | Real-time tracking and analysis of payment failures | ⬜ |
+| 22 | J.P. Morgan DE | 35 LPA | Near-real-time ETL ingesting from multiple sources | ⬜ |
+| 23 | J.P. Morgan DE | 35 LPA | ETL vs ELT for cloud data warehouses | ⬜ |
+| 24 | J.P. Morgan DE | 35 LPA | Late-arriving data in pipelines | ⬜ |
+| 25 | J.P. Morgan DE | 35 LPA | Making pipelines fault-tolerant | ⬜ |
+| 26 | J.P. Morgan DE | 35 LPA | Idempotency and why it matters | ⬜ |
+| 27 | J.P. Morgan DE | 35 LPA | CAP theorem with a practical example | ⬜ |
+| 28 | J.P. Morgan DE | 35 LPA | Consistency and reliability in distributed systems | ⬜ |
+| 29 | Apple Sr DE | 45+ LPA | Real-time pipelines for millions of events (Kafka + Spark + Data Lake) | ⬜ |
+| 30 | Apple Sr DE | 45+ LPA | Failure recovery, SLA breaches, schema evolution | ⬜ |
+| 31 | Apple Sr DE | 45+ LPA | What happens when your pipeline fails at 2 AM? | ⬜ |
+| 32 | Apple DE | 35–60 LPA | End-to-end pipeline for user activity data at millions of events per second | ⬜ |
+| 33 | Apple DE | 35–60 LPA | Scalable architecture for iPhone usage analytics and App Store metrics | ⬜ |
+| 34 | Apple DE | 35–60 LPA | Schema evolution when upstream teams change event structures | ⬜ |
+| 35 | Apple DE | 35–60 LPA | Batch vs streaming with an Apple Music or App Store use case | ⬜ |
+| 36 | Apple DE | 35–60 LPA | Late-arriving and out-of-order events in real-time pipelines | ⬜ |
+| 37 | Apple DE | 35–60 LPA | Kafka vs Kinesis vs Pub/Sub | ⬜ |
+| 38 | Apple DE | 40–60 LPA | E2E pipeline for 1M+ events/sec (iPhone telemetry) | ⬜ |
+| 39 | Apple DE | 40–60 LPA | Scalable system for App Store analytics | ⬜ |
+| 40 | Apple DE | 40–60 LPA | Batch vs stream using Apple Music: when latency beats throughput | ⬜ |
+| 41 | Generic list | n/s | ETL pipeline using Azure Data Factory | ⬜ |
+| 42 | Generic list | n/s | Types of ADF triggers and when to use them | ⬜ |
+| 43 | Generic list | n/s | Incremental loading in ADF | ⬜ |
+| 44 | Generic list | n/s | Real-time analytics with Event Hub, Stream Analytics and Synapse | ⬜ |
+| 45 | Generic list | n/s | Late-arriving data in batch ETL | ⬜ |
+| 46 | Generic list | n/s | Pipeline handling both batch and streaming | ⬜ |
+| 47 | Generic list | n/s | End-to-end pipeline from multiple sources through Databricks into Synapse | ⬜ |
+
+</details>
+
+---
+
+## 7. Data Quality, Governance and Security
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Goldman Sachs DE | 42 LPA | Data governance and security best practices for a global enterprise | ⬜ |
+| 2 | Goldman Sachs DE | 42 LPA | Data quality monitoring and alerting in production | ⬜ |
+| 3 | Goldman Sachs DE | 40–45 LPA | Data lineage, RBAC and audit trails | ⬜ |
+| 4 | Apple DE | 35–60 LPA | Data quality checks for accuracy, freshness and completeness | ⬜ |
+| 5 | Apple DE | 35–60 LPA | Pipeline reliability, monitoring, alerting and auto-recovery | ⬜ |
+| 6 | Apple DE | 40–60 LPA | Automating quality gates and building self-healing pipelines | ⬜ |
+| 7 | Generic list | n/s | Securing data in Azure Data Lake Storage | ⬜ |
+| 8 | Generic list | n/s | Access control and secrets with Azure Key Vault | ⬜ |
+| 9 | Generic list | n/s | Data lineage and governance in Microsoft Purview | ⬜ |
+
+</details>
+
+---
+
+## 8. Cloud and Azure
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Generic list | n/s | Architecture of Azure Databricks and its integration with Delta Lake | ⬜ |
+| 2 | Generic list | n/s | Optimize query performance in Azure Synapse Analytics | ⬜ |
+| 3 | Generic list | n/s | Optimize storage and query performance in a Synapse dedicated pool | ⬜ |
+
+</details>
+
+---
+
+## 9. System Design
+
+<details open>
+<summary><b>Company-specific questions</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Bloomberg Sr SWE | 51 LPA | Rules Management System: create, modify, view rules like `A = B + C AND B * C > 1000`; rules have actions and events; evaluate rules on events and trigger actions | ⬜ |
+| 2 | Atlassian Sr SWE | 50 LPA | Potential issues with consistent hashing for music streaming servers | ⬜ |
+| 3 | Atlassian Sr SWE | 50 LPA | Pre-loaded hints vs server-loaded hints | ⬜ |
+| 4 | Atlassian Sr SWE | 50 LPA | Process a file larger than available RAM on a single machine | ⬜ |
+| 5 | Atlassian Sr SWE | 50 LPA | Estimate resources for a sports-news bias-detection ML service | ⬜ |
+| 6 | Atlassian Sr SWE | 50 LPA | Backend changes when expanding a production app to multiple countries | ⬜ |
+| 7 | Atlassian Sr SWE | 50 LPA | Rate Limiter; credit-based model where unused requests carry over; multithreaded implementation | ⬜ |
+| 8 | Atlassian Sr SWE | 50 LPA | Web Scraper: seed URLs, recursive scraping, image links mapped to parent URLs, depth limits, speed and server load, fault tolerance and retries | ⬜ |
+| 9 | J.P. Morgan | 34 LPA | Payment Processing System at 10,000 TPS: DB down mid-transaction? Duplicate request from a network retry? | ⬜ |
+| 10 | Deutsche Bank | n/s | Spring Boot on Codility, core Java, system design, project fitment (specifics n/s) | ⬜ |
+
+</details>
+
+<details>
+<summary><b>16 most asked System Design questions (Apple / Uber / Google / Meta, package n/s)</b></summary>
+
+| # | Question | Done |
+|---|----------|------|
+| 1 | Scalable Chat Application (WhatsApp / Slack) | ⬜ |
+| 2 | URL Shortener | ⬜ |
+| 3 | Distributed Notification System | ⬜ |
+| 4 | Scaling a Video Streaming platform | ⬜ |
+| 5 | Payment System (Razorpay / Stripe) | ⬜ |
+| 6 | API Rate Limiter | ⬜ |
+| 7 | E-commerce Checkout System | ⬜ |
+| 8 | Ride-Hailing app (Uber / Ola) | ⬜ |
+| 9 | Search Autocomplete System | ⬜ |
+| 10 | Distributed Cache (like Redis) | ⬜ |
+| 11 | Content Delivery Network | ⬜ |
+| 12 | Google Docs (collaborative editing) | ⬜ |
+| 13 | Distributed Job Scheduler | ⬜ |
+| 14 | Social Media Feed | ⬜ |
+| 15 | File Storage System (Dropbox / Drive) | ⬜ |
+| 16 | Distributed ID Generator | ⬜ |
+
+</details>
+
+---
+
+## 10. Behavioral and Leadership
+
+<details open>
+<summary><b>Questions (click to collapse)</b></summary>
+
+| # | Company | Package | Question | Done |
+|---|---------|---------|----------|------|
+| 1 | Google SDE-3 | 80 LPA | Googleyness: resume projects grilled in depth, standard STAR questions | ⬜ |
+| 2 | Google DE | 35–40 LPA | Took ownership of a failing project (STAR) | ⬜ |
+| 3 | Google DE | 35–40 LPA | Conflict with a PM and missed deadlines | ⬜ |
+| 4 | Google DE | 35–40 LPA | Deep dive into personal projects | ⬜ |
+| 5 | Google DE | 35–40 LPA | Onboarding junior engineers | ⬜ |
+| 6 | Google DE | 35–40 LPA | Defining success metrics for data pipelines | ⬜ |
+| 7 | Google DE | 35–40 LPA | Motivation for joining Google and cultural fit | ⬜ |
+| 8 | Bloomberg Sr SWE | 51 LPA | Resume deep dive, ownership, day-to-day responsibilities | ⬜ |
+| 9 | Bloomberg Sr SWE | 51 LPA | Technical decision-making scenarios | ⬜ |
+| 10 | Bloomberg Sr SWE | 51 LPA | How you prioritize tasks | ⬜ |
+| 11 | Bloomberg Sr SWE | 51 LPA | How you handle production incidents | ⬜ |
+| 12 | Bloomberg Sr SWE | 51 LPA | How you ensure code quality across the team | ⬜ |
+| 13 | Bloomberg Sr SWE | 51 LPA | Conflict with a team member and how you resolved it | ⬜ |
+| 14 | Bloomberg Sr SWE | 51 LPA | Initiative outside your core responsibility | ⬜ |
+| 15 | Bloomberg Sr SWE | 51 LPA | Managing deadlines and pressure in a release cycle | ⬜ |
+| 16 | Bloomberg Sr SWE | 51 LPA | How your work aligns with business outcomes | ⬜ |
+| 17 | Bloomberg Sr SWE | 51 LPA | A mistake you made and what you learned | ⬜ |
+| 18 | Bloomberg Sr SWE | 51 LPA | Why Bloomberg? | ⬜ |
+| 19 | Goldman Sachs DE | 42 LPA | A project where you improved pipeline performance or reduced cost | ⬜ |
+| 20 | Goldman Sachs DE | 42 LPA | Working with cross-functional teams (business, product, infra) | ⬜ |
+| 21 | Goldman Sachs DE | 42 LPA | CI/CD for data workflows and Git versioning | ⬜ |
+| 22 | Goldman Sachs DE | 42 LPA | Communicating technical trade-offs to non-technical stakeholders | ⬜ |
+| 23 | Goldman Sachs DE | 40–45 LPA | Walk through a real production failure (the 2 AM one) | ⬜ |
+| 24 | Goldman Sachs DE | 40–45 LPA | Performance vs cost vs reliability, with actual numbers | ⬜ |
+| 25 | Goldman Sachs DE | 40–45 LPA | Stakeholder management under pressure | ⬜ |
+| 26 | Goldman Sachs DE | 40–45 LPA | Deep dive into your end-to-end pipeline design | ⬜ |
+| 27 | Goldman Sachs DE | 40–45 LPA | Designing scalable systems for TB-level data | ⬜ |
+| 28 | Apple Sr DE | 45+ LPA | Handling production pressure, stakeholder conflicts, business impact over coding skills | ⬜ |
+
+</details>
+
+---
+
+<div align="center">
+
+Star the repo if it helps your prep, and good luck with the interviews.
+
+</div>
